@@ -1,4 +1,9 @@
-import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
+import {
+  Navigate,
+  Route,
+  BrowserRouter as Router,
+  Routes,
+} from "react-router-dom";
 import Index from "./pages/HomePage";
 import SignUpPage from "./pages/join/SignUpPage";
 import ConfirmForm from "./pages/join/ConfirmForm";
@@ -17,12 +22,17 @@ import NotFound from "./pages/NotFound";
 import Layout from "./components/Layout";
 
 function App() {
+  const isLogin = false;
+
   return (
     <Router>
       <Layout>
         <Routes>
           {/* 홈 */}
-          <Route path="/" element={<Index />} />
+          <Route
+            path="/"
+            element={isLogin ? <Index /> : <Navigate to="/login" replace />}
+          />
           {/* 회원가입 */}
           <Route path="/join">
             <Route index element={<JoinPage />} /> {/* JoinPage */}
