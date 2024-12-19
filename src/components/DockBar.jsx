@@ -3,8 +3,11 @@ import { DockBarNav } from "../styles/common";
 import { AiFillHome } from "react-icons/ai";
 import { HiMiniReceiptPercent } from "react-icons/hi2";
 import { BiSolidUser } from "react-icons/bi";
+import { useContext } from "react";
+import { DockBarContext } from "../contexts/DockBarContext";
 
 function DockBar() {
+  const { setDockBar } = useContext(DockBarContext);
   return (
     <DockBarNav>
       <Link to="/">
@@ -17,6 +20,14 @@ function DockBar() {
       <Link to="/mypage">
         <BiSolidUser />
         마이페이지
+      </Link>
+      <Link
+        to="/order"
+        onClick={() => {
+          setDockBar(false);
+        }}
+      >
+        오더(임시)
       </Link>
     </DockBarNav>
   );
