@@ -48,20 +48,12 @@ const getCafeInfo = {
 };
 
 const MenuList = () => {
-  const { setDockBar } = useContext(ThemeContext);
   const [selectedCate, setSelectedCate] = useState("시즌메뉴");
   const [searchFormDate, setSearchFormData] = useState("");
   return (
     <div>
       <div className="header">
-        <Link
-          to="/"
-          onClick={() => {
-            setDockBar(true);
-          }}
-        >
-          X
-        </Link>
+        <Link to="/">X</Link>
         <div className="title">{getCafeInfo.resultData.cafeName}</div>
         <div className="search-bar">
           {/* 검색창 */}

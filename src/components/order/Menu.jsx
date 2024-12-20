@@ -1,15 +1,6 @@
-import { useState } from "react";
-import MenuDetail from "../../pages/order/MenuDetail";
-
-const Menu = ({ item }) => {
-  const [popupDetail, setPopUpDetail] = useState(false);
+const Menu = ({ item, index }) => {
   return (
-    <div
-      style={{ display: "flex" }}
-      onClick={() => {
-        setPopUpDetail(true);
-      }}
-    >
+    <div style={{ display: "flex" }}>
       <div className="menu-info">
         <h4>{item.menuName}</h4>
         <p>{item.comment}</p>
@@ -18,13 +9,6 @@ const Menu = ({ item }) => {
       <div className="menu-thum">
         <img src={item.menuPic} alt="메뉴 사진" />
       </div>
-      {popupDetail ? (
-        <MenuDetail
-          item={item}
-          popupDetail={popupDetail}
-          setPopUpDetail={setPopUpDetail}
-        ></MenuDetail>
-      ) : null}
     </div>
   );
 };

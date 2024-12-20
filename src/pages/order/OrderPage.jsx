@@ -1,13 +1,10 @@
-import { IoIosArrowForward } from "react-icons/io";
-import { IoIosArrowBack } from "react-icons/io";
+import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
+import { Link, useNavigate } from "react-router-dom";
 import {
   ContentDiv,
   OrderPageDiv,
   ThumImageDiv,
 } from "../../styles/order/orderpage";
-import { Link, useNavigate } from "react-router-dom";
-import { useContext } from "react";
-import { ThemeContext } from "@emotion/react";
 
 // 임시 데이터
 // 카페 정보 불러온 결과
@@ -54,16 +51,10 @@ const getOderInfo = {
 
 const OrderPage = () => {
   const navigate = useNavigate();
-  const { setTheme } = useContext(ThemeContext);
 
   return (
     <OrderPageDiv>
-      <Link
-        to="/"
-        onClick={() => {
-          setTheme(true);
-        }}
-      >
+      <Link to="/">
         <IoIosArrowBack />
       </Link>
       <ThumImageDiv>
