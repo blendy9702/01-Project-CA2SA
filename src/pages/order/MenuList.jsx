@@ -1,7 +1,7 @@
-import { ThemeContext } from "@emotion/react";
-import { useContext, useState } from "react";
-import { Link } from "react-router-dom";
+import { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import Menu from "../../components/order/Menu";
+import MenuDetail from "./MenuDetail";
 
 //임시 카페 메뉴 목록
 const getCafeMenuList = [
@@ -50,6 +50,15 @@ const getCafeInfo = {
 const MenuList = () => {
   const [selectedCate, setSelectedCate] = useState("시즌메뉴");
   const [searchFormDate, setSearchFormData] = useState("");
+  const navigate = useNavigate();
+
+  const goDetail = item => {
+    const menuData = { ...item };
+    navigate(`/order/menudetail?menuId=${menuData.menuId}`, {
+      state: menuData,
+    });
+  };
+
   return (
     <div>
       <div className="header">
@@ -102,7 +111,11 @@ const MenuList = () => {
           {/* 클릭시 메뉴 아이디를 통해, 메뉴 상세 정보를 불러오기 */}
           {getCafeMenuList.map((item, index) => {
             return (
-              <div key={index} className="menu" style={{ display: "flex" }}>
+              <div
+                key={index}
+                style={{ display: "flex" }}
+                onClick={() => goDetail(item)}
+              >
                 <Menu item={item} index={index} />
               </div>
             );
