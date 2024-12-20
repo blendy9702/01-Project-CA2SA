@@ -1,3 +1,4 @@
+import { useContext } from "react";
 import DockBar from "./DockBar";
 
 const Layout = ({ children }) => {
