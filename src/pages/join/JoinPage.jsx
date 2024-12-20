@@ -18,7 +18,7 @@ const loginSchema = yup.object({
   email: yup
     .string()
     .email("올바른 이메일이 아닙니다.")
-    .required("이메일을 입력하세요."),
+    .required("이메일을 입력하세요...."),
   npw: yup
     .string()
     .min(4, "비밀번호는 최소 4자리입니다.")
