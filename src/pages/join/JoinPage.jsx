@@ -1,8 +1,9 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import * as yup from "yup";
+import axios from "axios";
 
 const initData = [
   {
@@ -14,12 +15,15 @@ const initData = [
 ];
 
 const loginSchema = yup.object({
-  nickName: yup.string().required("닉네임을 입력하세요."),
+  nickName: yup
+    .string()
+    .min(3, "3글자 이상 입력하세요")
+    .required("닉네임을 입력하세요."),
   email: yup
     .string()
     .email("올바른 이메일이 아닙니다.")
     .required("이메일을 입력하세요."),
-  npw: yup
+  upw: yup
     .string()
     .min(4, "비밀번호는 최소 4자리입니다.")
     .max(12, "비밀번호는 최대 12자리입니다. ")
@@ -30,20 +34,34 @@ const JoinPage = () => {
   const {
     register,
     handleSubmit,
-    formStat: { errors },
+    watch,
+    formState: { errors, isValid },
+    trigger,
   } = useForm({
     resolver: yupResolver(loginSchema),
+    defaultValues: { nickName: "", email: "", upw: "" },
+    mode: "onChange",
   });
 
+  const [formValid, setFormValid] = useState(false);
   const [isCheckbox, setIsCheckbox] = useState(false);
   const [radioState, setRadioState] = useState({
     essential: false,
     choice: false,
   });
+  const navigate = useNavigate();
 
-  const handleSubmitForm = data => {
-    // axios로 보낼 데이터
-    console.log(data);
+  const handleSubmitForm = async data => {
+    try {
+      // 인증코드 전송 API 호출
+      await axios.post("/api/email-auth/send-code", { email: data.email });
+      alert("인증코드가 발송되었습니다.");
+      // 인증 코드 확인 페이지로 이동
+      navigate("/join/confirmform", { state: { email: data.email } });
+    } catch (error) {
+      console.error(error);
+      alert("인증코드 발송에 실패했습니다. 다시 시도해주세요.");
+    }
   };
 
   const handleCheckboxChange = () => {
@@ -62,6 +80,19 @@ const JoinPage = () => {
       [name]: !prevStates[name],
     }));
   };
+
+  // 패스워드 일치 확인
+  const password = watch("upw");
+  const passwordCheck = watch("passwordCheck");
+
+  useEffect(() => {
+    const passwordsMatch = password === passwordCheck;
+    setFormValid(isValid && radioState.essential && passwordsMatch);
+  }, [isValid, radioState.essential, password, passwordCheck]);
+
+  // useEffect(() => {
+  //   trigger();
+  // }, [trigger]);
 
   return (
     <div className="joinPageWrap">
@@ -82,28 +113,41 @@ const JoinPage = () => {
             <div className="joinPageNickName">
               <p>닉네임</p>
               <input
+                name="nickName"
                 type="text"
                 {...register("nickName")}
                 placeholder="닉네임을 입력해 주세요."
               />
+              <p style={{ color: "red" }}>{errors.nickName?.message}</p>
             </div>
             <div className="joinPageEmail">
               <p>이메일</p>
               <input
+                name="email"
                 type="text"
                 {...register("email")}
                 placeholder="이메일을 입력해 주세요."
               />
+              <p style={{ color: "red" }}>{errors.email?.message}</p>
             </div>
             <div className="joinPagePassword">
               <p>비밀번호</p>
               <input
-                type="text"
+                name="password"
+                type="password"
                 {...register("upw")}
                 placeholder="비밀번호를 입력해 주세요."
               />
-              <br />
-              <input type="text" placeholder="비밀번호를 재입력해 주세요." />
+              <p style={{ color: "red" }}>{errors.upw?.message}</p>
+              <input
+                name="passwordCheck"
+                type="password"
+                {...register("passwordCheck")}
+                placeholder="비밀번호를 재입력해 주세요."
+              />
+              {password !== passwordCheck && (
+                <p style={{ color: "red" }}>비밀번호가 일치하지 않습니다.</p>
+              )}
             </div>
           </div>
           <div className="JoinPageCheckArea">
@@ -137,7 +181,9 @@ const JoinPage = () => {
               </span>
             </div>
             <div className="joinPageMoveNext">
-              <button type="submit">다음</button>
+              <button type="submit" disabled={!formValid}>
+                다음
+              </button>
             </div>
           </div>
         </div>

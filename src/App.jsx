@@ -4,29 +4,29 @@ import {
   BrowserRouter as Router,
   Routes,
 } from "react-router-dom";
+import AdminPage from "./pages/ceoadmin/AdminPage";
 import Index from "./pages/HomePage";
-import SignUpPage from "./pages/join/SignUpPage";
 import ConfirmForm from "./pages/join/ConfirmForm";
 import JoinPage from "./pages/join/JoinPage";
+import SignUpPage from "./pages/join/SignUpPage";
 import LoginPage from "./pages/login/LoginPage";
-import SearchPage from "./pages/search/SearchPage";
-import SearchList from "./pages/search/SearchList";
-import OrderPage from "./pages/order/OrderPage";
-import MenuList from "./pages/order/MenuList";
+import UserPage from "./pages/mypage/UserPage";
+import NotFound from "./pages/NotFound";
 import MenuDetail from "./pages/order/MenuDetail";
+import MenuList from "./pages/order/MenuList";
+import OrderPage from "./pages/order/OrderPage";
 import Payment from "./pages/order/Payment";
 import OrdersPage from "./pages/orders/OrdersPage";
-import UserPage from "./pages/mypage/UserPage";
-import AdminPage from "./pages/ceoadmin/AdminPage";
-import NotFound from "./pages/NotFound";
-import Layout from "./components/Layout";
+import SearchList from "./pages/search/SearchList";
+import SearchPage from "./pages/search/SearchPage";
+import DockBar from "./components/DockBar";
 
 function App() {
   const isLogin = false;
 
   return (
-    <Router>
-      <Layout>
+    <div style={{ maxWidth: "640px", width: "100%", margin: "0 auto" }}>
+      <Router>
         <Routes>
           {/* 홈 */}
           <Route
@@ -61,8 +61,9 @@ function App() {
           <Route path="/ceoadmin" element={<AdminPage />} />
           <Route path="*" element={<NotFound />}></Route>
         </Routes>
-      </Layout>
-    </Router>
+        <DockBar />
+      </Router>
+    </div>
   );
 }
 
