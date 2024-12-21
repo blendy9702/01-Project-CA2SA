@@ -22,7 +22,7 @@ import SearchPage from "./pages/search/SearchPage";
 import DockBar from "./components/DockBar";
 
 function App() {
-  const isLogin = false;
+  const isLogin = true;
 
   return (
     <div style={{ maxWidth: "640px", width: "100%", margin: "0 auto" }}>

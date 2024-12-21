@@ -75,8 +75,28 @@ export const LineTabSeleter = styled.div``;
 export const BubbleTabSeleter = styled.div``;
 
 export const DockBarNav = styled.div`
+  position: fixed;
+  bottom: 0;
   width: 100%;
+  max-width: 640px;
   display: flex;
   align-items: center;
   justify-content: space-between;
+  height: 70px;
+  background-color: #fff;
+  border: 1px solid var(--color-gray-300);
+  a {
+    display: flex;
+    width: 33.3%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+    font-size: 16px;
+  }
+  a > svg {
+    font-size: 24px;
+  }
 `;
