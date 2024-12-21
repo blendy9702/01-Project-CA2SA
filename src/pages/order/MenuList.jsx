@@ -1,7 +1,7 @@
-import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useContext, useState } from "react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import Menu from "../../components/order/Menu";
-import MenuDetail from "./MenuDetail";
+import { OrderContext } from "../../contexts/OrderContext";
 
 //임시 카페 메뉴 목록
 const getCafeMenuList = [
@@ -14,22 +14,22 @@ const getCafeMenuList = [
   },
   {
     menuId: 2,
-    menuName: "아메리카노",
-    price: "1500",
+    menuName: "카페라떼",
+    price: "2000",
     comment: "맛있다2",
     menuPic: "#",
   },
   {
     menuId: 3,
-    menuName: "아메리카노",
-    price: "1500",
+    menuName: "밀크티",
+    price: "3000",
     comment: "맛있다3",
     menuPic: "#",
   },
   {
     menuId: 4,
-    menuName: "아메리카노",
-    price: "1500",
+    menuName: "짜장면",
+    price: "4000",
     comment: "맛있다4",
     menuPic: "#",
   },
@@ -48,16 +48,11 @@ const getCafeInfo = {
 };
 
 const MenuList = () => {
-  const [selectedCate, setSelectedCate] = useState("시즌메뉴");
-  const [searchFormDate, setSearchFormData] = useState("");
   const navigate = useNavigate();
+  // 앞에서 보낸 navigate의 state 받아오기
+  const { order } = useContext(OrderContext);
 
-  const goDetail = item => {
-    const menuData = { ...item };
-    navigate(`/order/menudetail?menuId=${menuData.menuId}`, {
-      state: menuData,
-    });
-  };
+  const [selectedCate, setSelectedCate] = useState("시즌메뉴");
 
   return (
     <div>
@@ -114,7 +109,14 @@ const MenuList = () => {
               <div
                 key={index}
                 style={{ display: "flex" }}
-                onClick={() => goDetail(item)}
+                onClick={() =>
+                  navigate(
+                    `/order/menudetail?menuId=${item.menuId}&menuName=${item.menuName}`,
+                    {
+                      state: item,
+                    },
+                  )
+                }
               >
                 <Menu item={item} index={index} />
               </div>
@@ -122,6 +124,17 @@ const MenuList = () => {
           })}
         </div>
       </div>
+      <button
+        type="button"
+        onClick={() => {
+          navigate(
+            `/order/payment?cafeName=${getCafeInfo.resultData.cafeName}`,
+            { state: getCafeInfo.resultData.cafeName },
+          );
+        }}
+      >
+        금액 | 장바구니 {order.menu.length}
+      </button>
     </div>
   );
 };

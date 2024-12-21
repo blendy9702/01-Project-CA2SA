@@ -5,12 +5,24 @@ import {
   OrderPageDiv,
   ThumImageDiv,
 } from "../../styles/order/orderpage";
+import { useContext, useEffect } from "react";
+import { OrderContext } from "../../contexts/OrderContext";
 
 // 임시 데이터
+// postUserSignin의 응답으로 온 데이터
+const resPostLoginData = {
+  resultMessage: "로그인 성공",
+  resultData: {
+    userId: 1,
+    nickName: "고사리",
+    email: "aa@aa.aa",
+  },
+};
 // 카페 정보 불러온 결과
 const getCafeInfo = {
   resultMessage: "1",
   resultData: {
+    cafeId: 1, // 임시 부여. 현재 구글 시트에 없음
     cafeName: "컴포즈 동성로점",
     location: "대구 중구 달구벌대로 2123 1층 (우)41943",
     tel: "0532596648",
@@ -51,6 +63,32 @@ const getOderInfo = {
 
 const OrderPage = () => {
   const navigate = useNavigate();
+
+  const { order, setOrder } = useContext(OrderContext);
+  // order가 제대로 바뀌고 있는지 확인
+  useEffect(() => {
+    console.log("현재 order 상태:", order);
+  }, [order]);
+  // order에 값 채워넣기
+  useEffect(() => {
+    const updatedOrder = {
+      ...order,
+      cafeId: getCafeInfo.resultData.cafeId,
+      userId: resPostLoginData.resultData.userId,
+    };
+    setOrder(updatedOrder);
+    console.log(order);
+  }, []);
+
+  const addOrderInfo = () => {
+    const orderData = {
+      ...resPostLoginData.resultData,
+      ...getCafeInfo.resultData,
+    };
+    navigate("menulist", {
+      state: orderData,
+    });
+  };
 
   return (
     <OrderPageDiv>
@@ -96,12 +134,7 @@ const OrderPage = () => {
           </div>
         </div>
       </ContentDiv>
-      <button
-        type="button"
-        onClick={() => {
-          navigate("menulist");
-        }}
-      >
+      <button type="button" onClick={() => addOrderInfo()}>
         메뉴담기
       </button>
     </OrderPageDiv>
