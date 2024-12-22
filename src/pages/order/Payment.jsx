@@ -15,6 +15,8 @@ const Payment = () => {
   // 쿼리 스트링 주소 처리
   const [searchParams, setSearchParams] = useSearchParams();
 
+  const sumOrder = order.map((item, index) => {});
+
   return (
     <div>
       <div className="header">
@@ -23,17 +25,7 @@ const Payment = () => {
       </div>
       <div className="cart">
         <h4>{cafeName}</h4>
-        <div className="cart-list">
-          {order.menu.map((item, index) => {
-            return (
-              <div key={index}>
-                <div className="menu-info">
-                  <p style={{ fontSize: 16 }}>{item.menuName}</p>
-                </div>
-              </div>
-            );
-          })}
-        </div>
+        <div className="cart-list"></div>
       </div>
     </div>
   );
