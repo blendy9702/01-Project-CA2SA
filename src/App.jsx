@@ -17,7 +17,6 @@ import MenuList from "./pages/order/MenuList";
 import OrderPage from "./pages/order/OrderPage";
 import Payment from "./pages/order/Payment";
 import OrdersPage from "./pages/orders/OrdersPage";
-import SearchList from "./pages/search/SearchList";
 import SearchPage from "./pages/search/SearchPage";
 import DockBar from "./components/DockBar";
 
@@ -40,17 +39,20 @@ function App() {
             <Route path="confirmform" element={<ConfirmForm />} />
           </Route>
           {/* 로그인 */}
-          <Route path="/login" element={<LoginPage />} />
+          <Route path="/login" element={<LoginPage />}>
+            <Route path="/reset-password" element={<비밀번호 찾기 />} />
+          </Route>
           {/* 검색 */}
           <Route path="/search">
             <Route index element={<SearchPage />} /> {/* SearchPage */}
-            <Route path="searchlist" element={<SearchList />} />
+            {/* <Route path="searchlist" element={<SearchList />} /> */}
           </Route>
           {/* 주문 */}
           <Route path="/order">
             <Route index element={<OrderPage />} /> {/* OrderPage */}
-            <Route path="menulist" element={<MenuList />} />
-            <Route path="menudetail" element={<MenuDetail />} />
+            <Route path="menu" element={<MenuList />} />
+            <Route path="menu/:menuId/options" element={<MenuDetail />} />
+            <Route path="payment" element={<Payment />} />
             <Route path="payment" element={<Payment />} />
           </Route>
           {/* 주문 내역 */}
@@ -58,7 +60,7 @@ function App() {
           {/* 마이페이지 */}
           <Route path="/mypage" element={<UserPage />} />
           {/* 사장님페이지 */}
-          <Route path="/ceoadmin" element={<AdminPage />} />
+          <Route path="/admin" element={<AdminPage />} />
           <Route path="*" element={<NotFound />}></Route>
         </Routes>
         <DockBar />
