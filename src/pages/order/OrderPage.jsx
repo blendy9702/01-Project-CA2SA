@@ -38,7 +38,7 @@ const OrderPage = () => {
       ...resPostLoginData.resultData,
       ...getCafeInfo.resultData,
     };
-    navigate("menulist", {
+    navigate("menu", {
       state: orderData,
     });
   };
@@ -87,7 +87,11 @@ const OrderPage = () => {
           </div>
         </div>
       </ContentDiv>
-      <button type="button" onClick={() => addOrderInfo()}>
+      <button
+        type="button"
+        onClick={() => addOrderInfo()}
+        style={{ bottom: "60px" }}
+      >
         메뉴담기
       </button>
     </OrderPageDiv>

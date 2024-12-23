@@ -1,4 +1,4 @@
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { getMenuDetailInfo } from "../../apis/order";
 import { useContext, useEffect, useState } from "react";
 import { OrderContext } from "../../contexts/OrderContext";
@@ -14,6 +14,7 @@ const MenuDetailInfo = getMenuDetailInfo.resultData;
 const menuSchema = yup.object({});
 
 const MenuDetail = () => {
+  const { id } = useParams();
   //useNavigate
   // 앞에서 보낸 navigate의 state 받아오기
   const location = useLocation();
@@ -47,8 +48,8 @@ const MenuDetail = () => {
       addOption: [],
     },
   });
-  // 선택된 옵션들만 모아보기
-  const [selectedOption, setSelectedOption] = useState([]);
+  //금액 계산용 useState
+  const [totalPrice, setTotalPrice] = useState(MenuDetailInfo.price);
 
   return (
     <div>
@@ -56,7 +57,7 @@ const MenuDetail = () => {
         <button
           type="button"
           onClick={() => {
-            navigate("/order/menulist");
+            navigate("/order/menu");
           }}
         >
           <IoIosArrowBack />
@@ -99,7 +100,7 @@ const MenuDetail = () => {
             name="count"
             id="count"
             value={1}
-            {...register("count")}
+            {...register("count", { setValueAs: value => Number(value) })}
           />
           {/* 유저 선택 옵션 */}
           {MenuDetailInfo.option.map((item, index) => {
@@ -112,17 +113,25 @@ const MenuDetail = () => {
                 <div className="optionList">
                   {item.price.map((_item, _index) => {
                     return (
-                      <div key={_index}>
+                      <div key={_index} id={`${item.optionTitle}${_index}`}>
                         <input
                           type={item.required === 1 ? "radio" : "checkbox"}
                           name={item.optionTitle}
                           value={_item.value}
                           id={item.optionTitle}
                           {...register(`${item.optionTitle}`)}
+                          onChange={e => {
+                            e.target.checked
+                              ? setTotalPrice(
+                                  prevPrice => prevPrice + _item.price,
+                                )
+                              : null;
+                          }}
                         />
                         <label htmlFor={item.optionTitle}>
                           {_item.optionName}
                         </label>
+                        <span className="optionPrice">+{_item.price}원</span>
                       </div>
                     );
                   })}
@@ -133,7 +142,7 @@ const MenuDetail = () => {
           <button
             type="submit"
             onClick={() => {
-              navigate("/order/menulist");
+              navigate("/order/payment");
             }}
           >
             바로주문
@@ -141,10 +150,10 @@ const MenuDetail = () => {
           <button
             type="submit"
             onClick={() => {
-              navigate("/order/menulist");
+              navigate("/order/menu");
             }}
           >
-            금액 담기
+            금액: {totalPrice}
           </button>
         </form>
       </div>
