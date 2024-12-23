@@ -5,52 +5,43 @@ import {
   OrderPageDiv,
   ThumImageDiv,
 } from "../../styles/order/orderpage";
+import { useContext, useEffect } from "react";
+import { OrderContext } from "../../contexts/OrderContext";
+import { getCafeInfo, resPostLoginData } from "../../apis/order";
 
-// 임시 데이터
-// 카페 정보 불러온 결과
-const getCafeInfo = {
-  resultMessage: "1",
-  resultData: {
-    cafeName: "컴포즈 동성로점",
-    location: "대구 중구 달구벌대로 2123 1층 (우)41943",
-    tel: "0532596648",
-    cafePic: "String",
-    openTime: "09:00",
-    closeTime: "22:00",
-  },
-};
 //주소 분활
 const splitLocation = getCafeInfo.resultData.location.split("(우)");
 const address = splitLocation[0];
 const postcode = splitLocation[1];
 
-//주문 보낼 때 채울 데이터 형식
-const postDataForm = {
-  cafeId: "long",
-  userId: "long",
-  pickUpTime: "String",
-  menuId: "long",
-  count: "int",
-  menuOptionId: "long",
-};
-//주문 보냈을 때 올 데이터
-const resultPostData = { resultMessage: "주문 성공", resultData: 1 };
-// 주문 했던 정보 가져오기
-const getOderInfo = {
-  resultMessage: "1",
-  resultData: {
-    location: "String",
-    cafeName: "String",
-    orderId: "long",
-    pickUpTime: "String",
-    count: "int",
-    menuOptionName: "String",
-    createdAt: "time",
-  },
-};
-
 const OrderPage = () => {
   const navigate = useNavigate();
+
+  const { order, setOrder } = useContext(OrderContext);
+  // order가 제대로 바뀌고 있는지 확인
+  useEffect(() => {
+    console.log("현재 order 상태:", order);
+  }, [order]);
+  // order에 값 채워넣기
+  useEffect(() => {
+    const updatedOrder = {
+      ...order,
+      cafeId: getCafeInfo.resultData.cafeId,
+      userId: resPostLoginData.resultData.userId,
+    };
+    setOrder(updatedOrder);
+    console.log(order);
+  }, []);
+
+  const addOrderInfo = () => {
+    const orderData = {
+      ...resPostLoginData.resultData,
+      ...getCafeInfo.resultData,
+    };
+    navigate("menulist", {
+      state: orderData,
+    });
+  };
 
   return (
     <OrderPageDiv>
@@ -96,12 +87,7 @@ const OrderPage = () => {
           </div>
         </div>
       </ContentDiv>
-      <button
-        type="button"
-        onClick={() => {
-          navigate("menulist");
-        }}
-      >
+      <button type="button" onClick={() => addOrderInfo()}>
         메뉴담기
       </button>
     </OrderPageDiv>

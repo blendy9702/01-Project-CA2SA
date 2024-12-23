@@ -5,6 +5,7 @@ import {
   Routes,
 } from "react-router-dom";
 import DockBar from "./components/DockBar";
+import { OrderContextProvider } from "./contexts/OrderContext";
 import AdminPage from "./pages/ceoadmin/AdminPage";
 import Index from "./pages/HomePage";
 import ConfirmForm from "./pages/join/ConfirmForm";
