@@ -17,7 +17,7 @@ const initData = [
 const loginSchema = yup.object({
   nickName: yup
     .string()
-    .min(3, "3글자 이상 입력하세요")
+    .min(3, "3글자 이상 입력하세요.")
     .required("닉네임을 입력하세요."),
   email: yup
     .string()
@@ -36,7 +36,6 @@ const JoinPage = () => {
     handleSubmit,
     watch,
     formState: { errors, isValid },
-    trigger,
   } = useForm({
     resolver: yupResolver(loginSchema),
     defaultValues: { nickName: "", email: "", upw: "" },
@@ -49,17 +48,49 @@ const JoinPage = () => {
     essential: false,
     choice: false,
   });
+  const [isEmailValid, setIsEmailValid] = useState(false);
+  const [emailError, setEmailError] = useState("");
   const navigate = useNavigate();
+
+  // 패스워드 일치 확인
+  const email = watch("email");
+  const password = watch("upw");
+  const passwordCheck = watch("passwordCheck");
+
+  // 이메일 중복 확인
+  const handleEmailValidation = async email => {
+    try {
+      const res = await axios.get("/api/user/check-email", { email });
+      if (res.data?.isDuplicate) {
+        setIsEmailValid(false);
+        setEmailError("이미 사용 중인 이메일입니다.");
+      } else {
+        setIsEmailValid(true);
+        alert("사용 가능한 이메일입니다.");
+      }
+    } catch (error) {
+      console.error("이메일 확인 오류:", error.response || error.message);
+      setIsEmailValid(false);
+      setEmailError("이메일 확인 중 오류가 발생했습니다.");
+    }
+  };
 
   const handleSubmitForm = async data => {
     try {
-      // 인증코드 전송 API 호출
-      await axios.post("/api/email-auth/send-code", { email: data.email });
+      // 인증코드 전송 API
+      console.log("보내는 데이터:", { email: data.email });
+      const email = data.email;
+      await axios.post("/api/email-auth/send-code", {
+        email,
+      });
       alert("인증코드가 발송되었습니다.");
       // 인증 코드 확인 페이지로 이동
       navigate("/join/confirmform", { state: { email: data.email } });
     } catch (error) {
-      console.error(error);
+      console.error(
+        "API 요청 에러:",
+        error.response ? error.response.data : error.message,
+      );
       alert("인증코드 발송에 실패했습니다. 다시 시도해주세요.");
     }
   };
@@ -81,18 +112,10 @@ const JoinPage = () => {
     }));
   };
 
-  // 패스워드 일치 확인
-  const password = watch("upw");
-  const passwordCheck = watch("passwordCheck");
-
   useEffect(() => {
     const passwordsMatch = password === passwordCheck;
     setFormValid(isValid && radioState.essential && passwordsMatch);
   }, [isValid, radioState.essential, password, passwordCheck]);
-
-  // useEffect(() => {
-  //   trigger();
-  // }, [trigger]);
 
   return (
     <div className="joinPageWrap">
@@ -109,7 +132,7 @@ const JoinPage = () => {
         </div>
         <div className="joinPageMainWrap">
           <div className="joinPageTextArea">
-            <span>회원정보를 입력해주세요</span>
+            <span>회원정보를 입력해주세요.</span>
             <div className="joinPageNickName">
               <p>닉네임</p>
               <input
@@ -129,7 +152,15 @@ const JoinPage = () => {
                 placeholder="이메일을 입력해 주세요."
               />
               <p style={{ color: "red" }}>{errors.email?.message}</p>
+              <p style={{ color: "red" }}>{emailError}</p>
             </div>
+            <button
+              type="button"
+              onClick={() => handleEmailValidation(email)}
+              disabled={!email}
+            >
+              중복 확인
+            </button>
             <div className="joinPagePassword">
               <p>비밀번호</p>
               <input
