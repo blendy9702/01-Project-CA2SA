@@ -38,6 +38,7 @@ const MenuDetail = () => {
   const {
     register,
     handleSubmit,
+    setValue,
     formState: { errors },
   } = useForm({
     resolver: yupResolver(menuSchema),
@@ -50,6 +51,9 @@ const MenuDetail = () => {
   });
   //금액 계산용 useState
   const [totalPrice, setTotalPrice] = useState(MenuDetailInfo.price);
+  useEffect(() => {
+    setValue("price", totalPrice);
+  }, [totalPrice, setValue]);
 
   return (
     <div>
@@ -102,6 +106,14 @@ const MenuDetail = () => {
             value={1}
             {...register("count", { setValueAs: value => Number(value) })}
           />
+          <label>총 금액</label>
+          <input
+            type="text"
+            name="price"
+            id="price"
+            value={totalPrice}
+            {...register("price")}
+          />
           {/* 유저 선택 옵션 */}
           {MenuDetailInfo.option.map((item, index) => {
             return (
@@ -125,7 +137,9 @@ const MenuDetail = () => {
                               ? setTotalPrice(
                                   prevPrice => prevPrice + _item.price,
                                 )
-                              : null;
+                              : setTotalPrice(
+                                  prevPrice => prevPrice - _item.price,
+                                );
                           }}
                         />
                         <label htmlFor={item.optionTitle}>

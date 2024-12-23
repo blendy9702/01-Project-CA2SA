@@ -1,6 +1,9 @@
 import { useContext, useEffect, useState } from "react";
 import { OrderContext } from "../../contexts/OrderContext";
 import { Link, useLocation, useSearchParams } from "react-router-dom";
+import PickUpTime from "../../components/order/PickUpTime";
+import { IoIosArrowDown } from "react-icons/io";
+import Memo from "../../components/order/Memo";
 
 const Payment = () => {
   const { order, setOrder } = useContext(OrderContext);
@@ -38,7 +41,7 @@ const Payment = () => {
 
   // 쿼리 스트링 주소 처리
   const [searchParams, setSearchParams] = useSearchParams();
-
+  const [popMemo, setPopMemo] = useState(false);
   // 수량 변경
   const handleClickMinus = index => {
     setOrder(prevOrder => {
@@ -62,7 +65,7 @@ const Payment = () => {
   return (
     <div>
       <div className="top">
-        <Link to="/menu">X</Link>
+        <Link to="/order/menu">X</Link>
         <p>{cafeName}</p>
       </div>
       <div className="orderList">
@@ -76,7 +79,7 @@ const Payment = () => {
                   {item.beans === true ? `/${item.beans}` : null}
                   {item.addOption === true ? `/${item.addOption}` : null}
                 </p>
-                <p>금액</p>
+                <p>{item.price * item.count}</p>
               </div>
               <div className="count">
                 <button type="button" onClick={() => handleClickMinus(index)}>
@@ -96,6 +99,31 @@ const Payment = () => {
             </div>
           );
         })}
+        <Link to="/order/menu">+ 메뉴 추가하기</Link>
+      </div>
+      <div className="pickUpTime">
+        <p>예상 수령 시간</p>
+        <PickUpTime minutes={0} />
+        <PickUpTime minutes={5} />
+        <PickUpTime minutes={10} />
+        <PickUpTime minutes={15} />
+        <PickUpTime minutes={20} />
+        <PickUpTime minutes={30} />
+        <PickUpTime minutes={40} />
+        <PickUpTime minutes={60} />
+      </div>
+      <div className="memo">
+        <p>요청 사항</p>
+        <div
+          style={{ display: "flex" }}
+          onClick={() => {
+            setPopMemo(!popMemo);
+          }}
+        >
+          <p>요청 사항 선택</p>
+          <IoIosArrowDown />
+        </div>
+        {popMemo ? <Memo /> : null}
       </div>
     </div>
   );
