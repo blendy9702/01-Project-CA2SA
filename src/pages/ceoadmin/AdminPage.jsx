@@ -1,53 +1,49 @@
-import { Navigate, Route, Router, Routes } from "react-router-dom";
-import LiveOrders from "./orders/LiveOrders";
-import Orders from "./orders/Orders";
-import OrderDetail from "./orders/OrderDetail";
+import { Route, Router, Routes } from "react-router-dom";
+import Dashboard from "./Dashboard";
 import LoginPage from "./Login/LoginPage";
 import ResetPassword from "./Login/ResetPassword";
 import Menu from "./menu/Menu";
 import MenuEdit from "./menu/MenuEdit";
 import Options from "./menu/Options";
-import StoreInfo from "./store/StoreInfo";
-import Hours from "./store/Hours";
-import Stores from "./store/Stores";
-import Reports from "./reports/Reports";
+import LiveOrders from "./orders/LiveOrders";
+import OrderDetail from "./orders/OrderDetail";
+import Orders from "./orders/Orders";
 import ReportDetail from "./reports/ReportDetail";
-import Dashboard from "./Dashboard";
+import Reports from "./reports/Reports";
+import Hours from "./store/Hours";
+import StoreInfo from "./store/StoreInfo";
+import Stores from "./store/Stores";
 
 const AdminPage = () => {
-  isLogin = false;
+  const isLogin = false;
 
   return (
     <div>
       <Router>
         <Routes>
-          <Route
-            path="/"
-            element={isLogin ? <Dashboard /> : <Navigate to="/login" replace />}
-          />
-          <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/admin/dashboard" element={<Dashboard />} />
           {/* 로그인 */}
-          <Route path="/login" element={<LoginPage />}>
-            <Route path="/reset-password" element={<ResetPassword />} />
+          <Route path="/admin/login" element={<LoginPage />}>
+            <Route path="/admin/reset-password" element={<ResetPassword />} />
           </Route>
           {/* 주문관리 */}
-          <Route path="/orders" element={<Orders />}>
-            <Route path="/live-orders" element={<LiveOrders />} />
-            <Route path="/detail/:orderId" element={<OrderDetail />} />
+          <Route path="/admin/orders" element={<Orders />}>
+            <Route path="/admin/live-orders" element={<LiveOrders />} />
+            <Route path="/admin/detail/:orderId" element={<OrderDetail />} />
           </Route>
           {/* 메뉴관리 */}
-          <Route path="/menu" element={<Menu />}>
-            <Route path="/edit/:menuId" element={<MenuEdit />} />
-            <Route path="/customization/:menuId" element={<Options />} />
+          <Route path="/admin/menu" element={<Menu />}>
+            <Route path="/admin/edit/:menuId" element={<MenuEdit />} />
+            <Route path="/admin/customization/:menuId" element={<Options />} />
           </Route>
           {/* 매장관리 */}
-          <Route path="/store-info" element={<StoreInfo />}>
-            <Route path="/operating-hours" element={<Hours />} />
-            <Route path="/status" element={<Stores />} />
+          <Route path="/admin/store-info" element={<StoreInfo />}>
+            <Route path="/admin/operating-hours" element={<Hours />} />
+            <Route path="/admin/status" element={<Stores />} />
           </Route>
           {/* 매출보고서 */}
-          <Route path="/reports" element={<Reports />}>
-            <Route path="/detail/:period" element={<ReportDetail />} />
+          <Route path="/admin/reports" element={<Reports />}>
+            <Route path="/admin/detail/:period" element={<ReportDetail />} />
           </Route>
         </Routes>
       </Router>

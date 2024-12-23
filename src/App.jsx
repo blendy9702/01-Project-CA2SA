@@ -5,8 +5,6 @@ import {
   Routes,
 } from "react-router-dom";
 import DockBar from "./components/DockBar";
-import { OrderContextProvider } from "./contexts/OrderContext";
-import AdminPage from "./pages/ceoadmin/AdminPage";
 import Index from "./pages/HomePage";
 import ConfirmForm from "./pages/join/ConfirmForm";
 import JoinPage from "./pages/join/JoinPage";
@@ -18,15 +16,16 @@ import NotFound from "./pages/NotFound";
 import Confirmation from "./pages/order/Confirmation";
 import MenuDetail from "./pages/order/MenuDetail";
 import MenuList from "./pages/order/MenuList";
-import OedersDetails from "./pages/order/OedersDetails";
 import OrderPage from "./pages/order/OrderPage";
 import Payment from "./pages/order/Payment";
 import OrdersPage from "./pages/orders/OrdersPage";
 import SearchPage from "./pages/search/SearchPage";
 import Marketing from "./pages/terms/Marketing";
+import PaymentService from "./pages/terms/PaymentService";
 import Privacy from "./pages/terms/Privacy";
 import Service from "./pages/terms/Service";
-import PaymentService from "./pages/terms/PaymentService";
+import OedersDetails from "./pages/orders/OedersDetails";
+import AdminPage from "./pages/ceoadmin/AdminPage";
 
 function App() {
   const isLogin = false;
@@ -47,9 +46,8 @@ function App() {
             <Route path="confirmform" element={<ConfirmForm />} />
           </Route>
           {/* 로그인 */}
-          <Route path="/login" element={<LoginPage />}>
-            <Route path="/reset-password" element={<ResetPassword />} />
-          </Route>
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/reset-password" element={<ResetPassword />} />
           {/* 검색 */}
           <Route path="/search">
             <Route index element={<SearchPage />} /> {/* SearchPage */}
@@ -74,7 +72,7 @@ function App() {
           <Route path="/terms/marketing" element={<Marketing />} />
           <Route path="/terms/payment" element={<PaymentService />} />
           {/* 사장님페이지 */}
-          <Route path="/admin" element={<AdminPage />} />
+          <Route path="/admin" element={<AdminPage />}></Route>
           <Route path="*" element={<NotFound />}></Route>
         </Routes>
         <DockBar />
