@@ -4,6 +4,14 @@ import { useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import * as yup from "yup";
+import {
+  EmailArea,
+  LoginButton,
+  LoginTopArea,
+  LoginWrap,
+  ServiceTextArea,
+  SingUpButton,
+} from "../../styles/join/joinpage";
 
 const loginSchema = yup.object({
   email: yup
@@ -56,26 +64,26 @@ const LoginPage = () => {
 
   return (
     <div>
-      <div className="loginTopArea">
+      <LoginTopArea>
         <div>
           <a href="#">X</a>
         </div>
         <div>
           <p>로그인</p>
         </div>
-      </div>
+      </LoginTopArea>
       <div className="loginMainWrap">
-        <div className="serviceTextArea">
+        <ServiceTextArea>
           <div className="ca2sa">
             <span>CA2SA</span>
           </div>
           <div className="serviceText">
             <span>서비스 이용을 위해 로그인을 해주세요</span>
           </div>
-        </div>
+        </ServiceTextArea>
         <form onSubmit={handleSubmit(handleSubmitForm)}>
-          <div className="loginWrap">
-            <div className="emailArea">
+          <LoginWrap>
+            <EmailArea>
               <span>이메일</span>
               <input
                 {...register("email")}
@@ -83,7 +91,7 @@ const LoginPage = () => {
                 placeholder="이메일을 입력해주세요."
               />
               <p style={{ color: "red" }}>{errors.email?.message}</p>
-            </div>
+            </EmailArea>
             <div className="passwordArea">
               <span>비밀번호</span>
               <input
@@ -93,19 +101,19 @@ const LoginPage = () => {
               />
               <p style={{ color: "red" }}>{errors.upw?.message}</p>
             </div>
-          </div>
+          </LoginWrap>
           {loginError && <p style={{ color: "red" }}>{loginError}</p>}
           <div className="loginSignUpWrap">
-            <div className="loginButton">
+            <LoginButton>
               <button type="submit">로그인</button>
-            </div>
+            </LoginButton>
           </div>
+          <SingUpButton>
+            <Link to="/join">
+              <button>회원가입</button>
+            </Link>
+          </SingUpButton>
         </form>
-        <div className="SingUpButton">
-          <Link to="/join">
-            <button>회원가입</button>
-          </Link>
-        </div>
       </div>
     </div>
   );
