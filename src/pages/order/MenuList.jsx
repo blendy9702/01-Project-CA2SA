@@ -11,10 +11,10 @@ const MenuList = () => {
   const { order } = useContext(OrderContext);
 
   const [selectedCate, setSelectedCate] = useState("시즌메뉴");
-  useEffect(() => {
-    console.log("cafeId:", order.cafeId);
-    getCafeMenu(order.cafeId);
-  }, []);
+  // useEffect(() => {
+  //   console.log("cafeId:", order.cafeId);
+  //   getCafeMenu(order.cafeId);
+  // }, []);
 
   return (
     <div>

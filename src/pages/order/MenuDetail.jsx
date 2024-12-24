@@ -14,9 +14,24 @@ const MenuDetail = () => {
   useEffect(() => {
     getMenuOption(1); //임시 메뉴 아이디 입력
   }, []);
+  // react-hook-form
+  const {
+    register,
+    handleSubmit,
+    setValue,
+    formState: { errors },
+  } = useForm({
+    defaultValues: {
+      options: [],
+      price: MenuDetailInfo.price,
+      menuId: 1,
+      menuName: MenuDetailInfo.menuName,
+      count: 1,
+    },
+  });
+  // useParams
   const { id } = useParams();
   //useNavigate
-  // 앞에서 보낸 navigate의 state 받아오기
   const location = useLocation();
   const menuInfo = location.state;
   const navigate = useNavigate();
@@ -29,24 +44,39 @@ const MenuDetail = () => {
     console.log("order 상태:", order);
   }, [order]);
 
-  // 장바구니에 추가하기
-  const handleSubmitForm = data => {
-    addCartList(data);
+  // 체크된 옵션을 [{menuOptionId:""}]로 바꾸기 위한 useState;
+  const [options, setOptions] = useState([]);
+  // 옵션 추가, 가격 추가
+  const handleChange = (e, item) => {
+    const option = { menuOptionId: e.target.value };
+    setOptions(
+      prevOptions =>
+        e.target.checked
+          ? [...prevOptions, option] // 옵션 추가
+          : prevOptions.filter(opt => opt.menuOptionId !== option.menuOptionId), // 옵션 제거
+    );
+    // 가격 업데이트
+    if (e.target.checked) {
+      setTotalPrice(prevPrice => prevPrice + item.addPrice);
+    } else {
+      setTotalPrice(prevPrice => prevPrice - item.addPrice);
+    }
   };
 
-  // react-hook-form
-  const {
-    register,
-    handleSubmit,
-    setValue,
-    formState: { errors },
-  } = useForm();
-  //금액 계산용 useState
+  // 금액 계산용 useState
   const [totalPrice, setTotalPrice] = useState(MenuDetailInfo.price);
   useEffect(() => {
     setValue("price", totalPrice);
   }, [totalPrice, setValue]);
 
+  useEffect(() => {
+    console.log("options:", options);
+  }, [options]);
+
+  // 장바구니에 추가하기
+  const handleSubmitForm = data => {
+    addCartList(data);
+  };
   return (
     <div>
       <div className="top">
@@ -113,15 +143,12 @@ const MenuDetail = () => {
                   type="checkbox"
                   id={item.optionName}
                   value={item.menuOptionId}
-                  {...register("options", {
-                    setValueAs: value => {
-                      return { menuOptionId: value };
-                    },
-                  })}
+                  {...register("options")}
                   onChange={e => {
-                    e.target.checked
-                      ? setTotalPrice(prevPrice => prevPrice + item.addPrice)
-                      : setTotalPrice(prevPrice => prevPrice - item.addPrice);
+                    if (e.target.checked === true) {
+                      setValue(`options[0]`, { menuOptionId: e.target.value });
+                    }
+                    handleChange(e, item);
                   }}
                 />
                 <label htmlFor={item.optionName}>{item.optionName}</label>

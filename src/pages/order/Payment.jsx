@@ -14,17 +14,27 @@ const Payment = () => {
     const orderList = [...order.menuList];
     console.log("장바구니 목록:", orderList);
     const stackedOrder = orderList.reduce((acc, curr) => {
+      //options를 객체로 변환시키기
+      const parsedOptions = curr.options.map(option => {
+        try {
+          // option이 문자열이라면 { menuOptionId: option } 형태로 변환
+          return { menuOptionId: option };
+        } catch (e) {
+          console.error("옵션 파싱 오류:", e);
+          return { menuOptionId: option }; // 오류 발생 시 원본 값을 그대로 사용
+        }
+      });
       const existingOrder = acc.find(
         item =>
           item.menuId === curr.menuId &&
           item.state === curr.state &&
           item.size === curr.size &&
-          JSON.stringify(item.options) === JSON.stringify(curr.options),
+          JSON.stringify(item.options) === JSON.stringify(parsedOptions),
       );
       if (existingOrder) {
         existingOrder.count += Number(curr.count);
       } else {
-        acc.push({ ...curr });
+        acc.push({ ...curr, options: parsedOptions });
       }
       return acc;
     }, []);
@@ -33,6 +43,7 @@ const Payment = () => {
       return { ...prevOrder, menuList: stackedOrder };
     });
   }, [setOrder]);
+
   console.log(order);
 
   const location = useLocation();

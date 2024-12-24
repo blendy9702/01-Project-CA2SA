@@ -100,8 +100,15 @@ export const getMenuDetailInfo = {
       },
       {
         optionName: "ICE",
-        menuOptionId: 0,
+        menuOptionId: 2,
         addPrice: 1000,
+        required: 0,
+        menuName: "string",
+      },
+      {
+        optionName: "샷추가",
+        menuOptionId: 3,
+        addPrice: 500,
         required: 0,
         menuName: "string",
       },
