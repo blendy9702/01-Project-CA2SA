@@ -5,15 +5,6 @@ import { Link, useNavigate } from "react-router-dom";
 import * as yup from "yup";
 import axios from "axios";
 
-const initData = [
-  {
-    nickName: "홍길동",
-    email: "yaho@gmail.com",
-    upw: "1111",
-    agree: 1,
-  },
-];
-
 const loginSchema = yup.object({
   nickName: yup
     .string()
