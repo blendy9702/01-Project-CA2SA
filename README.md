@@ -46,19 +46,33 @@ Project-CA2SA
 ├─ package-lock.json
 ├─ package.json
 ├─ public
+│  ├─ favicon.ico
+│  └─ images
+│     ├─ main_visual_image-0.png
+│     ├─ main_visual_image-1.png
+│     ├─ main_visual_image-2.png
+│     ├─ main_visual_image-3.png
+│     ├─ main_visual_image-4.png
+│     ├─ main_visual_image-5.png
+│     ├─ main_visual_image-6.png
+│     └─ main_visual_image-7.png
 ├─ README.md
 ├─ src
 │  ├─ apis
+│  │  └─ order.jsx
 │  ├─ App.css
 │  ├─ App.jsx
-│  ├─ assets
 │  ├─ components
 │  │  ├─ DockBar.jsx
+│  │  ├─ Header.jsx
+│  │  ├─ main
+│  │  │  └─ ListBox.jsx
 │  │  └─ order
 │  │     └─ Menu.jsx
 │  ├─ constants
 │  ├─ contexts
-│  │  └─ LoginContext.jsx
+│  │  ├─ LoginContext.jsx
+│  │  └─ OrderContext.jsx
 │  ├─ index.css
 │  ├─ main.jsx
 │  ├─ pages
@@ -102,6 +116,7 @@ Project-CA2SA
 │  │  │  ├─ OrderPage.jsx
 │  │  │  └─ Payment.jsx
 │  │  ├─ orders
+│  │  │  ├─ OedersDetails.jsx
 │  │  │  └─ OrdersPage.jsx
 │  │  ├─ search
 │  │  │  └─ SearchPage.jsx
