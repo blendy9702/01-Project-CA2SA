@@ -67,12 +67,9 @@ const MenuList = () => {
                 key={index}
                 style={{ display: "flex" }}
                 onClick={() =>
-                  navigate(
-                    `/order/menudetail?menuId=${item.menuId}&menuName=${item.menuName}`,
-                    {
-                      state: item,
-                    },
-                  )
+                  navigate(`/order/${item.menuId}`, {
+                    state: item,
+                  })
                 }
               >
                 <Menu item={item} index={index} />
