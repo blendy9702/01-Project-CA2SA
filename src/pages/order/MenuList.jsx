@@ -1,8 +1,9 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Menu from "../../components/order/Menu";
 import { OrderContext } from "../../contexts/OrderContext";
 import { getCafeInfo, getCafeMenuList } from "../../apis/order";
+import { getCafeMenu } from "../../apis/orderapi";
 
 const MenuList = () => {
   const navigate = useNavigate();
@@ -10,6 +11,10 @@ const MenuList = () => {
   const { order } = useContext(OrderContext);
 
   const [selectedCate, setSelectedCate] = useState("시즌메뉴");
+  useEffect(() => {
+    console.log("cafeId:", order.cafeId);
+    getCafeMenu(order.cafeId);
+  }, []);
 
   return (
     <div>
@@ -87,7 +92,7 @@ const MenuList = () => {
           );
         }}
       >
-        금액 | 장바구니 {order.menu.length}
+        금액 | 장바구니 {order.menuList.length}
       </button>
     </div>
   );

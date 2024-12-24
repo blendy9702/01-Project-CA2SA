@@ -6,12 +6,12 @@ import { IoIosArrowDown } from "react-icons/io";
 import Memo from "../../components/order/Memo";
 
 const Payment = () => {
-  const { order, setOrder } = useContext(OrderContext);
+  const { order, setOrder, popMemo, setPopMemo } = useContext(OrderContext);
   // order가 제대로 바뀌고 있는지 확인, 오자마자 배열 정리시키기
   useEffect(() => {
     //중복 메뉴 합치기
     //임시 메뉴 리스트 부여
-    const orderList = [...order.menu];
+    const orderList = [...order.menuList];
     console.log("장바구니 목록:", orderList);
     const stackedOrder = orderList.reduce((acc, curr) => {
       const existingOrder = acc.find(
@@ -19,8 +19,7 @@ const Payment = () => {
           item.menuId === curr.menuId &&
           item.state === curr.state &&
           item.size === curr.size &&
-          JSON.stringify(item.beans) === JSON.stringify(curr.beans) &&
-          JSON.stringify(item.addOption) === JSON.stringify(curr.addOption),
+          JSON.stringify(item.options) === JSON.stringify(curr.options),
       );
       if (existingOrder) {
         existingOrder.count += Number(curr.count);
@@ -31,7 +30,7 @@ const Payment = () => {
     }, []);
     console.log("정리된 배열:", stackedOrder);
     setOrder(prevOrder => {
-      return { ...prevOrder, menu: stackedOrder };
+      return { ...prevOrder, menuList: stackedOrder };
     });
   }, [setOrder]);
   console.log(order);
@@ -41,24 +40,24 @@ const Payment = () => {
 
   // 쿼리 스트링 주소 처리
   const [searchParams, setSearchParams] = useSearchParams();
-  const [popMemo, setPopMemo] = useState(false);
+
   // 수량 변경
   const handleClickMinus = index => {
     setOrder(prevOrder => {
-      const updatedMenu = [...prevOrder.menu];
+      const updatedMenu = [...prevOrder.menuList];
       if (updatedMenu[index].count > 1) {
         updatedMenu[index].count -= 1; // 수량 감소
       }
-      return { ...prevOrder, menu: updatedMenu };
+      return { ...prevOrder, menuList: updatedMenu };
     });
   };
   const handleClickPluls = index => {
     setOrder(prevOrder => {
-      const updatedMenu = [...prevOrder.menu];
+      const updatedMenu = [...prevOrder.menuList];
       if (updatedMenu[index].count >= 0) {
         updatedMenu[index].count += 1; // 수량 감소
       }
-      return { ...prevOrder, menu: updatedMenu };
+      return { ...prevOrder, menuList: updatedMenu };
     });
   };
 
@@ -69,7 +68,7 @@ const Payment = () => {
         <p>{cafeName}</p>
       </div>
       <div className="orderList">
-        {order.menu.map((item, index) => {
+        {order.menuList.map((item, index) => {
           return (
             <div key={index}>
               <div className="itemInfo">
@@ -124,6 +123,12 @@ const Payment = () => {
           <IoIosArrowDown />
         </div>
         {popMemo ? <Memo /> : null}
+        <div className="totalPrice">
+          <div className="price">
+            <p>주문 금액</p>
+            <p>{order.menuList.map}</p>
+          </div>
+        </div>
       </div>
     </div>
   );
