@@ -24,16 +24,11 @@ const ListBoxItem = styled.div`
   }
 `;
 
-const ListBox = ({ name, distance, imgSrc }) => {
+const ListBox = ({ cafe }) => {
   return (
     <ListBoxItem>
       <Link to="#">
-        <img src={imgSrc} alt={name} />
-        <h3>{name}</h3>
-        <p>
-          <FaLocationDot />
-          {distance}
-        </p>
+        <strong>카페 이름:</strong> <span>{cafe?.cafeName || "정보 없음"}</span>
       </Link>
     </ListBoxItem>
   );
