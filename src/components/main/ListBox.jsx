@@ -1,19 +1,42 @@
 import { Link } from "react-router-dom";
 import { FaLocationDot } from "react-icons/fa6";
+import styled from "styled-components";
 
-function ListBox() {
+const ListBoxItem = styled.div`
+  width: 33.3%;
+  img {
+    border-radius: 16px;
+  }
+  h3 {
+    margin-top: 5px;
+    font-size: 18px;
+    font-weight: 500;
+  }
+  p {
+    margin-top: 5px;
+    font-size: 16px;
+    color: var(--color-gray-500);
+    svg {
+      font-size: 12px;
+      color: var(--secondary-color);
+      margin-right: 3px;
+    }
+  }
+`;
+
+const ListBox = ({ name, distance, imgSrc }) => {
   return (
-    <div>
-      <Link to>
-        <img src="https://picsum.photos/150" alt="" />
-        <h3>마시그래이 동성로점</h3>
+    <ListBoxItem>
+      <Link to="#">
+        <img src={imgSrc} alt={name} />
+        <h3>{name}</h3>
         <p>
           <FaLocationDot />
-          37.5m
+          {distance}
         </p>
       </Link>
-    </div>
+    </ListBoxItem>
   );
-}
+};
 
 export default ListBox;

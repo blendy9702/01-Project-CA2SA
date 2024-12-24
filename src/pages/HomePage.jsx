@@ -2,8 +2,35 @@ import Header from "../components/Header";
 import { IoIosArrowForward } from "react-icons/io";
 import { Link } from "react-router-dom";
 import ListBox from "../components/main/ListBox";
+import styled from "styled-components";
+
+const places = [
+  {
+    id: 1,
+    name: "마시그래이 동성로점",
+    distance: "37.5m",
+    imgSrc: "https://picsum.photos/150",
+  },
+  {
+    id: 2,
+    name: "마시그래이 강남점",
+    distance: "150m",
+    imgSrc: "https://picsum.photos/151",
+  },
+  {
+    id: 3,
+    name: "마시그래이 홍대점",
+    distance: "220m",
+    imgSrc: "https://picsum.photos/152",
+  },
+];
 
 const HomePage = () => {
+  const ListitemBox = styled.div`
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  `;
   return (
     <div>
       <Header />
@@ -18,7 +45,16 @@ const HomePage = () => {
             <IoIosArrowForward />
           </span>
         </Link>
-        <ListBox />
+        <ListitemBox>
+          {places.map(place => (
+            <ListBox
+              key={place.id}
+              name={place.name}
+              distance={place.distance}
+              imgSrc={place.imgSrc}
+            />
+          ))}
+        </ListitemBox>
       </div>
       <div>
         <h2>나와 가까운 매장</h2>
@@ -28,7 +64,16 @@ const HomePage = () => {
             <IoIosArrowForward />
           </span>
         </Link>
-        <ListBox />
+        <ListitemBox>
+          {places.map(place => (
+            <ListBox
+              key={place.id}
+              name={place.name}
+              distance={place.distance}
+              imgSrc={place.imgSrc}
+            />
+          ))}
+        </ListitemBox>
       </div>
       <Link>
         <img src="https://picsum.photos/600/100" alt="" />
