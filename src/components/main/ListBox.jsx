@@ -1,16 +1,30 @@
 import { Link } from "react-router-dom";
 import { FaLocationDot } from "react-icons/fa6";
 import styled from "styled-components";
+import { SwiperSlide } from "swiper/react";
 
-const ListBoxItem = styled.div`
-  width: 33.3%;
-  img {
+const ListBoxItem = styled.a`
+  display: inline-block;
+  div {
+    width: 150px;
+    height: 150px;
+    overflow: hidden;
     border-radius: 16px;
+    img {
+      width: 100%;
+      object-fit: cover;
+    }
   }
   h3 {
     margin-top: 5px;
     font-size: 18px;
     font-weight: 500;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    word-break: break-word;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
   }
   p {
     margin-top: 5px;
@@ -25,11 +39,17 @@ const ListBoxItem = styled.div`
 `;
 
 const ListBox = ({ cafe }) => {
+  if (!cafe) return null; // undefined 방지
   return (
-    <ListBoxItem>
-      <Link to="#">
-        <strong>카페 이름:</strong> <span>{cafe?.cafeName || "정보 없음"}</span>
-      </Link>
+    <ListBoxItem to="">
+      <div>
+        <img src={cafe.cafePic} alt={cafe.cafeName} />
+      </div>
+      <h3>{cafe.cafeName}</h3>
+      <p>
+        <FaLocationDot />
+        {cafe.location}
+      </p>
     </ListBoxItem>
   );
 };
