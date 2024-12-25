@@ -8,6 +8,7 @@ import {
 import { useContext, useEffect } from "react";
 import { OrderContext } from "../../contexts/OrderContext";
 import { getCafeInfo, resPostLoginData } from "../../apis/order";
+import NavBar from "../../components/order/NavBar";
 
 //주소 분활
 const splitLocation = getCafeInfo.resultData.location.split("(우)");
@@ -15,14 +16,10 @@ const address = splitLocation[0];
 const postcode = splitLocation[1];
 
 const OrderPage = () => {
-  const navigate = useNavigate();
-
   const { order, setOrder } = useContext(OrderContext);
   // order가 제대로 바뀌고 있는지 확인
-  useEffect(() => {
-    console.log("현재 order 상태:", order);
-  }, [order]);
-  // order에 값 채워넣기
+  useEffect(() => {}, [order]);
+  // order에 cafeId, userId값 채워넣기
   useEffect(() => {
     const updatedOrder = {
       ...order,
@@ -33,6 +30,8 @@ const OrderPage = () => {
     console.log(order);
   }, []);
 
+  // useNavigation
+  const navigate = useNavigate();
   const addOrderInfo = () => {
     const orderData = {
       ...resPostLoginData.resultData,
@@ -45,9 +44,12 @@ const OrderPage = () => {
 
   return (
     <OrderPageDiv>
-      <Link to="/">
-        <IoIosArrowBack />
-      </Link>
+      <NavBar
+        path={"/"}
+        title={getCafeInfo.resultData.cafeName}
+        scrollevent={true}
+        style={{ position: "fixed", top: 0, left: 0 }}
+      />
       <ThumImageDiv>
         <img src="#"></img>
       </ThumImageDiv>
@@ -90,7 +92,8 @@ const OrderPage = () => {
       <button
         type="button"
         onClick={() => addOrderInfo()}
-        style={{ bottom: "60px" }}
+        style={{ bottom: "80px" }}
+        className="go-menulist"
       >
         메뉴담기
       </button>

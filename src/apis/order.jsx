@@ -41,16 +41,17 @@ export const getOderInfo = {
 export const getCafeMenuList = [
   {
     menuId: 1,
-    menuName: "아메리카노",
-    price: "1500",
-    comment: "맛있다1",
+    menuName: "고사리",
+    price: "999999",
+    comment:
+      "귀엽고 귀엽지만 본인의 스케줄에 인간이 따라야하는 어려운 babo 고양이",
     menuPic: "#",
   },
   {
     menuId: 2,
     menuName: "아메리카노2",
-    price: "1500",
-    comment: "맛있다2",
+    price: "100000",
+    comment: "본인이 호랑이인줄 아는 것 같다.",
     menuPic: "#",
   },
   {
