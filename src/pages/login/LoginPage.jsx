@@ -1,6 +1,6 @@
 import { yupResolver } from "@hookform/resolvers/yup";
 import axios from "axios";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
 import * as yup from "yup";
@@ -12,6 +12,7 @@ import {
   ServiceTextArea,
   SignUpButton,
 } from "../../styles/join/joinpage";
+import { UserPageContext } from "../../contexts/UserPageContext";
 
 const loginSchema = yup.object({
   email: yup
@@ -37,7 +38,8 @@ const LoginPage = () => {
   });
   const [loginError, setLoginError] = useState("");
   const navigate = useNavigate();
-
+  const { myPage, setMyPage } = useContext(UserPageContext);
+  // setMyPage{...로그인정보 담은 객체}
   // 로그인 요청 처리
   const handleSubmitForm = async data => {
     try {
@@ -51,6 +53,8 @@ const LoginPage = () => {
         setLoginError("");
         alert(`환영합니다, ${response.data.nickName}님! ヾ(•ω•)o`);
         navigate("/");
+        // 세션 스토리지
+        sessionStorage.setItem("userData", JSON.stringify(response.data));
       } else {
         setLoginError(
           response.data.message || "이메일과 비밀번호가 일치하지 않습니다.",

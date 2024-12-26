@@ -10,8 +10,8 @@ export const LoginProvider = ({ children }) => {
     upw: "",
     agree: "1",
   });
-  const [userInfo, setUserInfo] = useState({});
-  setUserInfo({ ...resultData });
+  //   const [userInfo, setUserInfo] = useState({});
+  //   setUserInfo({ ...resultData });
 
   <LoginContext.Provider>{children}</LoginContext.Provider>;
 };
