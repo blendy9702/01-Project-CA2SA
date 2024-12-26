@@ -48,8 +48,13 @@ const MapMain = () => {
     });
   }, [cafeData]);
 
-  const MapMarkerStyle = styled.div``;
-
+  const MapMarkerStyle = styled.div`
+    background-color: #fff;
+    border-radius: 16px;
+    padding: 10px 20px;
+    text-align: center;
+    box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.2);
+  `;
   return (
     <Map
       center={{
@@ -65,17 +70,7 @@ const MapMain = () => {
           position={{ lat: pos.lat, lng: pos.lng }}
           yAnchor={1} // 오버레이의 y 축 기준
         >
-          <div
-            style={{
-              background: "white",
-              borderRadius: "5px",
-              padding: "10px",
-              textAlign: "center",
-              boxShadow: "0px 2px 6px rgba(0,0,0,0.2)",
-            }}
-          >
-            {pos.cafeName}
-          </div>
+          <MapMarkerStyle>{pos.cafeName}</MapMarkerStyle>
         </CustomOverlayMap>
       ))}
     </Map>

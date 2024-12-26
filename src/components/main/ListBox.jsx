@@ -4,6 +4,7 @@ import styled from "styled-components";
 import { SwiperSlide } from "swiper/react";
 
 const ListBoxItem = styled.a`
+  margin-top: 20px;
   display: inline-block;
   div {
     width: 150px;
