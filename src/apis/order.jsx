@@ -41,16 +41,17 @@ export const getOderInfo = {
 export const getCafeMenuList = [
   {
     menuId: 1,
-    menuName: "아메리카노",
-    price: "1500",
-    comment: "맛있다1",
+    menuName: "고사리",
+    price: "999999",
+    comment:
+      "귀엽고 귀엽지만 본인의 스케줄에 인간이 따라야하는 어려운 babo 고양이",
     menuPic: "#",
   },
   {
     menuId: 2,
     menuName: "아메리카노2",
-    price: "1500",
-    comment: "맛있다2",
+    price: "100000",
+    comment: "본인이 호랑이인줄 아는 것 같다.",
     menuPic: "#",
   },
   {
@@ -68,52 +69,6 @@ export const getCafeMenuList = [
     menuPic: "#",
   },
 ];
-// 메뉴 상세 정보 불러오기 결과
-export const getMenuDetailInfo = {
-  resultMessage: "메뉴 상세정보 출력 완료",
-  resultData: {
-    menuName: "아메리카노",
-    price: 1500,
-    comment: "맛있는 아메리카노",
-    menuPic: "#",
-    option: [
-      {
-        optionTitle: "state",
-        price: [
-          { optionName: "HOT", value: "hot", price: 0 },
-          { optionName: "ICE", value: "ice", price: 0 },
-        ],
-        required: 1,
-      },
-      {
-        optionTitle: "size",
-        price: [
-          { optionName: "R", value: "regular", price: 0 },
-          { optionName: "L", value: "large", price: 500 },
-          { optionName: "1L", value: "liter", price: 2000 },
-        ],
-        required: 1,
-      },
-      {
-        optionTitle: "beans",
-        price: [
-          { optionName: "다크 원두", value: "darkBeans", price: 0 },
-          { optionName: "과일 원두", value: "fruitBeans", price: 0 },
-        ],
-        required: 0,
-      },
-      {
-        optionTitle: "addOption",
-        price: [
-          { optionName: "샷추가", value: "shot", price: 0 },
-          { optionName: "샷추가(2번)", value: "doubleShot", price: 500 },
-          { optionName: "시럽 추가", value: "addSyrup", price: 1000 },
-        ],
-        required: 0,
-      },
-    ],
-  },
-};
 
 // 카페 정보 불러오기
 const ResCafegetCafeInfo = {
@@ -128,6 +83,36 @@ const ResCafegetCafeInfo = {
   },
 };
 
-// "{
-//    ""menuId"" : ""long""
-//}"
+/// 메뉴 상세 정보 불러오기 결과
+export const getMenuDetailInfo = {
+  resultMessage: "메뉴 상세정보 출력 완료",
+  resultData: {
+    menuName: "아메리카노",
+    price: 1500,
+    comment: "맛있는 아메리카노",
+    menuPic: "#",
+    options: [
+      {
+        optionName: "HOT",
+        menuOptionId: 1,
+        addPrice: 2000,
+        required: 0,
+        menuName: "string",
+      },
+      {
+        optionName: "ICE",
+        menuOptionId: 2,
+        addPrice: 1000,
+        required: 0,
+        menuName: "string",
+      },
+      {
+        optionName: "샷추가",
+        menuOptionId: 3,
+        addPrice: 500,
+        required: 0,
+        menuName: "string",
+      },
+    ],
+  },
+};

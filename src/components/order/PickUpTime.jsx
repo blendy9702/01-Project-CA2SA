@@ -7,10 +7,11 @@ const PickUpTime = ({ minutes }) => {
 
   const now = moment();
   const handleClickPickUpTime = minutes => {
+    const nowTime = now.format("YYYY-MM-DD HH:mm:ss");
     const addMinutes = now
       .add(minutes, "minutes")
       .format("YYYY-MM-DD HH:mm:ss");
-    setOrder({ ...order, PickUpTime: addMinutes });
+    setOrder({ ...order, pickUpTime: addMinutes, orderTime: nowTime });
   };
 
   return (

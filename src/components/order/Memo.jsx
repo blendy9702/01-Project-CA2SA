@@ -1,10 +1,10 @@
 import { yupResolver } from "@hookform/resolvers/yup";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { OrderContext } from "../../contexts/OrderContext";
 
 const Memo = () => {
-  const { setOrder, order } = useContext(OrderContext);
+  const { setOrder, order, popMemo, setPopMemo } = useContext(OrderContext);
   // react-hook-form
   const {
     register,
@@ -22,10 +22,25 @@ const Memo = () => {
       setInputText("");
   };
 
-  // order에 메모 넣기
+  const inputRef = useRef(null);
+  const textRef = useRef(null);
+
+  // memo에 체크한 것들 넣기
   const handleChangeMemo = e => {
     console.log(e.target.value);
+    const prevMemo = [...memo];
+    const updatedMemo = [...memo, e.target.value];
+    e.target.checked ? setMemo([...updatedMemo]) : setMemo([...prevMemo]);
+    if (inputRef.current.checked === true) {
+      setMemo([...memo, textRef.current.value]);
+    }
   };
+  const sendMemo = () => {
+    const comfirmMemo = memo.join();
+    setOrder({ ...order, memo: comfirmMemo });
+    setPopMemo(!memo);
+  };
+  useEffect(() => {}, [memo]);
 
   return (
     <div>
@@ -64,7 +79,11 @@ const Memo = () => {
         <label>얼음 적게 넣어주세요</label>
       </div>
       <div>
-        <input type="checkbox" onChange={e => handleChangeClick(e)} />
+        <input
+          type="checkbox"
+          ref={inputRef}
+          onChange={e => handleChangeClick(e)}
+        />
         <label>직접 입력</label>
       </div>
       <div>
@@ -73,13 +92,16 @@ const Memo = () => {
           value={inputText}
           placeholder="상세요청사항을 입력해주세요"
           readOnly={!isChecked}
+          ref={textRef}
           onChange={e => {
             setInputText(e.target.value);
-            handleChangeMemo(e);
           }}
+          onBlur={e => handleChangeMemo(e)}
         />
       </div>
-      <button type="button">완료</button>
+      <button type="button" onClick={() => sendMemo()}>
+        완료
+      </button>
     </div>
   );
 };

@@ -8,12 +8,14 @@ const initData = {
   orderTime: "",
   pickUpTime: "",
   memo: "",
-  menu: [],
+  menuList: [],
 };
 
 export const OrderContextProvider = ({ children }) => {
   const [order, setOrder] = useState(initData);
   const [cartList, setCartList] = useState([]);
+  //요청사항 팝업
+  const [popMemo, setPopMemo] = useState(false);
 
   const addCartList = data => {
     const addlist = { ...data };
@@ -21,7 +23,7 @@ export const OrderContextProvider = ({ children }) => {
     const updatedCart = [...prevCart, addlist];
     setCartList(updatedCart);
     // console.log(updatedCart);
-    setOrder({ ...order, menu: [...updatedCart] });
+    setOrder({ ...order, menuList: [...updatedCart] });
   };
 
   return (
@@ -32,6 +34,8 @@ export const OrderContextProvider = ({ children }) => {
         cartList,
         setCartList,
         addCartList,
+        popMemo,
+        setPopMemo,
       }}
     >
       {children}
