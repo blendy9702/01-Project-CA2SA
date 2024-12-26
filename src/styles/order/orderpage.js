@@ -7,7 +7,7 @@ export const OrderPageDiv = styled.div`
   flex-direction: column;
   align-items: center;
   position: relative;
-  button {
+  .go-menulist {
     position: fixed;
     height: 60px;
     left: 50%;
@@ -92,4 +92,43 @@ export const ContentDiv = styled.div`
       }
     }
   }
+`;
+
+export const NavBarDiv = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  background-color: #fff;
+
+  width: 100%;
+  padding: 15px 20px;
+  .link-icon {
+    position: absolute;
+    left: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 24px;
+    border: none;
+    background-color: transparent;
+  }
+`;
+
+export const CateListDiv = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 5px;
+`;
+export const CateButton = styled.button`
+  background-color: ${props =>
+    props.isSelected ? "var(--color-gray-900)" : "#fff"};
+  color: ${props => (props.isSelected ? "#fff" : "var(--color-gray-500);")};
+  padding: 10px 15px;
+  border: 1px solid
+    ${props => (props.isSelected ? "var(--color-gray-500)" : "transparent")};
+  border-radius: 16px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: 0.1s;
 `;

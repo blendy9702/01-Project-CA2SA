@@ -60,7 +60,7 @@ function App() {
               <Route path="menu" element={<MenuList />} />
               <Route path=":menuId" element={<MenuDetail />} />
               <Route path="payment" element={<Payment />} />
-              <Route path="confirmation/:orderId" element={<Confirmation />} />
+              <Route path="confirmation" element={<Confirmation />} />
             </Route>
             {/* 주문 내역 */}
             <Route path="/orders" element={<OrdersPage />}>
