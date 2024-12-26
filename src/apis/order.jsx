@@ -114,3 +114,20 @@ export const getMenuDetailInfo = {
     ],
   },
 };
+
+// 카페 정보 불러오기
+const ResCafegetCafeInfo = {
+  resultMessage: "카페 정보 조회 완료",
+  resultData: {
+    cafeName: "string",
+    location: "string",
+    tel: "string",
+    cafePic: "string",
+    openTime: "string",
+    closeTime: "string",
+  },
+};
+
+// "{
+//    ""menuId"" : ""long""
+//}"

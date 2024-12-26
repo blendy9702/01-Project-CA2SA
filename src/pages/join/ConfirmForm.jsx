@@ -1,17 +1,30 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
 
 const ConfirmForm = () => {
+  const initData = {
+    nickName: "",
+    email: "",
+    upw: "",
+    agree: 1,
+  };
+
+  const [formData, setFormData] = useState();
   const [code, setCode] = useState("");
   const [email, setEmail] = useState("");
   const [error, setError] = useState("");
   const [success, setSuccess] = useState(false);
+
+  const [authTimer, setAuthTimer] = useState(300);
+  const [resendTimer, setResendTimer] = useState(0);
+  const [canResend, setCanResend] = useState(true);
   const location = useLocation();
+  console.log("넘어오는 데이터들 : ", location);
   const navigate = useNavigate();
 
   // 이메일 정보 가져오기
-  React.useEffect(() => {
+  useEffect(() => {
     if (location.state?.email) {
       setEmail(location.state?.email);
     }
@@ -20,17 +33,30 @@ const ConfirmForm = () => {
   // 인증코드 확인
   const handleVerifyCode = async () => {
     try {
-      const res = await axios.post("/api/verify-code", {
+      const res = await axios.post("/api/email-auth/verify-code", {
         email: email,
         code: code,
       });
 
-      if (res.data.success) {
-        setSuccess(true);
-        alert("인증이 완료되었습니다! 로그인 화면으로 이동합니다.");
-        navigate("/login");
+      if (res.data.resultData) {
+        const newFormData = formData.omit(formData, ["passwordCheck"]);
+        console.log("새로운 폼데이터:", newFormData);
+        const regData = {
+          ...formData,
+        };
+
+        // 회원가입 API 호출
+        const regSignUp = await axios.post("/api/user/sign-up", regData);
+
+        if (regSignUp.data.resultData === 1) {
+          setSuccess(true);
+          alert("회원가입이 완료되었습니다! 로그인 화면으로 이동합니다.");
+          navigate("/login");
+        } else {
+          setError("회원가입에 실패했습니다. 다시 시도해주세요.");
+        }
       } else {
-        setError("인증 코드 틀립니다. 다시 시도해주세요.");
+        setError("인증 코드가 틀립니다. 다시 시도해주세요.");
       }
     } catch (error) {
       console.error(error);
@@ -40,12 +66,18 @@ const ConfirmForm = () => {
 
   // 이메일 재전송
   const handleResendEmail = async () => {
+    if (!canResend) return;
+
     try {
       const res = await axios.post("/api/email-auth/send-code", {
         email: email,
       });
-      if (res.data.success) {
+      console.log("서버 응답 데이터:", res.data);
+      if (res.data.resultData === true) {
         alert("인증 이메일이 재전송되었습니다!");
+        setCanResend(false);
+        setResendTimer(10);
+        setAuthTimer(300);
       } else {
         setError("이메일 재전송에 실패했습니다.");
       }
@@ -53,6 +85,39 @@ const ConfirmForm = () => {
       console.error(error);
       setError("서버와 통신 중 오류가 발생했습니다.");
     }
+  };
+
+  // 인증 타이머 처리
+  // useEffect(() => {
+  //   let interval;
+  //   if (authTimer > 0) {
+  //     interval = setInterval(() => {
+  //       setAuthTimer(prevAuthTimer => prevAuthTimer - 1);
+  //     }, 1000);
+  //   } else if (authTimer === 0) {
+  //     setError("인증 시간이 만료되었습니다. 다시 시도해 주세요.");
+  //   }
+  //   return () => clearInterval(interval);
+  // }, [authTimer]);
+
+  // 재전송 타이머 처리
+  useEffect(() => {
+    let interval;
+    if (resendTimer > 0) {
+      interval = setInterval(() => {
+        setResendTimer(prevResendTimer => prevResendTimer - 1);
+      }, 1000);
+    } else if (resendTimer === 0) {
+      setCanResend(true);
+      clearInterval(interval);
+    }
+    return () => clearInterval(interval);
+  }, [resendTimer]);
+
+  const formatTime = time => {
+    const minutes = Math.floor(time / 60);
+    const seconds = time % 60;
+    return `${String(minutes).padStart(2, "0")}:${String(seconds).padStart(2, "0")}`;
   };
 
   return (
@@ -86,6 +151,11 @@ const ConfirmForm = () => {
                 onChange={e => setCode(e.target.value)}
                 maxLength={6}
               />
+              <div>
+                {authTimer > 0 && (
+                  <p>인증 시간 남음: {formatTime(authTimer)}</p>
+                )}
+              </div>
             </div>
           </div>
           {error && <p style={{ color: "red" }}>{error}</p>}
@@ -93,10 +163,17 @@ const ConfirmForm = () => {
             <p>
               본인인증 이메일이 발송되었습니다! 확인 후 인증코드를 입력하세요.
             </p>
+
             <p>이메일이 발송되지 않았나요?</p>
             <div>
-              <button type="button" onClick={handleResendEmail}>
-                이메일 재전송
+              <button
+                type="button"
+                onClick={handleResendEmail}
+                disabled={!canResend}
+              >
+                {canResend
+                  ? "이메일 재전송"
+                  : `재전송 대기 중 (${formatTime(resendTimer)})`}
               </button>
             </div>
           </div>
