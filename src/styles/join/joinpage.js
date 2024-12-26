@@ -70,7 +70,7 @@ export const LoginButton = styled.div`
   }
 `;
 
-export const SingUpButton = styled.div`
+export const SignUpButton = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
