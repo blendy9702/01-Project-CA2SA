@@ -9,6 +9,7 @@ import { useContext, useEffect } from "react";
 import { OrderContext } from "../../contexts/OrderContext";
 import { getCafeInfo, resPostLoginData } from "../../apis/order";
 import NavBar from "../../components/order/NavBar";
+import { getCafe } from "../../apis/orderapi";
 
 //주소 분활
 const splitLocation = getCafeInfo.resultData.location.split("(우)");
@@ -28,6 +29,10 @@ const OrderPage = () => {
     };
     setOrder(updatedOrder);
     console.log(order);
+  }, []);
+  // 카페 정보 조회
+  useEffect(() => {
+    getCafe(2);
   }, []);
 
   // useNavigation

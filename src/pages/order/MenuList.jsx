@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { getCafeInfo, getCafeMenuList } from "../../apis/order";
 import Menu from "../../components/order/Menu";
@@ -13,10 +13,10 @@ const MenuList = () => {
   const { order } = useContext(OrderContext);
 
   const [selectedCate, setSelectedCate] = useState(0);
-  // useEffect(() => {
-  //   console.log("cafeId:", order.cafeId);
-  //   getCafeMenu(order.cafeId);
-  // }, []);
+  useEffect(() => {
+    console.log("cafeId:", 2);
+    getCafeMenuList(2); //임시 아이디 입력
+  }, []);
   const cateList = ["커피", "디카페인", "티", "시즌메뉴"];
   const handleClickCate = (item, index) => {
     setSelectedCate(index);
@@ -103,7 +103,11 @@ const MenuList = () => {
         }}
       >
         <sapn style={{ fontSize: 18, color: "#fff", "font-weight": "bold" }}>
-          {order.menuList.length} | 장바구니
+          {order.menuList.reduce((acc, curr) => {
+            const totalCount = acc + curr.count;
+            return totalCount;
+          }, 0)}{" "}
+          | 장바구니
         </sapn>
         <span
           style={{
