@@ -27,6 +27,7 @@ import Service from "./pages/terms/Service";
 import OedersDetails from "./pages/orders/OedersDetails";
 import AdminPage from "./pages/ceoadmin/AdminPage";
 import { OrderContextProvider } from "./contexts/OrderContext";
+import { useEffect } from "react";
 
 function App() {
   const isLogin = true;
