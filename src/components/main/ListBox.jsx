@@ -4,7 +4,7 @@ import styled from "styled-components";
 import { SwiperSlide } from "swiper/react";
 
 const ListBoxItem = styled.a`
-  margin-top: 20px;
+  margin: 20px 0;
   display: inline-block;
   div {
     width: 150px;
@@ -13,6 +13,7 @@ const ListBoxItem = styled.a`
     border-radius: 16px;
     img {
       width: 100%;
+      height: 100%;
       object-fit: cover;
     }
   }

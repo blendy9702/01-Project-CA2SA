@@ -24,9 +24,17 @@ const MapMarkerStyle = styled.div`
   }
 `;
 
+const MarkerPos = styled.div`
+  position: absolute;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1;
+  transition: 0.2s;
+`;
+
 const MapMain = () => {
   const [cafeData, setCafeData] = useState([]);
-  const [isOpen, setIsOpen] = useState(false);
   const [state, setState] = useState({
     center: {
       lat: 35.868408,
@@ -35,6 +43,8 @@ const MapMain = () => {
     errMsg: null,
     isLoading: true,
   });
+
+  const [openInfo, setOpenInfo] = useState(null);
 
   const cafeInfo = async () => {
     try {
@@ -81,6 +91,10 @@ const MapMain = () => {
     }
   }, []);
 
+  const handleMapClick = () => {
+    setOpenInfo(null); // 빈 공간 클릭 시 창 닫기
+  };
+
   return (
     <div>
       <Map // 지도를 표시할 Container
@@ -88,9 +102,11 @@ const MapMain = () => {
         style={{
           // 지도의 크기
           width: "100%",
-          height: "100vh",
+          height: "calc(100vh - 105px)",
+          position: "relative",
         }}
         level={4} // 지도의 확대 레벨
+        onClick={handleMapClick}
       >
         {cafeData.map((cafe, id) => (
           <CustomOverlayMap
@@ -100,13 +116,17 @@ const MapMain = () => {
               lng: cafe.longitude, // 카페의 경도
             }}
           >
-            <MapMarkerStyle onClick={() => setIsOpen(true)}>
+            <MapMarkerStyle
+              onClick={
+                () => setOpenInfo(prev => (prev?.id === cafe.id ? null : cafe)) // 클릭된 카페 정보를 저장
+              }
+            >
               {cafe.cafeName}
-              {isOpen && (
+              {openInfo === cafe.id && ( // 해당 카페만 열리도록 조건 추가
                 <CustomOverlayMap
                   position={{
-                    lat: cafe.latitude, // 카페의 위도
-                    lng: cafe.longitude, // 카페의 경도
+                    lat: cafe.latitude,
+                    lng: cafe.longitude,
                   }}
                 >
                   <MapMarkrtItem key={cafe.id} cafe={cafe} />
@@ -115,6 +135,11 @@ const MapMain = () => {
             </MapMarkerStyle>
           </CustomOverlayMap>
         ))}
+        {openInfo && (
+          <MarkerPos>
+            <MapMarkrtItem cafe={openInfo} />
+          </MarkerPos>
+        )}
       </Map>
     </div>
   );
