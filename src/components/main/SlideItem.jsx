@@ -1,6 +1,11 @@
+import { useEffect } from "react";
 import { BannerWrap } from "./ListMain";
 
-const SlideItem = ({ {ListMain}: {ListMain} }) => {
+const SlideItem = ({ onSendData }) => {
+  useEffect(() => {
+    onSendData(slide);
+  }, [onSendData]); // 의존성 배열에 `onSendData` 추가 (최적화)
+
   const slide = [
     "images/main_visual_image-0.png",
     "images/main_visual_image-1.png",

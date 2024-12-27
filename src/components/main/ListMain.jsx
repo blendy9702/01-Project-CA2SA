@@ -63,7 +63,7 @@ const ListMain = () => {
   return (
     <div style={{ width: "100%" }}>
       <Swiper className="mySwiper" style={{ margin: "30px 0" }}>
-        {slide.map(index => {
+        {slideData.map(slide => {
           <SwiperSlide slideData={slideData} setSlideData={setSlideData}>
             <SlideItem onSendData={handleSlideData} />
           </SwiperSlide>;
