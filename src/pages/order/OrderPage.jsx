@@ -13,13 +13,26 @@ import { getCafe } from "../../apis/orderapi";
 import moment from "moment/moment";
 import axios from "axios";
 
+const mockData = {
+  resultMessage: "카페 정보 조회 완료",
+  resultData: {
+    cafeName: "백다방",
+    location: "대구 중구 동성로5길 11 1층",
+    tel: "0534286001",
+    cafePic: "cd55e4f8-7815-4618-9af4-74f11e5288fb.jpg",
+    openTime: "08:59:59",
+    closeTime: "09:00:00",
+  },
+};
+const mockDataResult = mockData.resultData;
+
 const OrderPage = () => {
   // 임시 카페 아이디 설정
-  const cafeId = 3;
+  const cafeId = 2;
   //useSearchPrams
   const [searchParams, setSearchParams] = useSearchParams();
-  const cafeName = searchParams.get("cafeName");
-  console.log(cafeName);
+  const cafe_id = searchParams.get("cafe_id");
+  console.log(cafe_id);
   // useNavigation
   const navigate = useNavigate();
   const handleNavigateMain = () => {
@@ -50,6 +63,8 @@ const OrderPage = () => {
         console.log("카페정보 조회:", cafeInfo);
       } catch (error) {
         console.log("카페정보 조회:", error);
+        console.log("mockData가 적용됩니다.");
+        setCafeInfo(mockDataResult);
       }
     };
     getCafe(cafeId);

@@ -12,6 +12,7 @@ import Memo from "../../components/order/Memo";
 import PaymentOption from "../../components/order/PaymentOption";
 import { postOrder } from "../../apis/orderapi";
 import axios from "axios";
+import NavBar from "../../components/order/NavBar";
 
 const Payment = () => {
   // 쿼리 스트링 주소 처리
@@ -105,10 +106,7 @@ const Payment = () => {
 
   return (
     <div>
-      <div className="top">
-        <Link to="/order/menu">X</Link>
-        <p>{cafeInfo.cafeName}</p>
-      </div>
+      <NavBar onClick={handleNavigateClose} icon={"close"} title={"장바구니"} />
       <div className="orderList">
         {order.menuList.map((item, index) => {
           return (

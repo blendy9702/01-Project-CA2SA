@@ -8,6 +8,39 @@ import { OrderContext } from "../../contexts/OrderContext";
 import { SearchInput } from "../../styles/common";
 import { CateButton, CateListDiv } from "../../styles/order/orderpage";
 
+const mockData = {
+  resultMessage: "메뉴 출력 완료",
+  resultData: [
+    {
+      categoryName: "커피",
+      menu: [
+        {
+          menuId: 2,
+          menuName: "아메리카노",
+          price: 1500,
+          comment: "깔끔함",
+          menuPic: null,
+        },
+        {
+          menuId: 4,
+          menuName: "카페라떼",
+          price: 2000,
+          comment: "우유맛이 진함",
+          menuPic: null,
+        },
+        {
+          menuId: 5,
+          menuName: "바닐라라떼",
+          price: 2500,
+          comment: "달달함",
+          menuPic: null,
+        },
+      ],
+    },
+  ],
+};
+const mockDataResult = mockData.resultData;
+
 const MenuList = () => {
   // useSearchParams
   const [searchParams, setSearchParams] = useSearchParams();
@@ -49,14 +82,23 @@ const MenuList = () => {
       try {
         const res = await axios.get(`/api/menu?cafeId=${data}`);
         const resultData = res.data.resultData;
-        setCafeMenuData(resultData);
+        if (resultData) {
+          setCafeMenuData(resultData);
+          setCateList(
+            resultData.map((item, index) => {
+              return item.categoryName;
+            }),
+          );
+        }
+      } catch (error) {
+        console.log(error);
+        console.log("mockData가 적용됩니다.");
+        setCafeMenuData(mockDataResult);
         setCateList(
-          resultData.map((item, index) => {
+          mockDataResult.map((item, index) => {
             return item.categoryName;
           }),
         );
-      } catch (error) {
-        console.log(error);
       }
     };
     getCafeMenu(cafeId.cafeId);
@@ -117,7 +159,10 @@ const MenuList = () => {
           })}
         </CateListDiv>
       </div>
-      <div className="cate-detail" style={{ padding: 20 }}>
+      <div
+        className="cate-detail"
+        style={{ padding: 20, paddingBottom: "150px" }}
+      >
         <h3>고른 카테고리</h3>
         <div className="menu-list">
           {cafeMenuData[0]?.menu.map((item, index) => {

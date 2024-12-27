@@ -41,7 +41,7 @@ const NavBar = ({ onClick, icon, title }) => {
       <button className="link-icon" onClick={onClick}>
         {icon === "close" ? "X" : <IoIosArrowBack />}
       </button>
-      <h3 className="navbar-title">{title}</h3>
+      <h3 className="navbar-title">{title ? title : "정보 없음"}</h3>
     </NavBarDiv>
   );
 };

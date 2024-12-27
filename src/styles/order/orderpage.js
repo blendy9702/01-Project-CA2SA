@@ -31,7 +31,7 @@ export const ThumImageDiv = styled.div`
 export const ContentDiv = styled.div`
   width: 100%;
   padding: 0 20px;
-  margin-bottom: 11px;
+  margin-bottom: 65px;
 
   .title-box {
     display: flex;

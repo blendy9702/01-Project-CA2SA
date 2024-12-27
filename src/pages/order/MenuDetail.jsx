@@ -4,6 +4,7 @@ import { useForm } from "react-hook-form";
 import { IoIosArrowBack } from "react-icons/io";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { OrderContext } from "../../contexts/OrderContext";
+import NavBar from "../../components/order/NavBar";
 
 const MenuDetail = () => {
   //useNavigate
@@ -68,9 +69,9 @@ const MenuDetail = () => {
   } = useForm({
     defaultValues: {
       options: [],
-      price: locationData.price,
+      price: menuInfo.price,
       menuId: 1,
-      menuName: locationData.menuName,
+      menuName: menuInfo.menuName,
       count: 1,
     },
   });
@@ -115,22 +116,44 @@ const MenuDetail = () => {
   };
   return (
     <div>
-      <div className="top">
-        <button
-          type="button"
-          onClick={() => {
-            navigate("/order/menu");
-          }}
-        >
-          <IoIosArrowBack />
-        </button>
-        <div className="cafeName"></div>
+      <NavBar
+        onClick={handleNavigateBack}
+        icon={"back"}
+        title={cafeInfo.cafeName}
+      />
+      <div className="menu-thum" style={{ width: "100%" }}>
+        <img
+          src={menuInfo.menuPic ? menuInfo.menuPic : "/images/order/cat.jpg"}
+          alt="메뉴 사진"
+          style={{ width: "100%", height: 375, objectFit: "cover" }}
+        />
       </div>
-      <div className="orderDetail">
+      <div className="orderDetail" style={{ padding: "20px 20px 22px 22px" }}>
         <div className="locationData">
-          <p className="menuName">{menuInfo.menuName}</p>
-          <p className="comment">{menuInfo.comment}</p>
-          <p className="comment">{menuInfo.price}</p>
+          <p
+            className="menuName"
+            style={{ fontSize: 18, fontWeight: "bold", marginBottom: 8 }}
+          >
+            {menuInfo.menuName}
+          </p>
+          <p
+            className="comment"
+            style={{
+              fontSize: 16,
+              fontWeight: "light",
+              marginBottom: 8,
+              color: "var(--color-gray-700)",
+              letterSpacing: "-0.5px",
+            }}
+          >
+            {menuInfo.comment}
+          </p>
+          <p
+            className="price"
+            style={{ fontSize: 18, fontWeight: "bold", marginBottom: 8 }}
+          >
+            {menuInfo.price.toLocaleString()} 원
+          </p>
         </div>
       </div>
       <div className="formBox">
@@ -139,7 +162,7 @@ const MenuDetail = () => {
           <div className="hiddenInfo">
             <label>MenuId</label>
             <input
-              type="text"
+              type="hidden"
               name="menuId"
               id="menuId"
               value={menuId} // 임시 메뉴 아이디
@@ -147,7 +170,7 @@ const MenuDetail = () => {
             />
             <label>메뉴 이름</label>
             <input
-              type="text"
+              type="hidden"
               name="menuName"
               id="menuName"
               value={menuInfo.menuName}
@@ -155,7 +178,7 @@ const MenuDetail = () => {
             />
             <label>수량</label>
             <input
-              type="number"
+              type="hidden"
               name="count"
               id="count"
               value={1}
@@ -163,7 +186,7 @@ const MenuDetail = () => {
             />
             <label>총 금액</label>
             <input
-              type="text"
+              type="hidden"
               name="price"
               id="price"
               value={totalPrice}
