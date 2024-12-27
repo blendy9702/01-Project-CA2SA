@@ -1,11 +1,10 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { IoIosArrowForward } from "react-icons/io";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
-import ListBox from "./ListBox";
 import { Swiper, SwiperSlide } from "swiper/react";
-import "swiper/css";
+import ListBox from "./ListBox";
+
 import { Pagination } from "swiper/modules";
 import SlideItem from "./SlideItem";
 
@@ -36,21 +35,38 @@ export const BannerWrap = styled.a`
     object-fit: cover;
     width: 100%;
     height: 100%;
+    border-radius: 16px;
   }
 `;
 
 const ListMain = () => {
-  const [slideData, setSlideData] = useState([]);
   const [cafeData, setCafeData] = useState([]); // API 데이터를 저장할 state
+  const [state, setState] = useState({
+    center: {
+      lat: 35.868408,
+      lng: 128.594054,
+    },
+    errMsg: null,
+    isLoading: true,
+  });
 
-  const handleSlideData = data => {
-    setSlideData(data);
-  };
+  const slideData = [
+    "images/main_visual_image-2.png",
+    "images/main_visual_image-1.png",
+    "images/main_visual_image-3.png",
+    "images/main_visual_image-4.png",
+    "images/main_visual_image-5.png",
+    "images/main_visual_image-6.png",
+    "images/main_visual_image-7.png",
+  ];
 
   const cafeInfo = async () => {
     try {
-      const res = await axios.get(`http://localhost:3000/resultData`);
-      setCafeData(res.data);
+      const res = await axios.get(
+        `api/user?userLatitude=${state.center.lat}&userLongitude=${state.center.lng}`,
+      );
+      console.log("Response Data:", res.data);
+      setCafeData(res.data.resultData);
       console.log(setCafeData);
     } catch (error) {
       console.log(error);
@@ -60,22 +76,49 @@ const ListMain = () => {
     cafeInfo();
   }, []);
 
+  useEffect(() => {
+    if (navigator.geolocation) {
+      // GeoLocation을 이용해서 접속 위치를 얻어옵니다
+      navigator.geolocation.getCurrentPosition(
+        position => {
+          setState(prev => ({
+            ...prev,
+            center: {
+              lat: position.coords.latitude, // 위도
+              lng: position.coords.longitude, // 경도
+            },
+            isLoading: false,
+          }));
+        },
+        err => {
+          setState(prev => ({
+            ...prev,
+            errMsg: err.message,
+            isLoading: false,
+          }));
+        },
+      );
+    } else {
+      // HTML5의 GeoLocation을 사용할 수 없을때 마커 표시 위치와 인포윈도우 내용을 설정합니다
+      setState(prev => ({
+        ...prev,
+        errMsg: "geolocation을 사용할수 없어요..",
+        isLoading: false,
+      }));
+    }
+  }, []);
   return (
     <div style={{ width: "100%" }}>
       <Swiper className="mySwiper" style={{ margin: "30px 0" }}>
-        {slideData.map(slide => {
-          <SwiperSlide slideData={slideData} setSlideData={setSlideData}>
-            <SlideItem onSendData={handleSlideData} />
-          </SwiperSlide>;
-        })}
+        {slideData.map((slide, index) => (
+          <SwiperSlide key={index}>
+            <SlideItem image={slide} />
+          </SwiperSlide>
+        ))}
       </Swiper>
       <div>
         <TitleFlex to="#">
           <h2>요즘은 #아샷추 가 대세</h2>
-          <span>
-            더보기
-            <IoIosArrowForward />
-          </span>
         </TitleFlex>
         <Swiper
           slidesPerView={3}
@@ -96,10 +139,6 @@ const ListMain = () => {
       <div>
         <TitleFlex to="#">
           <h2>나와 가까운 매장</h2>
-          <span>
-            더보기
-            <IoIosArrowForward />
-          </span>
         </TitleFlex>
         <Swiper
           slidesPerView={3}

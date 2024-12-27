@@ -63,7 +63,7 @@ const MapMarkrtItem = ({ cafe }) => {
           </p>
           <p>
             <FaLocationDot />
-            {cafe.location}
+            {cafe.distance}m
           </p>
         </div>
       </Link>

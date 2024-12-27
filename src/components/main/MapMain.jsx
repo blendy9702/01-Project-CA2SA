@@ -48,8 +48,11 @@ const MapMain = () => {
 
   const cafeInfo = async () => {
     try {
-      const res = await axios.get(`http://localhost:3000/resultData`);
-      setCafeData(res.data);
+      const res = await axios.get(
+        `api/cafe/map?user_latitude=${state.center.lat}&user_longitude=${state.center.lng}`,
+      );
+      console.log(res.data);
+      setCafeData(res.data.resultData);
     } catch (error) {
       console.error(error);
     }
@@ -108,9 +111,9 @@ const MapMain = () => {
         level={4} // 지도의 확대 레벨
         onClick={handleMapClick}
       >
-        {cafeData.map((cafe, id) => (
+        {cafeData.map(cafe => (
           <CustomOverlayMap
-            key={cafe.id}
+            key={cafe.cafeId}
             position={{
               lat: cafe.latitude, // 카페의 위도
               lng: cafe.longitude, // 카페의 경도
@@ -118,18 +121,21 @@ const MapMain = () => {
           >
             <MapMarkerStyle
               onClick={
-                () => setOpenInfo(prev => (prev?.id === cafe.id ? null : cafe)) // 클릭된 카페 정보를 저장
+                () =>
+                  setOpenInfo(prev =>
+                    prev?.cafeId === cafe.cafeId ? null : cafe,
+                  ) // 클릭된 카페 정보를 저장
               }
             >
               {cafe.cafeName}
-              {openInfo === cafe.id && ( // 해당 카페만 열리도록 조건 추가
+              {openInfo === cafe.cafeId && ( // 해당 카페만 열리도록 조건 추가
                 <CustomOverlayMap
                   position={{
                     lat: cafe.latitude,
                     lng: cafe.longitude,
                   }}
                 >
-                  <MapMarkrtItem key={cafe.id} cafe={cafe} />
+                  <MapMarkrtItem key={cafe.cafeId} cafe={cafe} />
                 </CustomOverlayMap>
               )}
             </MapMarkerStyle>

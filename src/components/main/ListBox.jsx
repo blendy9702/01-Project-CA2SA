@@ -1,7 +1,5 @@
-import { Link } from "react-router-dom";
 import { FaLocationDot } from "react-icons/fa6";
 import styled from "styled-components";
-import { SwiperSlide } from "swiper/react";
 
 const ListBoxItem = styled.a`
   margin: 20px 0;
@@ -50,7 +48,7 @@ const ListBox = ({ cafe }) => {
       <h3>{cafe.cafeName}</h3>
       <p>
         <FaLocationDot />
-        {cafe.location}
+        {cafe.distance}m
       </p>
     </ListBoxItem>
   );
