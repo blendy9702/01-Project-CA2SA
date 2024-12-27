@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from "react";
-import { OrderContext } from "../../contexts/OrderContext";
+
 import {
   Link,
   useLocation,
@@ -11,6 +11,7 @@ import { IoIosArrowDown } from "react-icons/io";
 import Memo from "../../components/order/Memo";
 import PaymentOption from "../../components/order/PaymentOption";
 import { postOrder } from "../../apis/orderapi";
+import { OrderContext } from "../../contexts/OrderContext";
 
 const Payment = () => {
   const { order, setOrder, popMemo, setPopMemo } = useContext(OrderContext);

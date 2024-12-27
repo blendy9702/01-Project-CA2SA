@@ -7,6 +7,7 @@ import ListBox from "./ListBox";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import { Pagination } from "swiper/modules";
+import SlideItem from "./SlideItem";
 
 const ListitemBox = styled.div`
   display: flex;
@@ -29,7 +30,7 @@ const TitleFlex = styled.a`
   }
 `;
 
-const BannerWrap = styled.a`
+export const BannerWrap = styled.a`
   display: inline-block;
   img {
     object-fit: cover;
@@ -39,7 +40,12 @@ const BannerWrap = styled.a`
 `;
 
 const ListMain = () => {
+  const [slideData, setSlideData] = useState([]);
   const [cafeData, setCafeData] = useState([]); // API 데이터를 저장할 state
+
+  const handleSlideData = data => {
+    setSlideData(data);
+  };
 
   const cafeInfo = async () => {
     try {
@@ -56,9 +62,13 @@ const ListMain = () => {
 
   return (
     <div style={{ width: "100%" }}>
-      <BannerWrap to="#" style={{ margin: "30px 0" }}>
-        <img src="images/main_visual_image-0.png" alt="mainBanner" />
-      </BannerWrap>
+      <Swiper className="mySwiper" style={{ margin: "30px 0" }}>
+        {slideData.map(slide => {
+          <SwiperSlide slideData={slideData} setSlideData={setSlideData}>
+            <SlideItem onSendData={handleSlideData} />
+          </SwiperSlide>;
+        })}
+      </Swiper>
       <div>
         <TitleFlex to="#">
           <h2>요즘은 #아샷추 가 대세</h2>
@@ -112,7 +122,7 @@ const ListMain = () => {
         <img src="images/qna_banner.png" alt="QNABanner" />
       </BannerWrap>
       <BannerWrap to="#" style={{ "margin-top": "30px" }}>
-        <img src="images/event_banner.png" alt="eventBanner" />
+        <img src="images/Frame 307.png" alt="eventBanner" />
       </BannerWrap>
       <footer>
         <h1>logo</h1>
