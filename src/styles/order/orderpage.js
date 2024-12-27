@@ -9,8 +9,8 @@ export const OrderPageDiv = styled.div`
   position: relative;
   .go-menulist {
     position: fixed;
-    height: 60px;
     left: 50%;
+    height: 60px;
     transform: translateX(-50%);
     bottom: 7px;
     width: 600px;

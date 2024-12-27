@@ -27,7 +27,7 @@ import Service from "./pages/terms/Service";
 import OedersDetails from "./pages/orders/OedersDetails";
 import AdminPage from "./pages/ceoadmin/AdminPage";
 import { OrderContextProvider } from "./contexts/OrderContext";
-import { useEffect } from "react";
+import { UserPageProvider } from "./contexts/UserPageContext";
 
 function App() {
   const isLogin = true;
@@ -36,52 +36,61 @@ function App() {
     <div style={{ maxWidth: "640px", width: "100%", margin: "0 auto" }}>
       <Router>
         <OrderContextProvider>
-          <Routes>
-            {/* 홈 */}
-            <Route
-              path="/"
-              element={isLogin ? <Index /> : <Navigate to="/login" replace />}
-            />
-            {/* 회원가입 */}
-            <Route path="/join">
-              <Route index element={<JoinPage />} /> {/* JoinPage */}
-              <Route path="signup" element={<SignUpPage />} />
-              <Route path="confirmform" element={<ConfirmForm />} />
-            </Route>
-            {/* 로그인 */}
-            <Route path="/login" element={<LoginPage />} />
-            <Route path="/reset-password" element={<ResetPassword />} />
-            {/* 검색 */}
-            <Route path="/search">
-              <Route index element={<SearchPage />} /> {/* SearchPage */}
-            </Route>
-            {/* 주문 */}
-            <Route path="/order">
-              <Route index element={<OrderPage />} /> {/* OrderPage */}
-              <Route path="menu" element={<MenuList />} />
-              <Route path=":menuId" element={<MenuDetail />} />
-              <Route path="payment" element={<Payment />} />
-              <Route path="confirmation" element={<Confirmation />} />
-            </Route>
-            {/* 주문 내역 */}
-            <Route path="/orders" element={<OrdersPage />}>
+          <UserPageProvider>
+            <Routes>
+              {/* 홈 */}
               <Route
-                path="/orders/:menuId/details"
-                element={<OedersDetails />}
+                path="/"
+                element={isLogin ? <Index /> : <Navigate to="/login" replace />}
               />
-            </Route>
-            {/* 마이페이지 */}
-            <Route path="/mypage" element={<UserPage />} />
-            {/*약관페이지*/}
-            <Route path="/terms/service" element={<Service />} />
-            <Route path="/terms/privacy" element={<Privacy />} />
-            <Route path="/terms/marketing" element={<Marketing />} />
-            <Route path="/terms/payment" element={<PaymentService />} />
-            {/* 사장님페이지 */}
-            <Route path="/admin" element={<AdminPage />}></Route>
-            <Route path="*" element={<NotFound />}></Route>
-          </Routes>
-          <DockBar />
+              <Route
+                path="/"
+                element={isLogin ? <Index /> : <Navigate to="/login" replace />}
+              />
+              {/* 회원가입 */}
+              <Route path="/join">
+                <Route index element={<JoinPage />} /> {/* JoinPage */}
+                <Route path="signup" element={<SignUpPage />} />
+                <Route path="confirmform" element={<ConfirmForm />} />
+              </Route>
+              {/* 로그인 */}
+              <Route path="/login" element={<LoginPage />} />
+              <Route path="/reset-password" element={<ResetPassword />} />
+              {/* 검색 */}
+              <Route path="/search">
+                <Route index element={<SearchPage />} /> {/* SearchPage */}
+              </Route>
+              {/* 주문 */}
+              <Route path="/order">
+                <Route index element={<OrderPage />} /> {/* OrderPage */}
+                <Route path="menu" element={<MenuList />} />
+                <Route path=":menuId" element={<MenuDetail />} />
+                <Route path="payment" element={<Payment />} />
+                <Route
+                  path="confirmation/:orderId"
+                  element={<Confirmation />}
+                />
+              </Route>
+              {/* 주문 내역 */}
+              <Route path="/orders" element={<OrdersPage />}>
+                <Route
+                  path="/orders/:menuId/details"
+                  element={<OedersDetails />}
+                />
+              </Route>
+              {/* 마이페이지 */}
+              <Route path="/mypage" element={<UserPage />} />
+              {/*약관페이지*/}
+              <Route path="/terms/service" element={<Service />} />
+              <Route path="/terms/privacy" element={<Privacy />} />
+              <Route path="/terms/marketing" element={<Marketing />} />
+              <Route path="/terms/payment" element={<PaymentService />} />
+              {/* 사장님페이지 */}
+              <Route path="/admin" element={<AdminPage />}></Route>
+              <Route path="*" element={<NotFound />}></Route>
+            </Routes>
+            <DockBar />
+          </UserPageProvider>
         </OrderContextProvider>
       </Router>
     </div>
