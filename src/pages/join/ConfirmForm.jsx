@@ -1,16 +1,9 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
+import { LoginContext } from "../../contexts/LoginContext";
 
 const ConfirmForm = () => {
-  const initData = {
-    nickName: "",
-    email: "",
-    upw: "",
-    agree: 1,
-  };
-
-  const [formData, setFormData] = useState();
   const [code, setCode] = useState("");
   const [email, setEmail] = useState("");
   const [error, setError] = useState("");
@@ -18,10 +11,11 @@ const ConfirmForm = () => {
 
   const [authTimer, setAuthTimer] = useState(300);
   const [resendTimer, setResendTimer] = useState(0);
-  const [canResend, setCanResend] = useState(true);
+  const [Resend, setResend] = useState(true);
   const location = useLocation();
-  console.log("넘어오는 데이터들 : ", location);
+  console.log("넘어오는 데이터들 : ", location.state);
   const navigate = useNavigate();
+  // context
 
   // 이메일 정보 가져오기
   useEffect(() => {
@@ -38,15 +32,21 @@ const ConfirmForm = () => {
         code: code,
       });
 
+      console.log("서버 응답:", res.data);
+
       if (res.data.resultData) {
-        const newFormData = formData.omit(formData, ["passwordCheck"]);
-        console.log("새로운 폼데이터:", newFormData);
         const regData = {
-          ...formData,
+          nickName: location.state.nickName,
+          email: location.state.email,
+          upw: location.state.upw,
+          agree: location.state.agree,
         };
+        console.log("전송되는 데이터:", regData);
 
         // 회원가입 API 호출
         const regSignUp = await axios.post("/api/user/sign-up", regData);
+        console.log("뭐가 올까요?", regSignUp);
+        console.log("회원가입 응답 데이터:", regSignUp.data);
 
         if (regSignUp.data.resultData === 1) {
           setSuccess(true);
@@ -66,7 +66,7 @@ const ConfirmForm = () => {
 
   // 이메일 재전송
   const handleResendEmail = async () => {
-    if (!canResend) return;
+    if (!Resend) return;
 
     try {
       const res = await axios.post("/api/email-auth/send-code", {
@@ -75,8 +75,8 @@ const ConfirmForm = () => {
       console.log("서버 응답 데이터:", res.data);
       if (res.data.resultData === true) {
         alert("인증 이메일이 재전송되었습니다!");
-        setCanResend(false);
-        setResendTimer(10);
+        setResend(false);
+        setResendTimer(5);
         setAuthTimer(300);
       } else {
         setError("이메일 재전송에 실패했습니다.");
@@ -87,18 +87,18 @@ const ConfirmForm = () => {
     }
   };
 
-  // 인증 타이머 처리
-  // useEffect(() => {
-  //   let interval;
-  //   if (authTimer > 0) {
-  //     interval = setInterval(() => {
-  //       setAuthTimer(prevAuthTimer => prevAuthTimer - 1);
-  //     }, 1000);
-  //   } else if (authTimer === 0) {
-  //     setError("인증 시간이 만료되었습니다. 다시 시도해 주세요.");
-  //   }
-  //   return () => clearInterval(interval);
-  // }, [authTimer]);
+  //인증 타이머 처리
+  useEffect(() => {
+    let interval;
+    if (authTimer > 0) {
+      interval = setInterval(() => {
+        setAuthTimer(prevAuthTimer => prevAuthTimer - 1);
+      }, 1000);
+    } else if (authTimer === 0) {
+      setError("인증 시간이 만료되었습니다. 다시 시도해 주세요.");
+    }
+    return () => clearInterval(interval);
+  }, [authTimer]);
 
   // 재전송 타이머 처리
   useEffect(() => {
@@ -108,7 +108,7 @@ const ConfirmForm = () => {
         setResendTimer(prevResendTimer => prevResendTimer - 1);
       }, 1000);
     } else if (resendTimer === 0) {
-      setCanResend(true);
+      setResend(true);
       clearInterval(interval);
     }
     return () => clearInterval(interval);
@@ -169,9 +169,9 @@ const ConfirmForm = () => {
               <button
                 type="button"
                 onClick={handleResendEmail}
-                disabled={!canResend}
+                disabled={!Resend}
               >
-                {canResend
+                {Resend
                   ? "이메일 재전송"
                   : `재전송 대기 중 (${formatTime(resendTimer)})`}
               </button>

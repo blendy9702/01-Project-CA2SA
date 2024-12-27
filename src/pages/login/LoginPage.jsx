@@ -1,8 +1,8 @@
 import { yupResolver } from "@hookform/resolvers/yup";
-import { useState } from "react";
-import { useForm } from "react-hook-form";
-import { Link } from "react-router-dom";
 import axios from "axios";
+import { useContext, useState } from "react";
+import { useForm } from "react-hook-form";
+import { Link, useNavigate } from "react-router-dom";
 import * as yup from "yup";
 import {
   EmailArea,
@@ -10,8 +10,9 @@ import {
   LoginTopArea,
   LoginWrap,
   ServiceTextArea,
-  SingUpButton,
+  SignUpButton,
 } from "../../styles/join/joinpage";
+import { UserPageContext } from "../../contexts/UserPageContext";
 
 const loginSchema = yup.object({
   email: yup
@@ -36,26 +37,33 @@ const LoginPage = () => {
     mode: "onChange",
   });
   const [loginError, setLoginError] = useState("");
-
+  const navigate = useNavigate();
+  const { myPage, setMyPage } = useContext(UserPageContext);
+  // setMyPage{...로그인정보 담은 객체}
   // 로그인 요청 처리
   const handleSubmitForm = async data => {
     try {
-      const res = await axios.post("/api/user/sing-in", {
+      const response = await axios.post("/api/user/sign-in", {
         email: data.email,
         upw: data.upw,
       });
-
       // 로그인
-      if (res.data && res.data.success) {
+      console.log("Response Data: ", response.data);
+      if (response.data && response.data.resultMessage === "로그인 성공") {
         setLoginError("");
-        alert(`환영합니다, ${res.data.nickName}님! ヾ(•ω•)o`);
+        alert(`환영합니다, ${response.data.nickName}님! ヾ(•ω•)o`);
+        navigate("/");
+        // 세션 스토리지
+        sessionStorage.setItem("userData", JSON.stringify(response.data));
       } else {
-        setLoginError("로그인에 실패했습니다. 다시 시도해주세요.");
+        setLoginError(
+          response.data.message || "이메일과 비밀번호가 일치하지 않습니다.",
+        );
       }
     } catch (error) {
       console.error(error);
-      if (error.res && error.res.data.message) {
-        setLoginError(error.res.data.message);
+      if (error.response && error.response.data.message) {
+        setLoginError(error.response.data.message);
       } else {
         setLoginError("서버와의 연결에 실패했습니다. 다시 시도해주세요.");
       }
@@ -74,8 +82,8 @@ const LoginPage = () => {
       </LoginTopArea>
       <div className="loginMainWrap">
         <ServiceTextArea>
-          <div className="ca2sa">
-            <span>CA2SA</span>
+          <div>
+            <span className="ca2sa">CA2SA</span>
           </div>
           <div className="serviceText">
             <span>서비스 이용을 위해 로그인을 해주세요</span>
@@ -108,11 +116,10 @@ const LoginPage = () => {
               <button type="submit">로그인</button>
             </LoginButton>
           </div>
-          <SingUpButton>
-            <Link to="/join">
-              <button>회원가입</button>
-            </Link>
-          </SingUpButton>
+
+          <Link to="/join">
+            <SignUpButton>회원가입</SignUpButton>
+          </Link>
         </form>
       </div>
     </div>
