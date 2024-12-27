@@ -37,8 +37,12 @@ function App() {
       <Router>
         <OrderContextProvider>
           <UserPageProvider>
-            <Routes>
-              {/* 홈 */}
+          <Routes>
+            {/* 홈 */}
+            <Route
+              path="/"
+              element={isLogin ? <Index /> : <Navigate to="/login" replace />}
+            />
               <Route
                 path="/"
                 element={isLogin ? <Index /> : <Navigate to="/login" replace />}
