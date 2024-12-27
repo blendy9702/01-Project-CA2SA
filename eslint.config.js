@@ -39,6 +39,7 @@ export default [
       ],
       "prettier/prettier": "warn",
       "react/prop-types": "off",
+      "no-unused-vars": "off", //임시
     },
   },
 ];

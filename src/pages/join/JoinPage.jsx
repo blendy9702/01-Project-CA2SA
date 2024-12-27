@@ -5,19 +5,10 @@ import { Link, useNavigate } from "react-router-dom";
 import * as yup from "yup";
 import axios from "axios";
 
-const initData = [
-  {
-    nickName: "홍길동",
-    email: "yaho@gmail.com",
-    upw: "1111",
-    agree: 1,
-  },
-];
-
 const loginSchema = yup.object({
   nickName: yup
     .string()
-    .min(3, "3글자 이상 입력하세요.")
+    .min(3, "3글자 이상 입력하세요")
     .required("닉네임을 입력하세요."),
   email: yup
     .string()
@@ -38,7 +29,7 @@ const JoinPage = () => {
     formState: { errors, isValid },
   } = useForm({
     resolver: yupResolver(loginSchema),
-    defaultValues: { nickName: "", email: "", upw: "" },
+    defaultValues: { nickName: "", email: "", upw: "", agree: "1" },
     mode: "onChange",
   });
 
@@ -50,7 +41,12 @@ const JoinPage = () => {
   });
   const [isEmailValid, setIsEmailValid] = useState(false);
   const [emailError, setEmailError] = useState("");
-  const navigate = useNavigate();
+  const navigate = useNavigate({
+    nickName: "",
+    email: "",
+    upw: "",
+    agree: "1",
+  });
 
   // 패스워드 일치 확인
   const email = watch("email");
@@ -60,13 +56,16 @@ const JoinPage = () => {
   // 이메일 중복 확인
   const handleEmailValidation = async email => {
     try {
-      const res = await axios.get("/api/user/check-email", { email });
-      if (res.data?.isDuplicate) {
+      const res = await axios.get("/api/user/check-email", {
+        params: { email },
+      });
+      console.log("서버 응답 데이터:", res.data);
+      if (res.data?.resultData === 0) {
         setIsEmailValid(false);
         setEmailError("이미 사용 중인 이메일입니다.");
       } else {
         setIsEmailValid(true);
-        alert("사용 가능한 이메일입니다.");
+        setEmailError("사용 가능한 이메일입니다.");
       }
     } catch (error) {
       console.error("이메일 확인 오류:", error.response || error.message);
@@ -85,7 +84,7 @@ const JoinPage = () => {
       });
       alert("인증코드가 발송되었습니다.");
       // 인증 코드 확인 페이지로 이동
-      navigate("/join/confirmform", { state: { email: data.email } });
+      navigate("/join/confirmform", { state: data });
     } catch (error) {
       console.error(
         "API 요청 에러:",
@@ -132,7 +131,7 @@ const JoinPage = () => {
         </div>
         <div className="joinPageMainWrap">
           <div className="joinPageTextArea">
-            <span>회원정보를 입력해주세요.</span>
+            <span>회원정보를 입력해주세요</span>
             <div className="joinPageNickName">
               <p>닉네임</p>
               <input

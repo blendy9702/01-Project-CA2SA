@@ -1,23 +1,33 @@
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { DockBarNav } from "../styles/common";
 import { AiFillHome } from "react-icons/ai";
 import { HiMiniReceiptPercent } from "react-icons/hi2";
 import { BiSolidUser } from "react-icons/bi";
+import styled from "styled-components";
+
+const StyledLink = styled(Link)`
+  color: ${props =>
+    props.$isActive ? "var(--primary-color)" : "var(--color-gray-900)"};
+`;
 
 function DockBar() {
+  const location = useLocation();
+
+  const isActive = path => location.pathname === path;
+
   return (
     <DockBarNav>
-      <Link to="/">
+      <StyledLink to="/" $isActive={isActive("/")}>
         <AiFillHome />홈
-      </Link>
-      <Link to="/orders">
+      </StyledLink>
+      <StyledLink to="/orders" $isActive={isActive("/orders")}>
         <HiMiniReceiptPercent />
         주문내역
-      </Link>
-      <Link to="/mypage">
+      </StyledLink>
+      <StyledLink to="/mypage" $isActive={isActive("/mypage")}>
         <BiSolidUser />
         마이페이지
-      </Link>
+      </StyledLink>
     </DockBarNav>
   );
 }

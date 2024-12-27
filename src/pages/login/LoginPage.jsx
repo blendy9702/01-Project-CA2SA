@@ -1,18 +1,19 @@
 import { yupResolver } from "@hookform/resolvers/yup";
-import { useState } from "react";
-import { useForm } from "react-hook-form";
-import { Link } from "react-router-dom";
 import axios from "axios";
+import { useContext, useState } from "react";
+import { useForm } from "react-hook-form";
+import { Link, useNavigate } from "react-router-dom";
 import * as yup from "yup";
 import {
   EmailArea,
   LoginButton,
-  LoginMainWrap,
   LoginTopArea,
   LoginWrap,
+  LoingText,
   ServiceTextArea,
-  SingUpButton,
-} from "../../styles/join/loginpage";
+  SignUpButton,
+} from "../../styles/join/joinpage";
+import { UserPageContext } from "../../contexts/UserPageContext";
 
 const loginSchema = yup.object({
   email: yup
@@ -37,26 +38,34 @@ const LoginPage = () => {
     mode: "onChange",
   });
   const [loginError, setLoginError] = useState("");
+  const navigate = useNavigate();
+  const { myPage, setMyPage } = useContext(UserPageContext);
 
   // 로그인 요청 처리
   const handleSubmitForm = async data => {
     try {
-      const res = await axios.post("/api/user/sing-in", {
+      const response = await axios.post("/api/user/sign-in", {
         email: data.email,
         upw: data.upw,
       });
-
       // 로그인
-      if (res.data && res.data.success) {
+      console.log("Response Data: ", response.data);
+      if (response.data && response.data.resultMessage === "로그인 성공") {
+        setMyPage(response.data.resultData);
         setLoginError("");
-        alert(`환영합니다, ${res.data.nickName}님! ヾ(•ω•)o`);
+        alert(`환영합니다, ${response.data.resultData.nickName}님! ヾ(•ω•)o`);
+        navigate("/");
+        // 세션 스토리지
+        sessionStorage.setItem("userData", JSON.stringify(response.data));
       } else {
-        setLoginError("로그인에 실패했습니다. 다시 시도해주세요.");
+        setLoginError(
+          response.data.message || "이메일과 비밀번호가 일치하지 않습니다.",
+        );
       }
     } catch (error) {
       console.error(error);
-      if (error.res && error.res.data.message) {
-        setLoginError(error.res.data.message);
+      if (error.response && error.response.data.message) {
+        setLoginError(error.response.data.message);
       } else {
         setLoginError("서버와의 연결에 실패했습니다. 다시 시도해주세요.");
       }
@@ -64,29 +73,28 @@ const LoginPage = () => {
   };
 
   return (
-    <div style={{ width: "100%", height: "812px" }}>
+    <div>
       <LoginTopArea>
         <div>
           <a href="#">X</a>
         </div>
         <div>
-          <p>로그인</p>
+          <LoingText>로그인</LoingText>
         </div>
       </LoginTopArea>
-      <LoginMainWrap>
+      <div className="loginMainWrap">
         <ServiceTextArea>
-          <div className="ca2sa">
-            <span>CA2SA</span>
+          <div>
+            <span className="ca2sa">CA2SA</span>
           </div>
           <div className="serviceText">
-            <span>서비스 이용을 위해 로그인을 해주세요.</span>
+            <span>서비스 이용을 위해 로그인을 해주세요</span>
           </div>
         </ServiceTextArea>
         <form onSubmit={handleSubmit(handleSubmitForm)}>
           <LoginWrap>
             <EmailArea>
-              <span>이메일</span>
-              <br />
+              <p>이메일</p>
               <input
                 {...register("email")}
                 type="text"
@@ -95,8 +103,7 @@ const LoginPage = () => {
               <p style={{ color: "red" }}>{errors.email?.message}</p>
             </EmailArea>
             <div className="passwordArea">
-              <span>비밀번호</span>
-              <br />
+              <p>비밀번호</p>
               <input
                 {...register("upw")}
                 type="password"
@@ -111,14 +118,11 @@ const LoginPage = () => {
               <button type="submit">로그인</button>
             </LoginButton>
           </div>
+          <Link to="/join">
+            <SignUpButton>회원가입</SignUpButton>
+          </Link>
         </form>
-
-        <Link to="/join">
-          <SingUpButton>
-            <button>회원가입</button>
-          </SingUpButton>
-        </Link>
-      </LoginMainWrap>
+      </div>
     </div>
   );
 };
