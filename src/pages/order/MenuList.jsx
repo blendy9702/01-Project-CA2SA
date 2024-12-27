@@ -1,5 +1,6 @@
+import axios from "axios";
 import { useContext, useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
 import { getCafeInfo, getCafeMenuList } from "../../apis/order";
 import Menu from "../../components/order/Menu";
 import NavBar from "../../components/order/NavBar";
@@ -8,24 +9,84 @@ import { SearchInput } from "../../styles/common";
 import { CateButton, CateListDiv } from "../../styles/order/orderpage";
 
 const MenuList = () => {
+  // useSearchParams
+  const [searchParams, setSearchParams] = useSearchParams();
+  // useNavigate
   const navigate = useNavigate();
+  const location = useLocation();
+  const locationData = location.state;
+  console.log("locatation", locationData);
+  const cafeId = locationData[0];
+  const cafeInfo = locationData[1];
+  const fromPage = locationData[2].prev;
+
+  const handleNavigateBack = () => {
+    navigate(`/order?cafeName=${cafeId.cafeName}`, {
+      state: [cafeId, cafeInfo],
+    });
+  };
+  const handleNavigateMenuOption = item => {
+    navigate(`/order/${item.menuId}`, {
+      state: [cafeId, cafeInfo, { from: "/menu" }, item],
+    });
+  };
+  const handleNavigatePayment = () => {
+    navigate(`/order/payment?cafeName=${cafeInfo.cafeName}`, {
+      state: [cafeId, cafeInfo, { from: "/menu" }],
+    });
+  };
+
   // 앞에서 보낸 navigate의 state 받아오기
   const { order } = useContext(OrderContext);
-
+  // useState
   const [selectedCate, setSelectedCate] = useState(0);
+  const [cafeMenuData, setCafeMenuData] = useState({});
+  const [cateList, setCateList] = useState([]);
+
+  // 정보 받아오기
   useEffect(() => {
-    console.log("cafeId:", 2);
-    getCafeMenuList(2); //임시 아이디 입력
+    const getCafeMenu = async data => {
+      try {
+        const res = await axios.get(`/api/menu?cafeId=${data}`);
+        const resultData = res.data.resultData;
+        setCafeMenuData(resultData);
+        setCateList(
+          resultData.map((item, index) => {
+            return item.categoryName;
+          }),
+        );
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    getCafeMenu(cafeId.cafeId);
   }, []);
-  const cateList = ["커피", "디카페인", "티", "시즌메뉴"];
+
+  // cafeMenuData에 잘 담겨있는가
+  useEffect(() => {
+    // console.log("cafeMenuData", cafeMenuData);
+    // console.log("cateList", cateList);
+  }, [cafeMenuData, cateList]);
+
+  // 메뉴 리스트에서 카테고리 정보 뽑아내기
+  const cateArr = [...cateList];
+
+  // console.log("categoryArr:", categoryArr);
   const handleClickCate = (item, index) => {
     setSelectedCate(index);
-
-    // 예정: cateId에 따른 메뉴 불러오기 axios 실행
   };
+  const itemCount = order.menuList.reduce((acc, curr) => {
+    const totalCount = acc + curr.count;
+    return totalCount;
+  }, 0);
+
   return (
-    <div style={{ maxWidth: "640px;", position: "relative", margin: "0 auto" }}>
-      <NavBar path={"/"} title={"cafeName"} scrollevent={false} />
+    <div style={{ maxWidth: "640px", position: "relative", margin: "0 auto" }}>
+      <NavBar
+        onClick={handleNavigateBack}
+        icon={"back"}
+        title={cafeInfo.cafeName}
+      />
       <div
         className="header"
         style={{
@@ -40,7 +101,7 @@ const MenuList = () => {
           />
         </div>
         <CateListDiv>
-          {cateList.map((item, index) => {
+          {cateArr.map((item, index) => {
             return (
               <CateButton
                 key={index}
@@ -57,22 +118,16 @@ const MenuList = () => {
         </CateListDiv>
       </div>
       <div className="cate-detail" style={{ padding: 20 }}>
-        <h3>{cateList[selectedCate]}</h3>
+        <h3>고른 카테고리</h3>
         <div className="menu-list">
-          {/* 지금은 데이터 따라 리스트 나열만 있음.. */}
-          {/* 클릭시 메뉴 아이디를 통해, 메뉴 상세 정보를 불러오기 */}
-          {getCafeMenuList.map((item, index) => {
+          {cafeMenuData[0]?.menu.map((item, index) => {
             return (
-              <div
-                key={index}
-                style={{ display: "flex" }}
-                onClick={() =>
-                  navigate(`/order/${item.menuId}`, {
-                    state: item,
-                  })
-                }
-              >
-                <Menu item={item} index={index} />
+              <div key={index}>
+                <Menu
+                  item={item}
+                  index={index}
+                  onClick={() => handleNavigateMenuOption(item)}
+                />
               </div>
             );
           })}
@@ -95,20 +150,11 @@ const MenuList = () => {
           borderRadius: 8,
         }}
         type="button"
-        onClick={() => {
-          navigate(
-            `/order/payment?cafeName=${getCafeInfo.resultData.cafeName}`,
-            { state: getCafeInfo.resultData.cafeName },
-          );
-        }}
+        onClick={handleNavigatePayment}
       >
-        <sapn style={{ fontSize: 18, color: "#fff", "font-weight": "bold" }}>
-          {order.menuList.reduce((acc, curr) => {
-            const totalCount = acc + curr.count;
-            return totalCount;
-          }, 0)}{" "}
-          | 장바구니
-        </sapn>
+        <div style={{ fontSize: 18, color: "#fff", fontWeight: "bold" }}>
+          {itemCount}| 장바구니
+        </div>
         <span
           style={{
             width: 15,
@@ -117,15 +163,12 @@ const MenuList = () => {
             borderRadius: 10,
             color: "var(--primary-color)",
             fontSize: 12,
-            "font-weight": "bold",
+            fontWeight: "bold",
             textAlign: "center",
             alignItems: "center",
           }}
         >
-          {order.menuList.reduce((acc, curr) => {
-            const totalCount = acc + curr.count;
-            return totalCount;
-          }, 0)}
+          {itemCount}
         </span>
       </button>
     </div>

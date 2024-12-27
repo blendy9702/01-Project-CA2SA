@@ -1,6 +1,8 @@
-const Menu = ({ item, index }) => {
+const Menu = ({ item, index, onClick }) => {
   return (
     <div
+      onClick={onClick}
+      className="menu"
       style={{
         display: "flex",
         width: "100%",
@@ -8,6 +10,7 @@ const Menu = ({ item, index }) => {
         alignItems: "center",
         justifyContent: "space-between",
         borderBottom: "1px solid var(--color-gray-100)",
+        cursor: "pointer",
       }}
     >
       <div className="menu-info" style={{ width: 400 }}>
@@ -36,7 +39,7 @@ const Menu = ({ item, index }) => {
       >
         {/* <img src={item.menuPic} alt="메뉴 사진" /> */}
         <img
-          src="/images/order/cat.jpg"
+          src={item.menuPic ? item.menuPic : "/images/order/cat.jpg"}
           alt="메뉴 사진"
           style={{ width: "100%", height: "100%", objectFit: "cover" }}
         />

@@ -1,19 +1,64 @@
+import axios from "axios";
 import { useContext, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { IoIosArrowBack } from "react-icons/io";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
-import { getMenuDetailInfo } from "../../apis/order";
-import { getMenuOption } from "../../apis/orderapi";
 import { OrderContext } from "../../contexts/OrderContext";
 
-// 메뉴 상세 데이터
-const MenuDetailInfo = getMenuDetailInfo.resultData;
-
 const MenuDetail = () => {
-  // 통신용 useEffect
+  //useNavigate
+  const navigate = useNavigate();
+  const location = useLocation();
+  const locationData = location.state;
+  console.log("LocationData:", locationData);
+  const cafeId = locationData[0];
+  const cafeInfo = locationData[1];
+  const fromPage = locationData[2].from;
+  const menuInfo = locationData[3];
+  const menuId = menuInfo.menuId;
+
+  const handleNavigateBack = () => {
+    navigate(fromPage, {
+      state: [{ cafeId: cafeId.cafeId }, cafeInfo, menuInfo],
+    });
+  };
+  const handleNavigateList = () => {
+    navigate("/order/menu", {
+      state: [{ cafeId: cafeId.cafeId }, cafeInfo, menuInfo],
+    });
+  };
+  const handleNavigatePaymet = () => {
+    navigate(`/order/payment?cafeName=${cafeInfo.cafeName}`, {
+      state: [{ cafeId: cafeId.cafeId }, cafeInfo, { from: "/menu" }],
+    });
+  };
+
+  // OrderContext
+  const { order, setOrder, cartList, setCartList, addCartList } =
+    useContext(OrderContext);
   useEffect(() => {
-    getMenuOption(1); //임시 메뉴 아이디 입력
+    console.log("order:", order);
+  }, [order]);
+
+  //메뉴 상세 옵션 불러오기
+  const [optionList, setOptionList] = useState([]);
+  useEffect(() => {
+    const getMenuOption = async data => {
+      try {
+        const res = await axios.get(`/api/menu/detail?menuId=${data}`);
+        const resultData = res.data.resultData;
+        setOptionList(resultData);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    getMenuOption(menuId);
   }, []);
+
+  // useEffect(() => {
+  //   console.log(`옵션 리스트:`, optionList);
+  // }, [optionList]);
+
   // react-hook-form
   const {
     register,
@@ -23,30 +68,25 @@ const MenuDetail = () => {
   } = useForm({
     defaultValues: {
       options: [],
-      price: MenuDetailInfo.price,
+      price: locationData.price,
       menuId: 1,
-      menuName: MenuDetailInfo.menuName,
+      menuName: locationData.menuName,
       count: 1,
     },
   });
+
   // useParams
   const { id } = useParams();
-  //useNavigate
-  const location = useLocation();
-  const menuInfo = location.state;
-  const navigate = useNavigate();
 
-  // OrderContext
-  const { order, setOrder, cartList, setCartList, addCartList } =
-    useContext(OrderContext);
-  // order가 제대로 바뀌고 있는지 확인
+  // 금액 계산용 useState
+  const [totalPrice, setTotalPrice] = useState(menuInfo.price);
   useEffect(() => {
-    console.log("order 상태:", order);
-  }, [order]);
+    setValue("price", totalPrice);
+  }, [totalPrice, setValue]);
 
   // 체크된 옵션을 [{menuOptionId:""}]로 바꾸기 위한 useState;
   const [options, setOptions] = useState([]);
-  // 옵션 추가, 가격 추가
+  //옵션 추가, 가격 추가
   const handleChange = (e, item) => {
     const option = { menuOptionId: e.target.value };
     setOptions(
@@ -63,16 +103,12 @@ const MenuDetail = () => {
     }
   };
 
-  // 금액 계산용 useState
-  const [totalPrice, setTotalPrice] = useState(MenuDetailInfo.price);
-  useEffect(() => {
-    setValue("price", totalPrice);
-  }, [totalPrice, setValue]);
+  // useEffect(() => {
+  //   console.log("options:", options);
+  // }, [options]);
 
-  useEffect(() => {
-    console.log("options:", options);
-  }, [options]);
-
+  // 옵션만 뽑아서 배열
+  const optionListArr = [...optionList];
   // 장바구니에 추가하기
   const handleSubmitForm = data => {
     addCartList(data);
@@ -91,10 +127,10 @@ const MenuDetail = () => {
         <div className="cafeName"></div>
       </div>
       <div className="orderDetail">
-        <div className="menuInfo">
-          <p className="menuName">{MenuDetailInfo.menuName}</p>
-          <p className="comment">{MenuDetailInfo.comment}</p>
-          <p className="comment">{MenuDetailInfo.price}</p>
+        <div className="locationData">
+          <p className="menuName">{menuInfo.menuName}</p>
+          <p className="comment">{menuInfo.comment}</p>
+          <p className="comment">{menuInfo.price}</p>
         </div>
       </div>
       <div className="formBox">
@@ -106,7 +142,7 @@ const MenuDetail = () => {
               type="text"
               name="menuId"
               id="menuId"
-              value={1} // 임시 메뉴 아이디
+              value={menuId} // 임시 메뉴 아이디
               {...register("menuId")}
             />
             <label>메뉴 이름</label>
@@ -114,7 +150,7 @@ const MenuDetail = () => {
               type="text"
               name="menuName"
               id="menuName"
-              value={MenuDetailInfo.menuName}
+              value={menuInfo.menuName}
               {...register("menuName")}
             />
             <label>수량</label>
@@ -131,18 +167,18 @@ const MenuDetail = () => {
               name="price"
               id="price"
               value={totalPrice}
-              {...register("price")}
+              {...register("price", { setValueAs: value => Number(value) })}
             />
           </div>
 
           {/* 선택 옵션 */}
-          {MenuDetailInfo.options.map((item, index) => {
+          {optionListArr.map((item, index) => {
             return (
               <div key={index}>
                 <input
                   type="checkbox"
                   id={item.optionName}
-                  value={item.menuOptionId}
+                  value={item.optionName}
                   {...register("options")}
                   onChange={e => {
                     if (e.target.checked === true) {
@@ -156,20 +192,10 @@ const MenuDetail = () => {
               </div>
             );
           })}
-          <button
-            type="submit"
-            onClick={() => {
-              navigate("/order/payment");
-            }}
-          >
+          <button type="submit" onClick={handleNavigatePaymet}>
             바로주문
           </button>
-          <button
-            type="submit"
-            onClick={() => {
-              navigate("/order/menu");
-            }}
-          >
+          <button type="submit" onClick={handleNavigateList}>
             금액: {totalPrice}
           </button>
         </form>

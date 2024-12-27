@@ -11,9 +11,31 @@ import { IoIosArrowDown } from "react-icons/io";
 import Memo from "../../components/order/Memo";
 import PaymentOption from "../../components/order/PaymentOption";
 import { postOrder } from "../../apis/orderapi";
+import axios from "axios";
 
 const Payment = () => {
+  // 쿼리 스트링 주소 처리
+  const [searchParams, setSearchParams] = useSearchParams();
+  // useContext
   const { order, setOrder, popMemo, setPopMemo } = useContext(OrderContext);
+  useEffect(() => {
+    console.log("order:", order);
+  }, [order]);
+
+  // uesNavigate
+  const navigate = useNavigate();
+  const location = useLocation();
+  const locationData = location.state;
+  console.log("locationData", locationData);
+  const cafeId = locationData[0];
+  const cafeInfo = locationData[1];
+  const fromPage = locationData[2];
+  const handleNavigateClose = () => {
+    navigate(`/order`, {
+      state: [{ cafeId: cafeId }, cafeInfo, { from: "/menu" }],
+    });
+  };
+
   // order가 제대로 바뀌고 있는지 확인, 오자마자 배열 정리시키기
   useEffect(() => {
     //중복 메뉴 합치기
@@ -50,15 +72,7 @@ const Payment = () => {
       return { ...prevOrder, menuList: stackedOrder };
     });
   }, [setOrder]);
-
   console.log(order);
-  // uesNavigate
-  const navigation = useNavigate();
-  const location = useLocation();
-  const cafeName = location.state;
-
-  // 쿼리 스트링 주소 처리
-  const [searchParams, setSearchParams] = useSearchParams();
 
   // 수량 변경
   const handleClickMinus = index => {
@@ -93,7 +107,7 @@ const Payment = () => {
     <div>
       <div className="top">
         <Link to="/order/menu">X</Link>
-        <p>{cafeName}</p>
+        <p>{cafeInfo.cafeName}</p>
       </div>
       <div className="orderList">
         {order.menuList.map((item, index) => {
@@ -106,7 +120,7 @@ const Payment = () => {
                   {item.beans === true ? `/${item.beans}` : null}
                   {item.addOption === true ? `/${item.addOption}` : null}
                 </p>
-                <p>{item.price * item.count}</p>
+                <p>{item.price}</p>
               </div>
               <div className="count">
                 <button type="button" onClick={() => handleClickMinus(index)}>
