@@ -87,18 +87,18 @@ const ConfirmForm = () => {
     }
   };
 
-  // 인증 타이머 처리
-  // useEffect(() => {
-  //   let interval;
-  //   if (authTimer > 0) {
-  //     interval = setInterval(() => {
-  //       setAuthTimer(prevAuthTimer => prevAuthTimer - 1);
-  //     }, 1000);
-  //   } else if (authTimer === 0) {
-  //     setError("인증 시간이 만료되었습니다. 다시 시도해 주세요.");
-  //   }
-  //   return () => clearInterval(interval);
-  // }, [authTimer]);
+  //인증 타이머 처리
+  useEffect(() => {
+    let interval;
+    if (authTimer > 0) {
+      interval = setInterval(() => {
+        setAuthTimer(prevAuthTimer => prevAuthTimer - 1);
+      }, 1000);
+    } else if (authTimer === 0) {
+      setError("인증 시간이 만료되었습니다. 다시 시도해 주세요.");
+    }
+    return () => clearInterval(interval);
+  }, [authTimer]);
 
   // 재전송 타이머 처리
   useEffect(() => {
