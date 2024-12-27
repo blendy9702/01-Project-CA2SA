@@ -39,7 +39,7 @@ const LoginPage = () => {
   const [loginError, setLoginError] = useState("");
   const navigate = useNavigate();
   const { myPage, setMyPage } = useContext(UserPageContext);
-  // setMyPage{...로그인정보 담은 객체}
+
   // 로그인 요청 처리
   const handleSubmitForm = async data => {
     try {
@@ -50,8 +50,9 @@ const LoginPage = () => {
       // 로그인
       console.log("Response Data: ", response.data);
       if (response.data && response.data.resultMessage === "로그인 성공") {
+        setMyPage(response.data.resultData);
         setLoginError("");
-        alert(`환영합니다, ${response.data.nickName}님! ヾ(•ω•)o`);
+        alert(`환영합니다, ${response.data.resultData.nickName}님! ヾ(•ω•)o`);
         navigate("/");
         // 세션 스토리지
         sessionStorage.setItem("userData", JSON.stringify(response.data));
