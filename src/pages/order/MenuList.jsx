@@ -59,13 +59,13 @@ const MenuList = () => {
     });
   };
   const handleNavigateMenuOption = item => {
-    navigate(`/order/${item.menuId}`, {
-      state: [cafeId, cafeInfo, { from: "/menu" }, item],
+    navigate(`/order/menu/detail?menuId=${item.menuId}`, {
+      state: [cafeId, cafeInfo, { from: `/order/menu?cafeId=${cafeId}` }, item],
     });
   };
   const handleNavigatePayment = () => {
     navigate(`/order/payment?cafeName=${cafeInfo.cafeName}`, {
-      state: [cafeId, cafeInfo, { from: "/menu" }],
+      state: [cafeId, cafeInfo, { from: `/order/menu?cafeId=${cafeId}` }],
     });
   };
 

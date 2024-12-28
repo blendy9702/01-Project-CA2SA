@@ -33,47 +33,52 @@ const Payment = () => {
   const fromPage = locationData[2];
   const handleNavigateClose = () => {
     navigate(`/order`, {
-      state: [{ cafeId: cafeId }, cafeInfo, { from: "/menu" }],
+      state: [{ cafeId: cafeId }, cafeInfo],
     });
   };
+  // 오자마자 cafeId, userId 다시 확인하고 집어 넣기
+  useEffect(() => {
+    setOrder({ ...order, cafeId: cafeId.cafeId, userId: 0 });
+  }, []);
 
   // order가 제대로 바뀌고 있는지 확인, 오자마자 배열 정리시키기
-  useEffect(() => {
-    //중복 메뉴 합치기
-    //임시 메뉴 리스트 부여
-    const orderList = [...order.menuList];
-    console.log("장바구니 목록:", orderList);
-    const stackedOrder = orderList.reduce((acc, curr) => {
-      //options를 객체로 변환시키기
-      const parsedOptions = curr.options.map(option => {
-        try {
-          // option이 문자열이라면 { menuOptionId: option } 형태로 변환
-          return { menuOptionId: option };
-        } catch (e) {
-          console.error("옵션 파싱 오류:", e);
-          return { menuOptionId: option }; // 오류 발생 시 원본 값을 그대로 사용
-        }
-      });
-      const existingOrder = acc.find(
-        item =>
-          item.menuId === curr.menuId &&
-          item.state === curr.state &&
-          item.size === curr.size &&
-          JSON.stringify(item.options) === JSON.stringify(parsedOptions),
-      );
-      if (existingOrder) {
-        existingOrder.count += Number(curr.count);
-      } else {
-        acc.push({ ...curr, options: parsedOptions });
-      }
-      return acc;
-    }, []);
-    console.log("정리된 배열:", stackedOrder);
-    setOrder(prevOrder => {
-      return { ...prevOrder, menuList: stackedOrder };
-    });
-  }, [setOrder]);
+  // useEffect(() => {
+  //중복 메뉴 합치기
+  //임시 메뉴 리스트 부여
+  //   const orderList = [...order.menuList];
+  //   console.log("장바구니 목록:", orderList);
+  //   const stackedOrder = orderList.reduce((acc, curr) => {
+  //     //options를 객체로 변환시키기
+  //     const parsedOptions = curr.options.map(option => {
+  //       try {
+  //         // option이 문자열이라면 { menuOptionId: option } 형태로 변환
+  //         return { menuOptionId: option };
+  //       } catch (e) {
+  //         console.error("옵션 파싱 오류:", e);
+  //         return { menuOptionId: option }; // 오류 발생 시 원본 값을 그대로 사용
+  //       }
+  //     });
+  //     const existingOrder = acc.find(
+  //       item =>
+  //         item.menuId === curr.menuId &&
+  //         item.state === curr.state &&
+  //         item.size === curr.size &&
+  //         JSON.stringify(item.options) === JSON.stringify(parsedOptions),
+  //     );
+  //     if (existingOrder) {
+  //       existingOrder.count += Number(curr.count);
+  //     } else {
+  //       acc.push({ ...curr, options: parsedOptions });
+  //     }
+  //     return acc;
+  //   }, []);
+  //   console.log("정리된 배열:", stackedOrder);
+  //   setOrder(prevOrder => {
+  //     return { ...prevOrder, menuList: stackedOrder };
+  //   });
+  // }, [setOrder]);
   console.log(order);
+  console.log("옵션 배열 있나요?", order.menuList[0].options);
 
   // 수량 변경
   const handleClickMinus = index => {
@@ -97,48 +102,135 @@ const Payment = () => {
 
   //결제 버튼
   const handleClickPay = () => {
+    // axios
+    const postOrder = async data => {
+      try {
+        const res = await axios.post(`/api/order`, data);
+        console.log(res.data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    postOrder(order);
+
     // postOrder(order); order에 있는 내용물을 보내고, 결과로 return result (=res.data)를 받기
     // resultData가 있다면(또는 1이라면) getOrderInfo해서 정보 불러오기
     // 해당 정보를 담아서 navigation의 state에 담아 다음 페이지로 보내기
     // 없다면, 실패라면 alert창이라도 띄우기
-    navigation(`/order/confirmation`);
   };
 
   return (
     <div>
       <NavBar onClick={handleNavigateClose} icon={"close"} title={"장바구니"} />
-      <div className="orderList">
-        {order.menuList.map((item, index) => {
-          return (
-            <div key={index}>
-              <div className="itemInfo">
-                <p className="itemName">{item.menuName}</p>
-                <p>
-                  {item.state} {item.size}
-                  {item.beans === true ? `/${item.beans}` : null}
-                  {item.addOption === true ? `/${item.addOption}` : null}
-                </p>
-                <p>{item.price}</p>
+      <div
+        className="orderList"
+        style={{
+          borderTop: "1px solid var( --color-gray-100)",
+          borderBottom: "1px solid var( --color-gray-100)",
+          padding: "18px 20px 26px 20px",
+        }}
+      >
+        <h4 style={{ paddingBottom: 17 }}>{cafeInfo.cafeName}</h4>
+        <div
+          className="orderList"
+          style={{
+            width: "100%",
+            padding: "20px",
+            border: "1px solid var(--color-gray-300)",
+            borderRadius: 8,
+          }}
+        >
+          {order.menuList.map((item, index) => {
+            return (
+              <div
+                className="menu"
+                key={index}
+                style={{
+                  width: "100%",
+                }}
+              >
+                <div className="itemInfo">
+                  <h5 className="itemName">{item.menuName}</h5>
+                  <div className="itemOption">
+                    {item.options.map((_item, _index) => {
+                      return (
+                        <span
+                          key={_index}
+                          style={{
+                            fontSize: 12,
+                            color: "var(--color-gray-500)",
+                          }}
+                        >
+                          {_item.menuOptionId}
+                        </span>
+                      );
+                    })}
+                  </div>
+                  <div
+                    className="count-price"
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "space-between",
+                    }}
+                  >
+                    <h5>{item.price}</h5>
+                    <div
+                      className="count"
+                      style={{
+                        display: "flex",
+                        height: 30,
+                        alignItems: "center",
+                      }}
+                    >
+                      <button
+                        type="button"
+                        onClick={() => handleClickMinus(index)}
+                        style={{
+                          width: 24,
+                          height: 24,
+                          fontSize: 24,
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "center",
+                          backgroundColor: "transparent",
+                          border: "none",
+                        }}
+                      >
+                        -
+                      </button>
+                      <input
+                        type="number"
+                        value={item.count}
+                        onChange={e => {
+                          item.count(e.target.value);
+                        }}
+                        style={{ width: 84, height: 30 }}
+                      />
+                      <button
+                        type="button"
+                        onClick={() => handleClickPluls(index)}
+                        style={{
+                          width: 24,
+                          height: 24,
+                          fontSize: 24,
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "center",
+                          backgroundColor: "transparent",
+                          border: "none",
+                        }}
+                      >
+                        +
+                      </button>
+                    </div>
+                  </div>
+                </div>
               </div>
-              <div className="count">
-                <button type="button" onClick={() => handleClickMinus(index)}>
-                  -
-                </button>
-                <input
-                  type="number"
-                  value={item.count}
-                  onChange={e => {
-                    item.count(e.target.value);
-                  }}
-                />
-                <button type="button" onClick={() => handleClickPluls(index)}>
-                  +
-                </button>
-              </div>
-            </div>
-          );
-        })}
-        <Link to="/order/menu">+ 메뉴 추가하기</Link>
+            );
+          })}
+        </div>
+        <button>+ 메뉴 추가하기</button>
       </div>
       <div className="pickUpTime" style={{ display: "flex", flexWrap: "wrap" }}>
         <p>예상 수령 시간</p>

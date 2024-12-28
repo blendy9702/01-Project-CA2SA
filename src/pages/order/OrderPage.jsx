@@ -5,7 +5,7 @@ import {
   OrderPageDiv,
   ThumImageDiv,
 } from "../../styles/order/orderpage";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { OrderContext } from "../../contexts/OrderContext";
 import { getCafeInfo, resPostLoginData } from "../../apis/order";
 import NavBar from "../../components/order/NavBar";
@@ -13,26 +13,29 @@ import { getCafe } from "../../apis/orderapi";
 import moment from "moment/moment";
 import axios from "axios";
 
-const mockData = {
-  resultMessage: "카페 정보 조회 완료",
-  resultData: {
-    cafeName: "백다방",
-    location: "대구 중구 동성로5길 11 1층",
-    tel: "0534286001",
-    cafePic: "cd55e4f8-7815-4618-9af4-74f11e5288fb.jpg",
-    openTime: "08:59:59",
-    closeTime: "09:00:00",
-  },
-};
-const mockDataResult = mockData.resultData;
+// mockData
+// const mockData = {
+//   resultMessage: "카페 정보 조회 완료",
+//   resultData: {
+//     cafeName: "로딩중",
+//     location: "로딩중",
+//     tel: "0534286001",
+//     cafePic: "cd55e4f8-7815-4618-9af4-74f11e5288fb.jpg",
+//     openTime: "08:59:59",
+//     closeTime: "09:00:00",
+//   },
+// };
+// const mockDataResult = mockData.resultData;
 
 const OrderPage = () => {
-  // 임시 카페 아이디 설정
-  const cafeId = 2;
   //useSearchPrams
   const [searchParams, setSearchParams] = useSearchParams();
   const cafe_id = searchParams.get("cafe_id");
-  console.log(cafe_id);
+  // useRef
+  const imgRef = useRef(null);
+  const imgtag = imgRef.current;
+  const imaURL = imgtag?.getAttribute("src");
+  console.log("이미지 주소:", imaURL);
   // useNavigation
   const navigate = useNavigate();
   const handleNavigateMain = () => {
@@ -45,12 +48,12 @@ const OrderPage = () => {
   };
   // context
   const { order, setOrder } = useContext(OrderContext);
-  // order가 제대로 바뀌고 있는지 확인
-  useEffect(() => {}, [order]);
 
   // useState
   const [cafeInfo, setCafeInfo] = useState({});
 
+  // 임시 카페 아이디 설정
+  const cafeId = 3;
   // 카페 정보 조회
   useEffect(() => {
     const getCafe = async data => {
@@ -63,8 +66,8 @@ const OrderPage = () => {
         console.log("카페정보 조회:", cafeInfo);
       } catch (error) {
         console.log("카페정보 조회:", error);
-        console.log("mockData가 적용됩니다.");
-        setCafeInfo(mockDataResult);
+        // console.log("mockData가 적용됩니다.");
+        // setCafeInfo(mockDataResult);
       }
     };
     getCafe(cafeId);
@@ -82,9 +85,10 @@ const OrderPage = () => {
         <img
           src={
             cafeInfo
-              ? `cafe/${cafeId}/${cafeInfo?.cafePic}`
+              ? `http://192.168.0.144:5214/download/ca2sa/image/cafe/${cafeId}/${cafeInfo?.cafePic}`
               : "/images/order/cat.jpg"
           }
+          ref={imgRef}
         ></img>
       </ThumImageDiv>
       <ContentDiv>

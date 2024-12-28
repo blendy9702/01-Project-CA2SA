@@ -1,4 +1,5 @@
 import styled from "@emotion/styled";
+import { css } from "styled-components";
 
 export const OrderPageDiv = styled.div`
   max-width: 640px;

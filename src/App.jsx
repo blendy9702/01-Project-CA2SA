@@ -64,7 +64,7 @@ function App() {
               <Route path="/order">
                 <Route index element={<OrderPage />} /> {/* OrderPage */}
                 <Route path="menu" element={<MenuList />} />
-                <Route path=":menuId" element={<MenuDetail />} />
+                <Route path="menu/detail" element={<MenuDetail />} />
                 <Route path="payment" element={<Payment />} />
                 <Route
                   path="confirmation/:orderId"

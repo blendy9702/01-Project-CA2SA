@@ -83,3 +83,15 @@ h4 {
 h5 {
   font-size: 16px;
 }
+
+.optionCheck input {
+  display: none;
+}
+.optionCheck input:checked + label {
+  padding-left: 15px;
+  background: url("/images/order/CheckboxOn.png") no-repeat;
+}
+.optionCheck label {
+  padding-left: 15px;
+  background: url("/images/order/checkboxOff.png") no-repeat;
+}

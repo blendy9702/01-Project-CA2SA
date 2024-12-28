@@ -1,12 +1,21 @@
+import { FaCheckSquare } from "react-icons/fa";
 import axios from "axios";
 import { useContext, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { IoIosArrowBack } from "react-icons/io";
-import { useLocation, useNavigate, useParams } from "react-router-dom";
+import {
+  useLocation,
+  useNavigate,
+  useParams,
+  useSearchParams,
+} from "react-router-dom";
 import { OrderContext } from "../../contexts/OrderContext";
 import NavBar from "../../components/order/NavBar";
+import { PrimaryButton, SecondaryButton } from "../../styles/common";
 
 const MenuDetail = () => {
+  // useParams
+  const [searchParams, setSearchParams] = useSearchParams();
   //useNavigate
   const navigate = useNavigate();
   const location = useLocation();
@@ -46,8 +55,10 @@ const MenuDetail = () => {
   useEffect(() => {
     const getMenuOption = async data => {
       try {
-        const res = await axios.get(`/api/menu/detail?menuId=${data}`);
+        // const res = await axios.get(`/api/menu/detail?menuId=${data}`); ///api/menu/detail
+        const res = await axios.get(`/api/cafe/menu/option?menu_id=${data}`); ////api/cafe/menu/option
         const resultData = res.data.resultData;
+        console.log(`menuId: ${menuId}의 상세 옵션 불러오기:`, resultData);
         setOptionList(resultData);
       } catch (error) {
         console.log(error);
@@ -68,16 +79,19 @@ const MenuDetail = () => {
     formState: { errors },
   } = useForm({
     defaultValues: {
+      cafeId: "",
       options: [],
       price: menuInfo.price,
-      menuId: 1,
+      menuId: "",
       menuName: menuInfo.menuName,
       count: 1,
     },
   });
-
-  // useParams
-  const { id } = useParams();
+  // cafeId, menuId에 value값 넣기
+  useEffect(() => {
+    setValue("cafeId", cafeId.cafeId);
+    setValue("menuId", menuId);
+  }, [cafeId, menuId, setValue]);
 
   // 금액 계산용 useState
   const [totalPrice, setTotalPrice] = useState(menuInfo.price);
@@ -89,7 +103,7 @@ const MenuDetail = () => {
   const [options, setOptions] = useState([]);
   //옵션 추가, 가격 추가
   const handleChange = (e, item) => {
-    const option = { menuOptionId: e.target.value };
+    const option = { menuOptionId: parseInt(e.target.value) };
     setOptions(
       prevOptions =>
         e.target.checked
@@ -104,15 +118,17 @@ const MenuDetail = () => {
     }
   };
 
-  // useEffect(() => {
-  //   console.log("options:", options);
-  // }, [options]);
+  useEffect(() => {
+    console.log("options:", options);
+  }, [options]);
 
   // 옵션만 뽑아서 배열
   const optionListArr = [...optionList];
   // 장바구니에 추가하기
   const handleSubmitForm = data => {
-    addCartList(data);
+    console.log("formData:", data);
+    const fixedFormData = { ...data, options: options };
+    addCartList(fixedFormData);
   };
   return (
     <div>
@@ -121,14 +137,24 @@ const MenuDetail = () => {
         icon={"back"}
         title={cafeInfo.cafeName}
       />
-      <div className="menu-thum" style={{ width: "100%" }}>
+      <div className="menu-thum" style={{ width: "100%", height: 375 }}>
         <img
-          src={menuInfo.menuPic ? menuInfo.menuPic : "/images/order/cat.jpg"}
+          src={
+            menuInfo.menuPic
+              ? `/CA2SA/image/cafe/2/${menuInfo.menuPic}`
+              : "/images/order/cat2.jpg"
+          }
           alt="메뉴 사진"
-          style={{ width: "100%", height: 375, objectFit: "cover" }}
+          style={{ width: "100%", height: "100%", objectFit: "cover" }}
         />
       </div>
-      <div className="orderDetail" style={{ padding: "20px 20px 22px 22px" }}>
+      <div
+        className="orderDetail"
+        style={{
+          padding: "20px 20px 17px 22px",
+          borderBottom: "5px solid var(--color-gray-100)",
+        }}
+      >
         <div className="locationData">
           <p
             className="menuName"
@@ -156,71 +182,129 @@ const MenuDetail = () => {
           </p>
         </div>
       </div>
-      <div className="formBox">
-        <form onSubmit={handleSubmit(handleSubmitForm)}>
+      <div className="formBox" style={{ padding: "0px 20px 100px 20px" }}>
+        <form
+          onSubmit={handleSubmit(handleSubmitForm)}
+          style={{ display: "flex", flexDirection: "column", gap: 20 }}
+        >
           {/* 숨김 정보 */}
-          <div className="hiddenInfo">
-            <label>MenuId</label>
-            <input
-              type="hidden"
-              name="menuId"
-              id="menuId"
-              value={menuId} // 임시 메뉴 아이디
-              {...register("menuId")}
-            />
-            <label>메뉴 이름</label>
-            <input
-              type="hidden"
-              name="menuName"
-              id="menuName"
-              value={menuInfo.menuName}
-              {...register("menuName")}
-            />
-            <label>수량</label>
-            <input
-              type="hidden"
-              name="count"
-              id="count"
-              value={1}
-              {...register("count", { setValueAs: value => Number(value) })}
-            />
-            <label>총 금액</label>
-            <input
-              type="hidden"
-              name="price"
-              id="price"
-              value={totalPrice}
-              {...register("price", { setValueAs: value => Number(value) })}
-            />
+          <div>
+            <label>카페 아이디</label>
+            <div className="hiddenInfo">
+              {/* <input
+                type="number"
+                name="cafeId"
+                id="cafeId"
+                value={cafeId.cafeId}
+                {...register("cafeId")}
+              /> */}
+              <label>메뉴 아이디</label>
+              <input
+                type="text"
+                name="menuId"
+                id="menuId"
+                value={menuId}
+                {...register("menuId")}
+              />
+              <label>메뉴 이름</label>
+              <input
+                type="text"
+                name="menuName"
+                id="menuName"
+                value={menuInfo.menuName}
+                {...register("menuName")}
+              />
+              <label>수량</label>
+              <input
+                type="text"
+                name="count"
+                id="count"
+                value={1}
+                {...register("count", { setValueAs: value => Number(value) })}
+              />
+              <label>가격</label>
+              {/* <input
+                type="text"
+                name="price"
+                id="price"
+                value={totalPrice}
+                {...register("price", { setValueAs: value => Number(value) })}
+              /> */}
+            </div>
           </div>
 
           {/* 선택 옵션 */}
           {optionListArr.map((item, index) => {
             return (
-              <div key={index}>
+              <div
+                className="optionCheck"
+                key={index}
+                style={{
+                  width: "100%",
+                  display: "flex",
+                  alignItems: "center",
+                  gap: "10px",
+                }}
+              >
                 <input
                   type="checkbox"
                   id={item.optionName}
-                  value={item.optionName}
+                  value={item.menuOptionId}
                   {...register("options")}
                   onChange={e => {
                     if (e.target.checked === true) {
-                      setValue(`options[0]`, { menuOptionId: e.target.value });
+                      setValue(`options[0]`, {
+                        menuOptionId: e.target.value,
+                      });
                     }
                     handleChange(e, item);
                   }}
+                  style={{
+                    width: "20px",
+                    height: 20,
+                  }}
                 />
-                <label htmlFor={item.optionName}>{item.optionName}</label>
+                <label
+                  htmlFor={item.optionName}
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    marginRight: 5,
+                  }}
+                >
+                  {item.optionName}
+                </label>
                 <span className="optionPrice">+{item.addPrice}원</span>
               </div>
             );
           })}
-          <button type="submit" onClick={handleNavigatePaymet}>
-            바로주문
-          </button>
-          <button type="submit" onClick={handleNavigateList}>
-            금액: {totalPrice}
-          </button>
+          <div
+            className="button-box"
+            style={{
+              display: "flex",
+              gap: 10,
+              width: "600px",
+              position: "fixed",
+              bottom: "80px",
+              left: "50%",
+              transform: "translateX(-50%)",
+            }}
+          >
+            <SecondaryButton
+              type="submit"
+              onClick={handleNavigatePaymet}
+              style={{ width: "50%", height: 60 }}
+            >
+              바로주문
+            </SecondaryButton>
+            <PrimaryButton
+              type="submit"
+              onClick={handleNavigateList}
+              style={{ width: "50%", height: 60 }}
+            >
+              금액: {totalPrice}
+            </PrimaryButton>
+          </div>
         </form>
       </div>
     </div>
