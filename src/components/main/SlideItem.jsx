@@ -3,7 +3,7 @@ import { BannerWrap } from "./ListMain";
 
 const SlideItem = ({ image }) => {
   return (
-    <BannerWrap to="#">
+    <BannerWrap>
       <BannerWrap href="#">
         <img src={image} alt="mainBanner" style={{ width: "100%" }} />
       </BannerWrap>

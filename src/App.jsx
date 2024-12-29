@@ -28,6 +28,8 @@ import OedersDetails from "./pages/orders/OedersDetails";
 import AdminPage from "./pages/ceoadmin/AdminPage";
 import { OrderContextProvider } from "./contexts/OrderContext";
 import { UserPageProvider } from "./contexts/UserPageContext";
+import FAQ from "./pages/terms/FAQ";
+import Event from "./components/terms/Event";
 
 function App() {
   const isLogin = true;
@@ -61,7 +63,7 @@ function App() {
                 <Route index element={<SearchPage />} /> {/* SearchPage */}
               </Route>
               {/* 주문 */}
-              <Route path="/order">
+              <Route path="/order/:id">
                 <Route index element={<OrderPage />} /> {/* OrderPage */}
                 <Route path="menu" element={<MenuList />} />
                 <Route path=":menuId" element={<MenuDetail />} />
@@ -85,6 +87,8 @@ function App() {
               <Route path="/terms/privacy" element={<Privacy />} />
               <Route path="/terms/marketing" element={<Marketing />} />
               <Route path="/terms/payment" element={<PaymentService />} />
+              <Route path="/terms/FAQ" element={<FAQ />} />
+              <Route path="/terms/event" element={<Event />} />
               {/* 사장님페이지 */}
               <Route path="/admin" element={<AdminPage />}></Route>
               <Route path="*" element={<NotFound />}></Route>

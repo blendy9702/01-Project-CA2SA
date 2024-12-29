@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import styled from "styled-components";
 import { Swiper, SwiperSlide } from "swiper/react";
 import ListBox from "./ListBox";
@@ -13,10 +13,10 @@ const ListitemBox = styled.div`
   justify-content: space-between;
   align-items: center;
 `;
-const TitleFlex = styled.a`
+const TitleFlex = styled.div`
   display: flex;
   align-items: center;
-
+  margin: 30px 0 20px 0;
   h2 {
     margin-right: auto;
   }
@@ -29,13 +29,33 @@ const TitleFlex = styled.a`
   }
 `;
 
-export const BannerWrap = styled.a`
+export const BannerWrap = styled(Link)`
   display: inline-block;
   img {
     object-fit: cover;
     width: 100%;
     height: 100%;
     border-radius: 16px;
+  }
+`;
+export const FooterStyle = styled.footer`
+  background-color: var(--color-white);
+  padding: 30px 20px 100px 20px;
+  ul {
+    display: flex;
+    gap: 10px;
+    margin: 15px 0;
+    li {
+      color: var(--color-gray-300);
+      a {
+        font-size: 16px;
+        color: var(--color-gray-500);
+      }
+    }
+  }
+  p {
+    font-size: 14px;
+    color: var(--color-gray-500);
   }
 `;
 
@@ -109,7 +129,7 @@ const ListMain = () => {
   }, []);
   return (
     <div style={{ width: "100%" }}>
-      <Swiper className="mySwiper" style={{ margin: "30px 0" }}>
+      <Swiper loop={true} className="mySwiper" style={{ marginTop: "30px" }}>
         {slideData.map((slide, index) => (
           <SwiperSlide key={index}>
             <SlideItem image={slide} />
@@ -117,7 +137,7 @@ const ListMain = () => {
         ))}
       </Swiper>
       <div>
-        <TitleFlex to="#">
+        <TitleFlex>
           <h2>요즘은 #아샷추 가 대세</h2>
         </TitleFlex>
         <Swiper
@@ -130,14 +150,14 @@ const ListMain = () => {
           className="mySwiper"
         >
           {cafeData.map(cafe => (
-            <SwiperSlide key={cafe.id}>
+            <SwiperSlide key={cafe.cafeId}>
               <ListBox cafe={cafe} />
             </SwiperSlide>
           ))}
         </Swiper>
       </div>
       <div>
-        <TitleFlex to="#">
+        <TitleFlex>
           <h2>나와 가까운 매장</h2>
         </TitleFlex>
         <Swiper
@@ -149,41 +169,55 @@ const ListMain = () => {
           modules={[Pagination]}
           className="mySwiper"
         >
-          {cafeData.map(cafe => (
-            <SwiperSlide key={cafe.id}>
-              <ListBox cafe={cafe} />
-            </SwiperSlide>
-          ))}
+          {cafeData
+            .slice() // 원본 배열을 복사하여 정렬 시 원본 배열 변경 방지
+            .sort((a, b) => a.distance - b.distance) // distance를 기준으로 오름차순 정렬
+            .map(cafe => (
+              <SwiperSlide key={cafe.cafeId}>
+                <ListBox cafe={cafe} />
+              </SwiperSlide>
+            ))}
         </Swiper>
       </div>
 
-      <BannerWrap to="#">
+      <BannerWrap to="/terms/FAQ" style={{ marginTop: "30px" }}>
         <img src="images/qna_banner.png" alt="QNABanner" />
       </BannerWrap>
-      <BannerWrap to="#" style={{ "margin-top": "30px" }}>
+      <BannerWrap to="/terms/event" style={{ margin: "20px 0 30px 0" }}>
         <img src="images/Frame 307.png" alt="eventBanner" />
       </BannerWrap>
-      <footer>
-        <h1>logo</h1>
+      <FooterStyle>
+        <h1 style={{ width: "80px" }}>
+          <img
+            src="images/footerca2saLogo.png"
+            alt=""
+            style={{ width: "100%", height: "100%", objectFit: "cover" }}
+          />
+        </h1>
         <ul>
           <li>
-            <Link to="#">이용약관</Link>
+            <Link to="/terms/service">이용약관</Link>
           </li>
+          <li>|</li>
           <li>
-            <Link to="#">개인정보 처리 방침</Link>
+            <Link to="/terms/privacy">개인정보 처리 방침</Link>
           </li>
+          <li>|</li>
           <li>
             <Link to="#">사업자 정보 확인</Link>
           </li>
+          <li>|</li>
           <li>
-            <Link to="#">개인정보 제 3자 제공동의</Link>
+            <Link to="/terms/marketing">마케팅 정보 수집 및 수신 동의</Link>
           </li>
         </ul>
         <p>
-          카투사는 통신판매 중개자이며, 통신판매 당사자가 아닙니다. 따라서
-          패스오더는 상품 거래 정보 및 거래에 대한 책임을 지지않습니다.
+          카투사는 통신판매중개업자로, 카투사가 거래당사자가 아닙니다. 카투사에
+          등록된 점포, 상품, 거래 및 관련 정보에 대하여 해당 판매자가
+          거래당사자로서 책임을 부담하며, 카투사는 판매자의 고의 또는 과실로
+          소비자에게 발생하는 일체의 손해에 대하여 책임을 부담하지 않습니다.
         </p>
-      </footer>
+      </FooterStyle>
     </div>
   );
 };

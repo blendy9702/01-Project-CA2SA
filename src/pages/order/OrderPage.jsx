@@ -32,7 +32,7 @@ const OrderPage = () => {
   }, []);
   // 카페 정보 조회
   useEffect(() => {
-    getCafe(2);
+    getCafe(3);
   }, []);
 
   // useNavigation
