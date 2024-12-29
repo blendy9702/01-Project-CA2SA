@@ -2,6 +2,8 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { useContext, useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { OrderContext } from "../../contexts/OrderContext";
+import { CustomInputDiv, MemoDiv } from "../../styles/order/orderpage";
+import { PrimaryButton, SearchInput } from "../../styles/common";
 
 const Memo = () => {
   const { setOrder, order, popMemo, setPopMemo } = useContext(OrderContext);
@@ -43,66 +45,75 @@ const Memo = () => {
   useEffect(() => {}, [memo]);
 
   return (
-    <div>
-      <p>요청 사항</p>
-
-      <div>
-        <input
-          type="checkbox"
-          value={"연하게 해주세요"}
-          onChange={e => handleChangeMemo(e)}
-        />
-        <label>연하게 해주세요</label>
+    <MemoDiv>
+      <div className="inner">
+        <div className="content">
+          <h5>요청 사항</h5>
+          <div className="inputList">
+            <CustomInputDiv>
+              <input
+                type="checkbox"
+                id="request1"
+                value={"연하게 해주세요"}
+                onChange={e => handleChangeMemo(e)}
+              />
+              <label htmlFor="request1">연하게 해주세요</label>
+            </CustomInputDiv>
+            <CustomInputDiv>
+              <input
+                type="checkbox"
+                id="request2"
+                value={"캐리어에 담아주세요"}
+                onChange={e => handleChangeMemo(e)}
+              />
+              <label htmlFor="request2">캐리어에 담아주세요</label>
+            </CustomInputDiv>
+            <CustomInputDiv>
+              <input
+                type="checkbox"
+                id="request3"
+                value={"얼음 많이 넣어주세요"}
+                onChange={e => handleChangeMemo(e)}
+              />
+              <label htmlFor="request3">얼음 많이 넣어주세요</label>
+            </CustomInputDiv>
+            <CustomInputDiv>
+              <input
+                type="checkbox"
+                id="request4"
+                value={"얼음 적게 넣어주세요"}
+                onChange={e => handleChangeMemo(e)}
+              />
+              <label htmlFor="request4">얼음 적게 넣어주세요</label>
+            </CustomInputDiv>
+            <CustomInputDiv>
+              <input
+                type="checkbox"
+                id="request5"
+                ref={inputRef}
+                onChange={e => handleChangeClick(e)}
+              />
+              <label htmlFor="request5">직접 입력</label>
+            </CustomInputDiv>
+          </div>
+          <SearchInput
+            type="text"
+            className="searchInput"
+            value={inputText}
+            placeholder="상세요청사항을 입력해주세요"
+            readOnly={!isChecked}
+            ref={textRef}
+            onChange={e => {
+              setInputText(e.target.value);
+            }}
+            onBlur={e => handleChangeMemo(e)}
+          />
+          <PrimaryButton type="button" onClick={() => sendMemo()}>
+            완료
+          </PrimaryButton>
+        </div>
       </div>
-      <div>
-        <input
-          type="checkbox"
-          value={"캐리어에 담아주세요"}
-          onChange={e => handleChangeMemo(e)}
-        />
-        <label>캐리어에 담아주세요</label>
-      </div>
-      <div>
-        <input
-          type="checkbox"
-          value={"얼음 많이 넣어주세요"}
-          onChange={e => handleChangeMemo(e)}
-        />
-        <label>얼음 많이 넣어주세요</label>
-      </div>
-      <div>
-        <input
-          type="checkbox"
-          value={"얼음 적게 넣어주세요"}
-          onChange={e => handleChangeMemo(e)}
-        />
-        <label>얼음 적게 넣어주세요</label>
-      </div>
-      <div>
-        <input
-          type="checkbox"
-          ref={inputRef}
-          onChange={e => handleChangeClick(e)}
-        />
-        <label>직접 입력</label>
-      </div>
-      <div>
-        <input
-          type="text"
-          value={inputText}
-          placeholder="상세요청사항을 입력해주세요"
-          readOnly={!isChecked}
-          ref={textRef}
-          onChange={e => {
-            setInputText(e.target.value);
-          }}
-          onBlur={e => handleChangeMemo(e)}
-        />
-      </div>
-      <button type="button" onClick={() => sendMemo()}>
-        완료
-      </button>
-    </div>
+    </MemoDiv>
   );
 };
 

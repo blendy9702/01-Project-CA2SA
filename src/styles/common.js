@@ -36,9 +36,9 @@ export const AlternativeButton = styled.button`
   font-size: 16px;
   transition: 0.1s;
   &:active {
-    color: #fff;
-    background-color: var(--color-gray-900);
-    border: 1px solid var(--color-gray-900);
+    color: var(--primary-darker);
+    background-color: #cfe799;
+    border: 1px solid var(--primary-darker);
   }
 `;
 
