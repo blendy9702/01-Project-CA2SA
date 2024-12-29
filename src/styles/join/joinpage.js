@@ -10,10 +10,12 @@ export const LoginMainWrap = styled.div``;
 
 export const ServiceTextArea = styled.div`
   margin-top: 200px;
+  color: var(--color-gray-900);
+  font-size: 16px;
 
   .ca2sa {
     color: #88c200;
-    font-size: 46px;
+    font-size: 36px;
     font-weight: 700;
   }
 `;
