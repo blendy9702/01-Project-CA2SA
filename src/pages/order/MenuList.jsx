@@ -6,52 +6,62 @@ import Menu from "../../components/order/Menu";
 import NavBar from "../../components/order/NavBar";
 import { OrderContext } from "../../contexts/OrderContext";
 import { SearchInput } from "../../styles/common";
-import { CateButton, CateListDiv } from "../../styles/order/orderpage";
-
-const mockData = {
-  resultMessage: "메뉴 출력 완료",
-  resultData: [
-    {
-      categoryName: "커피",
-      menu: [
-        {
-          menuId: 2,
-          menuName: "아메리카노",
-          price: 1500,
-          comment: "깔끔함",
-          menuPic: null,
-        },
-        {
-          menuId: 4,
-          menuName: "카페라떼",
-          price: 2000,
-          comment: "우유맛이 진함",
-          menuPic: null,
-        },
-        {
-          menuId: 5,
-          menuName: "바닐라라떼",
-          price: 2500,
-          comment: "달달함",
-          menuPic: null,
-        },
-      ],
-    },
-  ],
-};
-const mockDataResult = mockData.resultData;
+import {
+  CateButton,
+  CateListDiv,
+  LayoutDiv,
+  OrderButton,
+} from "../../styles/order/orderpage";
+import { FiSearch } from "react-icons/fi";
+// const mockData = {
+//   resultMessage: "메뉴 출력 완료",
+//   resultData: [
+//     {
+//       categoryName: "커피",
+//       menu: [
+//         {
+//           menuId: 2,
+//           menuName: "아메리카노",
+//           price: 1500,
+//           comment: "깔끔함",
+//           menuPic: null,
+//         },
+//         {
+//           menuId: 4,
+//           menuName: "카페라떼",
+//           price: 2000,
+//           comment: "우유맛이 진함",
+//           menuPic: null,
+//         },
+//         {
+//           menuId: 5,
+//           menuName: "바닐라라떼",
+//           price: 2500,
+//           comment: "달달함",
+//           menuPic: null,
+//         },
+//       ],
+//     },
+//   ],
+// };
+// const mockDataResult = mockData.resultData;
 
 const MenuList = () => {
+  // 앞에서 보낸 navigate의 state 받아오기
+  const { order } = useContext(OrderContext);
   // useSearchParams
   const [searchParams, setSearchParams] = useSearchParams();
   // useNavigate
   const navigate = useNavigate();
   const location = useLocation();
   const locationData = location.state;
-  console.log("locatation", locationData);
+
   const cafeId = locationData[0];
   const cafeInfo = locationData[1];
   const fromPage = locationData[2].prev;
+  useEffect(() => {
+    console.log("메뉴 리스트 location", locationData);
+  }, [locationData]);
 
   const handleNavigateBack = () => {
     navigate(`/order?cafeName=${cafeId.cafeName}`, {
@@ -69,12 +79,11 @@ const MenuList = () => {
     });
   };
 
-  // 앞에서 보낸 navigate의 state 받아오기
-  const { order } = useContext(OrderContext);
   // useState
   const [selectedCate, setSelectedCate] = useState(0);
   const [cafeMenuData, setCafeMenuData] = useState({});
   const [cateList, setCateList] = useState([]);
+  const [allMenu, setAllMenu] = useState([]);
 
   // 정보 받아오기
   useEffect(() => {
@@ -82,6 +91,7 @@ const MenuList = () => {
       try {
         const res = await axios.get(`/api/menu?cafeId=${data}`);
         const resultData = res.data.resultData;
+        console.log("메뉴 리스트 통신 결과:", resultData);
         if (resultData) {
           setCafeMenuData(resultData);
           setCateList(
@@ -89,16 +99,16 @@ const MenuList = () => {
               return item.categoryName;
             }),
           );
+          const allMenuArr = resultData.map((item, index) => {
+            return item.menu;
+          });
+          const combinedMenuArr = allMenuArr.reduce((acc, curr) => {
+            return acc.concat(curr);
+          }, []);
+          setAllMenu(combinedMenuArr);
         }
       } catch (error) {
-        console.log(error);
-        console.log("mockData가 적용됩니다.");
-        setCafeMenuData(mockDataResult);
-        setCateList(
-          mockDataResult.map((item, index) => {
-            return item.categoryName;
-          }),
-        );
+        console.log("메뉴 리스트 통신 결과:", error);
       }
     };
     getCafeMenu(cafeId.cafeId);
@@ -106,116 +116,104 @@ const MenuList = () => {
 
   // cafeMenuData에 잘 담겨있는가
   useEffect(() => {
-    // console.log("cafeMenuData", cafeMenuData);
-    // console.log("cateList", cateList);
-  }, [cafeMenuData, cateList]);
+    console.log("카테고리 상관 없이 모든 메뉴:", allMenu);
+  }, [allMenu]);
+  // 검색창 내용 따라 allMenu에서 걸러내기.
 
   // 메뉴 리스트에서 카테고리 정보 뽑아내기
   const cateArr = [...cateList];
-
-  // console.log("categoryArr:", categoryArr);
+  // 카테고리 선택에 따라 고른 카테고리와 다른 카테고리를 구별할 수 있도록 작업.
   const handleClickCate = (item, index) => {
     setSelectedCate(index);
   };
+  // 장바구니 수량
   const itemCount = order.menuList.reduce((acc, curr) => {
     const totalCount = acc + curr.count;
     return totalCount;
   }, 0);
+  // 금액 계산
+  const showPrice = order.menuList
+    .reduce((acc, curr) => {
+      const totalPrice = acc + curr.price * curr.count;
+      return totalPrice;
+    }, 0)
+    .toLocaleString();
 
   return (
-    <div style={{ maxWidth: "640px", position: "relative", margin: "0 auto" }}>
+    <div style={{ position: "relative", paddingBottom: 30 }}>
       <NavBar
         onClick={handleNavigateBack}
         icon={"back"}
-        title={cafeInfo.cafeName}
+        title={cafeInfo?.cafeName || "로딩중"}
       />
-      <div
-        className="header"
-        style={{
-          padding: "10px 20px",
-          borderBottom: "5px solid var(--color-gray-100)",
-        }}
-      >
-        <div>
-          <SearchInput
-            type="text"
-            style={{ width: "100%", marginBottom: 10 }}
-          />
-        </div>
-        <CateListDiv>
-          {cateArr.map((item, index) => {
-            return (
-              <CateButton
-                key={index}
-                type="button"
-                onClick={() => {
-                  handleClickCate(item, index);
-                }}
-                isSelected={selectedCate === index}
-              >
-                {item}
-              </CateButton>
-            );
-          })}
-        </CateListDiv>
-      </div>
-      <div
-        className="cate-detail"
-        style={{ padding: 20, paddingBottom: "150px" }}
-      >
-        <h3>고른 카테고리</h3>
-        <div className="menu-list">
-          {cafeMenuData[0]?.menu.map((item, index) => {
-            return (
-              <div key={index}>
-                <Menu
-                  item={item}
-                  index={index}
-                  onClick={() => handleNavigateMenuOption(item)}
-                />
-              </div>
-            );
-          })}
-        </div>
-      </div>
-      <button
-        style={{
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          gap: 6,
-          height: 60,
-          backgroundColor: "var(--primary-color)",
-          position: "fixed",
-          bottom: "80px",
-          left: "50%",
-          transform: "translateX(-50%)",
-          width: "600px",
-          border: "transparent",
-          borderRadius: 8,
-        }}
-        type="button"
-        onClick={handleNavigatePayment}
-      >
-        <div style={{ fontSize: 18, color: "#fff", fontWeight: "bold" }}>
-          {itemCount}| 장바구니
-        </div>
-        <span
+      <LayoutDiv>
+        <div
+          className="header"
           style={{
-            width: 15,
-            height: 15,
-            backgroundColor: "#fff",
-            borderRadius: 10,
-            color: "var(--primary-color)",
-            fontSize: 12,
-            fontWeight: "bold",
-            textAlign: "center",
-            alignItems: "center",
+            padding: "10px 0px",
+            borderBottom: "5px solid var(--color-gray-100)",
           }}
         >
-          {itemCount}
-        </span>
-      </button>
+          <div
+            style={{ width: "100%", marginBottom: 10, position: "relative" }}
+          >
+            <SearchInput
+              type="text"
+              id="searchBar"
+              style={{ width: "100%" }}
+              placeholder="메뉴를 검색해보세요"
+            />
+            <label
+              htmlFor="searchBar"
+              style={{
+                position: "absolute",
+                right: 10,
+                top: 10,
+                fontSize: 18,
+                color: "var(--color-gray-500)",
+              }}
+            >
+              <FiSearch />
+            </label>
+          </div>
+          <CateListDiv>
+            {cateArr.map((item, index) => {
+              return (
+                <CateButton
+                  key={index}
+                  type="button"
+                  onClick={() => {
+                    handleClickCate(item, index);
+                  }}
+                  isSelected={selectedCate === index}
+                >
+                  {item}
+                </CateButton>
+              );
+            })}
+          </CateListDiv>
+        </div>
+        <div className="cate-detail" style={{ padding: 20 }}>
+          <h3>고른 카테고리</h3>
+          <div className="menu-list">
+            {cafeMenuData[0]?.menu.map((item, index) => {
+              return (
+                <div key={index}>
+                  <Menu
+                    item={item}
+                    index={index}
+                    onClick={() => handleNavigateMenuOption(item)}
+                  />
+                </div>
+              );
+            })}
+          </div>
+        </div>
+        <OrderButton type="button" onClick={handleNavigatePayment}>
+          {showPrice} | 장바구니
+          <span className="circle">{itemCount}</span>
+        </OrderButton>
+      </LayoutDiv>
     </div>
   );
 };

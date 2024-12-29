@@ -7,8 +7,8 @@ export default defineConfig({
   server: {
     proxy: {
       "/api": {
-        // target: "http://192.168.0.144:5214", (내부 api)
-        target: "http://192.168.0.144:5214", // (학원 서버 api))
+        target: "http://112.222.157.156:5214", //(외부 api)
+        // target: "http://192.168.0.144:5214", // (학원 서버 api))
         changeOrigin: true,
         secure: false,
       },

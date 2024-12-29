@@ -1,31 +1,16 @@
-import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
-import { Link, useNavigate, useSearchParams } from "react-router-dom";
+import axios from "axios";
+import moment from "moment/moment";
+import { useContext, useEffect, useRef, useState } from "react";
+import { IoIosArrowForward } from "react-icons/io";
+import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
+import NavBar from "../../components/order/NavBar";
+import { OrderContext } from "../../contexts/OrderContext";
 import {
   ContentDiv,
-  OrderPageDiv,
+  LayoutDiv,
+  OrderButton,
   ThumImageDiv,
 } from "../../styles/order/orderpage";
-import { useContext, useEffect, useRef, useState } from "react";
-import { OrderContext } from "../../contexts/OrderContext";
-import { getCafeInfo, resPostLoginData } from "../../apis/order";
-import NavBar from "../../components/order/NavBar";
-import { getCafe } from "../../apis/orderapi";
-import moment from "moment/moment";
-import axios from "axios";
-
-// mockData
-// const mockData = {
-//   resultMessage: "카페 정보 조회 완료",
-//   resultData: {
-//     cafeName: "로딩중",
-//     location: "로딩중",
-//     tel: "0534286001",
-//     cafePic: "cd55e4f8-7815-4618-9af4-74f11e5288fb.jpg",
-//     openTime: "08:59:59",
-//     closeTime: "09:00:00",
-//   },
-// };
-// const mockDataResult = mockData.resultData;
 
 const OrderPage = () => {
   //useSearchPrams
@@ -34,14 +19,23 @@ const OrderPage = () => {
   // useRef
   const imgRef = useRef(null);
   const imgtag = imgRef.current;
-  const imaURL = imgtag?.getAttribute("src");
-  console.log("이미지 주소:", imaURL);
+  const imgURL = imgtag?.getAttribute("src");
+  useEffect(() => {
+    console.log("이미지 주소:", imgURL);
+  }, [imgURL]);
+
   // useNavigation
+  const location = useLocation();
+  const locationData = location.state;
+  useEffect(() => {
+    console.log("카페 페이지 location:", locationData);
+  }, [locationData]);
   const navigate = useNavigate();
   const handleNavigateMain = () => {
     navigate("/");
   };
   const handleNavigateList = () => {
+    // useNavigate
     navigate(`/order/menu?cafeId=${cafeId}`, {
       state: [{ cafeId: cafeId }, { ...cafeInfo }, { prev: "/order" }],
     });
@@ -63,9 +57,9 @@ const OrderPage = () => {
         if (resultData) {
           setCafeInfo(resultData);
         }
-        console.log("카페정보 조회:", cafeInfo);
+        console.log("카페정보 통신 결과:", cafeInfo);
       } catch (error) {
-        console.log("카페정보 조회:", error);
+        console.log("카페정보 통신 결과:", error);
         // console.log("mockData가 적용됩니다.");
         // setCafeInfo(mockDataResult);
       }
@@ -74,14 +68,13 @@ const OrderPage = () => {
   }, []);
 
   return (
-    <OrderPageDiv>
+    <div style={{ position: "relative", paddingBottom: 30, width: "100%" }}>
       <NavBar
         onClick={handleNavigateMain}
         icon={"close"}
         title={cafeInfo?.cafeName || "로딩중"}
-        style={{ position: "fixed", top: 0, left: 0 }}
       />
-      <ThumImageDiv>
+      <ThumImageDiv height={300}>
         <img
           src={
             cafeInfo
@@ -91,62 +84,63 @@ const OrderPage = () => {
           ref={imgRef}
         ></img>
       </ThumImageDiv>
-      <ContentDiv>
-        <div className="title-box">
-          <h2>{cafeInfo?.cafeName || "로딩중"}</h2>
-        </div>
-        <div className="cafe-info">
-          <h3>매장정보</h3>
-          <div className="info-box">
-            <p className="info-subtitle">영업시간</p>
-            <div className="info-detail">
-              <p>
-                매일{" "}
-                {moment(cafeInfo?.openTime || "로딩중", "HH:mm:ss").format(
-                  "HH:mm",
-                )}
-                -
-                {moment(cafeInfo?.closeTime || "로딩중", "HH:mm:ss").format(
-                  "HH:mm",
-                )}
-              </p>
-              <p>
-                라스트 오더{" "}
-                {moment(cafeInfo?.closeTime || "로딩중", "HH:mm:ss").format(
-                  "HH:mm",
-                )}
-              </p>
+      <LayoutDiv>
+        <ContentDiv>
+          <div className="title-box">
+            <h2>{cafeInfo?.cafeName || "로딩중"}</h2>
+          </div>
+          <div className="cafe-info">
+            <h3>매장정보</h3>
+            <div className="info-box">
+              <p className="info-subtitle">영업시간</p>
+              <div className="info-detail">
+                <p>
+                  매일{" "}
+                  {moment(cafeInfo?.openTime || "로딩중", "HH:mm:ss").format(
+                    "HH:mm",
+                  )}
+                  -
+                  {moment(cafeInfo?.closeTime || "로딩중", "HH:mm:ss").format(
+                    "HH:mm",
+                  )}
+                </p>
+                <p>
+                  라스트 오더{" "}
+                  {moment(cafeInfo?.closeTime || "로딩중", "HH:mm:ss").format(
+                    "HH:mm",
+                  )}
+                </p>
+              </div>
+            </div>
+            <div className="info-box">
+              <p className="info-subtitle">전화번호</p>
+              <div className="info-detail">
+                <p className="tel">{cafeInfo?.tel || "로딩중"}</p>
+              </div>
+            </div>
+            <div className="info-box last">
+              <p className="info-subtitle">주소</p>
+              <div className="info-detail">
+                <p>{cafeInfo?.location || "로딩중"}</p>
+                <p>(우)우편번호</p>
+              </div>
+            </div>
+            <div className="map"></div>
+            <div className="business-number">
+              <p>사업자 정보 조회</p>
+              <IoIosArrowForward className="icon" />
             </div>
           </div>
-          <div className="info-box">
-            <p className="info-subtitle">전화번호</p>
-            <div className="info-detail">
-              <p className="tel">{cafeInfo?.tel || "로딩중"}</p>
-            </div>
-          </div>
-          <div className="info-box last">
-            <p className="info-subtitle">주소</p>
-            <div className="info-detail">
-              <p>{cafeInfo?.location || "로딩중"}</p>
-              <p>(우)우편번호</p>
-            </div>
-          </div>
-          <div className="map"></div>
-          <div className="business-number">
-            <p>사업자 정보 조회</p>
-            <IoIosArrowForward className="icon" />
-          </div>
-        </div>
-      </ContentDiv>
-      <button
-        type="button"
-        onClick={handleNavigateList}
-        style={{ bottom: "80px" }}
-        className="go-menulist"
-      >
-        메뉴담기
-      </button>
-    </OrderPageDiv>
+        </ContentDiv>
+        <OrderButton
+          type="button"
+          onClick={handleNavigateList}
+          className="go-menulist"
+        >
+          메뉴담기
+        </OrderButton>
+      </LayoutDiv>
+    </div>
   );
 };
 
