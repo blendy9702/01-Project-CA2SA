@@ -75,7 +75,7 @@ export const LineTabSeleter = styled.div``;
 export const BubbleTabSeleter = styled.div``;
 
 export const DockBarNav = styled.div`
-  position: sticky;
+  position: fixed;
   bottom: 0;
   width: 100%;
   max-width: 640px;
