@@ -16,6 +16,7 @@ import NavBar from "../../components/order/NavBar";
 import { PrimaryButton } from "../../styles/common";
 import { ContainerDiv, LayoutDiv } from "../../styles/order/orderpage";
 import moment from "moment";
+import { OrderContext } from "../../contexts/OrderContext";
 
 // 예상 수령시간 관리용 배열
 const pickUPTimeArr = [0, 5, 10, 15, 20, 30, 40, 60];
