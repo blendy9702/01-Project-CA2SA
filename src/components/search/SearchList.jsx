@@ -1,7 +1,7 @@
 import { FaLocationDot } from "react-icons/fa6";
 import { IoIosArrowForward } from "react-icons/io";
 import { useNavigate } from "react-router-dom";
-import styled from "styled-components";
+import styled from "@emotion/styled";
 
 const CafeDataStyle = styled.div`
   position: relative;

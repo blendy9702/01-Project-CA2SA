@@ -1,5 +1,5 @@
 import { IoIosArrowBack } from "react-icons/io";
-import styled from "styled-components";
+import styled from "@emotion/styled";
 import { PageContainer } from "../../styles/common";
 
 export const HeaderWrap = styled.header`

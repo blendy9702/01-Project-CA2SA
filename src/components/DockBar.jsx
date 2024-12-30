@@ -3,7 +3,7 @@ import { DockBarNav } from "../styles/common";
 import { AiFillHome } from "react-icons/ai";
 import { HiMiniReceiptPercent } from "react-icons/hi2";
 import { BiSolidUser } from "react-icons/bi";
-import styled from "styled-components";
+import styled from "@emotion/styled";
 
 const StyledLink = styled(Link)`
   color: ${props =>

@@ -1,21 +1,16 @@
 import { useContext, useEffect, useState } from "react";
 
-import {
-  Link,
-  useLocation,
-  useNavigate,
-  useSearchParams,
-} from "react-router-dom";
-import PickUpTime from "../../components/order/PickUpTime";
-import { IoIosArrowDown } from "react-icons/io";
-import Memo from "../../components/order/Memo";
-import PaymentOption from "../../components/order/PaymentOption";
-import { postOrder } from "../../apis/orderapi";
 import axios from "axios";
+import moment from "moment";
+import { IoIosArrowDown } from "react-icons/io";
+import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
+import Memo from "../../components/order/Memo";
 import NavBar from "../../components/order/NavBar";
+import PaymentOption from "../../components/order/PaymentOption";
+import PickUpTime from "../../components/order/PickUpTime";
 import { PrimaryButton } from "../../styles/common";
 import { ContainerDiv, LayoutDiv } from "../../styles/order/orderpage";
-import moment from "moment";
+import { OrderContext } from "../../contexts/OrderContext";
 
 // 예상 수령시간 관리용 배열
 const pickUPTimeArr = [0, 5, 10, 15, 20, 30, 40, 60];

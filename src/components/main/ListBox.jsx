@@ -1,6 +1,6 @@
 import { FaLocationDot } from "react-icons/fa6";
 import { Link, useNavigate } from "react-router-dom";
-import styled from "styled-components";
+import styled from "@emotion/styled";
 
 const ListBoxItem = styled.div`
   display: inline-block;

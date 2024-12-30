@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { CustomOverlayMap, Map } from "react-kakao-maps-sdk";
-import styled from "styled-components";
+import styled from "@emotion/styled";
 import MapMarkrtItem from "../MapMarkrtItem";
 
 const MapMarkerStyle = styled.div`
@@ -30,11 +30,14 @@ const MarkerPos = styled.div`
   left: 50%;
   transform: translateX(-50%);
   transition: 0.2s;
+  z-index: 99;
+  cursor: pointer;
 `;
 
 const MapMain = () => {
   const [cafeData, setCafeData] = useState([]);
   const [openInfo, setOpenInfo] = useState(null);
+  console.log(onclick, openInfo);
   const [state, setState] = useState({
     center: {
       lat: 35.868408,

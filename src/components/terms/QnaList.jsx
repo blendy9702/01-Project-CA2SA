@@ -1,6 +1,6 @@
 import { useRef, useState } from "react";
 import { IoIosArrowDown } from "react-icons/io";
-import styled from "styled-components";
+import styled from "@emotion/styled";
 
 const QNAstyle = styled.div`
   .questionTitle {
