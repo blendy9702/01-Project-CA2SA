@@ -47,16 +47,16 @@ export const FooterStyle = styled.footer`
     margin: 15px 0;
     li {
       color: var(--color-gray-300);
-      a {
-        font-size: 16px;
-        color: var(--color-gray-500);
-      }
     }
   }
   p {
     font-size: 14px;
     color: var(--color-gray-500);
   }
+`;
+const Agree = styled(Link)`
+  font-size: 16px;
+  color: var(--color-gray-500);
 `;
 
 const ListMain = () => {
@@ -138,26 +138,6 @@ const ListMain = () => {
       </Swiper>
       <div>
         <TitleFlex>
-          <h2>요즘은 #아샷추 가 대세</h2>
-        </TitleFlex>
-        <Swiper
-          slidesPerView={3}
-          spaceBetween={30}
-          pagination={{
-            clickable: true,
-          }}
-          modules={[Pagination]}
-          className="mySwiper"
-        >
-          {cafeData.map(cafe => (
-            <SwiperSlide key={cafe.cafeId}>
-              <ListBox cafe={cafe} />
-            </SwiperSlide>
-          ))}
-        </Swiper>
-      </div>
-      <div>
-        <TitleFlex>
           <h2>나와 가까운 매장</h2>
         </TitleFlex>
         <Swiper
@@ -196,19 +176,19 @@ const ListMain = () => {
         </h1>
         <ul>
           <li>
-            <Link to="/terms/service">이용약관</Link>
+            <Agree to="/terms/service">이용약관</Agree>
           </li>
           <li>|</li>
           <li>
-            <Link to="/terms/privacy">개인정보 처리 방침</Link>
+            <Agree to="/terms/privacy">개인정보 처리 방침</Agree>
           </li>
           <li>|</li>
           <li>
-            <Link to="#">사업자 정보 확인</Link>
+            <Agree to="#">사업자 정보 확인</Agree>
           </li>
           <li>|</li>
           <li>
-            <Link to="/terms/marketing">마케팅 정보 수집 및 수신 동의</Link>
+            <Agree to="/terms/marketing">마케팅 정보 수집 및 수신 동의</Agree>
           </li>
         </ul>
         <p>

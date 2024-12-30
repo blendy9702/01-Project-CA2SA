@@ -3,12 +3,12 @@ import { createContext, useEffect, useState } from "react";
 export const OrderContext = createContext();
 
 const initData = {
-  cafeId: "",
-  userId: "",
-  // orderTime: "",
   pickUpTime: "",
   memo: "",
+  userId: "",
+  cafeId: "",
   menuList: [],
+  // orderTime: "",
 };
 
 export const OrderContextProvider = ({ children }) => {

@@ -1,7 +1,7 @@
 :root {
   /* 컬러 */
   --primary-color: #88c200;
-  --primary-lighter: #acf500;
+  --primary-lighter: #cfe799;
   --primary-darker: #648f00;
   --secondary-color: #483a4b;
   --secondary-lighter: #89788d;
@@ -82,4 +82,12 @@ h4 {
 }
 h5 {
   font-size: 16px;
+}
+/* ( 크롬, 사파리, 오페라, 엣지 ) 동작 */
+html::-webkit-scrollbar {
+  display: none;
+}
+html {
+  -ms-overflow-style: none; /* 인터넷 익스플로러 */
+  scrollbar-width: none; /* 파이어폭스 */
 }

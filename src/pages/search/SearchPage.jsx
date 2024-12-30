@@ -6,6 +6,7 @@ import { IoCloseCircleSharp } from "react-icons/io5";
 import styled from "@emotion/styled";
 import SearchList from "../../components/search/SearchList";
 import { useNavigate } from "react-router-dom";
+import DockBar from "../../components/DockBar";
 
 export const HeaderWrap = styled.header`
   width: 100%;
@@ -164,6 +165,7 @@ const SearchPage = () => {
           )}
         </SearchStyle>
       </HeaderWrap>
+      <DockBar />
     </div>
   );
 };
