@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { FiSearch } from "react-icons/fi";
 import { IoIosArrowBack } from "react-icons/io";
 import { IoCloseCircleSharp } from "react-icons/io5";
-import styled from "styled-components";
+import styled from "@emotion/styled";
 import SearchList from "../../components/search/SearchList";
 import { useNavigate } from "react-router-dom";
 
@@ -18,6 +18,7 @@ export const HeaderWrap = styled.header`
     color: var(--color-gray-900);
   }
 `;
+
 const SearchStyle = styled.label`
   width: 80%;
   height: 40px;
@@ -81,9 +82,11 @@ const SearchPage = () => {
 
   const getcafes = async () => {
     try {
+      const cafeNames = resultData.map(item => item.cafeName);
       const res = await axios.get(
-        `api/cafe/map?user_latitude=${state.center.lat}&user_longitude=${state.center.lng}`,
+        `api/cafe/search?search_cafe_name=${isSearch}&max_distance=1000&user_latitude=${state.center.lat}&user_longitude=${state.center.lng}`,
       );
+      console.log(isSearch);
       setCafeData(res.data.resultData);
       setState(prev => ({ ...prev, isLoading: false }));
       console.log(res.data.resultData);
