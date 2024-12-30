@@ -1,20 +1,4 @@
-import axios from "axios";
-import React, { useEffect, useState } from "react";
-import { Link, useLocation, useNavigate } from "react-router-dom";
-import {
-  ComfirmDone,
-  ConfirmBackOff,
-  ConfirmCodeArea,
-  ConfirmEmailArea,
-  ConfirmEmailSend,
-  ConfirmMainText,
-  ConfirmResendEmail,
-  ConfirmTopArea,
-  ConfirmTopText,
-  ConfirmWrap,
-  EmailVerification,
-} from "../../styles/join/confirmform";
-import { IoIosArrowBack } from "react-icons/io";
+import { Link } from "react-router-dom";
 
 const ConfirmForm = () => {
   const [code, setCode] = useState("");
@@ -155,77 +139,31 @@ const ConfirmForm = () => {
         <ConfirmCodeArea>
           <ConfirmMainText>
             <p>인증번호를 입력해 주세요</p>
-          </ConfirmMainText>
-          <ConfirmEmailArea>
-            <ConfirmEmailSend>
-              <span
-                style={{
-                  color: "#212121",
-                  fontWeight: "600",
-                }}
-              >
-                {email}
-              </span>
-              <span> 로</span>
-              <p style={{ color: "#9e9e9e" }}>인증코드를 전송하였습니다.</p>
-            </ConfirmEmailSend>
-            <EmailVerification>
-              <p
-                style={{
-                  color: "#212121",
-                  fontSize: "12px",
-                  paddingBottom: "3px",
-                }}
-              >
-                인증코드 입력
-              </p>
-              <input
-                type="text"
-                placeholder="인증코드를 입력해 주세요."
-                value={code}
-                onChange={e => setCode(e.target.value)}
-                maxLength={6}
-              />
-              <div>{authTimer > 0 && <p>{formatTime(authTimer)}</p>}</div>
-            </EmailVerification>
-          </ConfirmEmailArea>
-          {error && <p style={{ color: "#ff6600" }}>{error}</p>}
-          <ConfirmResendEmail>
+          </div>
+          <div className="confirmEmailArea">
+            <div className="confirmEmailSend">
+              <p>ca2sa@email.com로</p>
+              <p>인증코드를 전송하였습니다.</p>
+            </div>
+            <div className="EmailVerification">
+              <p>인증코드 입력</p>
+              <input type="text" placeholder="인증코드를 입력해 주세요." />
+            </div>
+          </div>
+          <div>
             <p>
               본인인증 이메일이 발송되었습니다! 확인 후 인증코드를 입력하세요.
             </p>
-            <div
-              style={{
-                display: "flex",
-              }}
-            >
-              <p>이메일이 발송되지 않았나요?</p>
-              <div>
-                <button
-                  type="button"
-                  onClick={handleResendEmail}
-                  disabled={!Resend}
-                >
-                  {Resend
-                    ? "이메일 재전송"
-                    : `재전송 대기 중 (${formatTime(resendTimer)})`}
-                </button>
-              </div>
+            <p>이메일이 발송되지 않았나요?</p>
+            <div>
+              <a href="#">이메일 재전송</a>
             </div>
-          </ConfirmResendEmail>
-          <ComfirmDone>
-            <button type="button" onClick={handleVerifyCode}>
-              완료
-            </button>
-          </ComfirmDone>
-        </ConfirmCodeArea>
-        <div
-          style={{
-            width: "100%",
-            height: "300px",
-          }}
-        ></div>
-      </ConfirmWrap>
+          </div>
+          <div className="comfirmDone">
+            <Link to="/login">완료</Link>
+          </div>
+        </div>
+      </div>
     </form>
   );
 };
