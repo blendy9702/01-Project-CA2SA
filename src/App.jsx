@@ -30,9 +30,30 @@ import { OrderContextProvider } from "./contexts/OrderContext";
 import { UserPageProvider } from "./contexts/UserPageContext";
 import FAQ from "./pages/terms/FAQ";
 import Event from "./components/terms/Event";
+import { useEffect, useState } from "react";
 
 function App() {
-  const isLogin = true;
+
+  const [loading, setLoading] = useState(true);
+  const [isLogin, setIsLogin] = useState(null);
+
+  useEffect(() => {
+    const userDatas = sessionStorage.getItem("userData");
+    setIsLogin(!!userDatas);
+    setLoading(false);
+  }, []);
+
+  const handleLoginSuccess = userData => {
+    sessionStorage.setItem("userData", JSON.stringify(userData));
+    setIsLogin(true);
+  };
+
+  if (loading) {
+    return;
+  }
+
+  const isLogin = JSON.parse(sessionStorage.getItem("userData"));
+
 
   return (
     <div style={{ maxWidth: "640px", width: "100%", margin: "0 auto" }}>
@@ -45,10 +66,6 @@ function App() {
                 path="/"
                 element={isLogin ? <Index /> : <Navigate to="/login" replace />}
               />
-              <Route
-                path="/"
-                element={isLogin ? <Index /> : <Navigate to="/login" replace />}
-              />
               {/* 회원가입 */}
               <Route path="/join">
                 <Route index element={<JoinPage />} /> {/* JoinPage */}
@@ -56,7 +73,10 @@ function App() {
                 <Route path="confirmform" element={<ConfirmForm />} />
               </Route>
               {/* 로그인 */}
-              <Route path="/login" element={<LoginPage />} />
+              <Route
+                path="/login"
+                element={<LoginPage onLoginSuccess={handleLoginSuccess} />}
+              />
               <Route path="/reset-password" element={<ResetPassword />} />
               {/* 검색 */}
               <Route path="/search">
