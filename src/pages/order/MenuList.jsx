@@ -1,7 +1,6 @@
 import axios from "axios";
 import { useContext, useEffect, useState } from "react";
 import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
-import { getCafeInfo, getCafeMenuList } from "../../apis/order";
 import Menu from "../../components/order/Menu";
 import NavBar from "../../components/order/NavBar";
 import { OrderContext } from "../../contexts/OrderContext";

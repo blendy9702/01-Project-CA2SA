@@ -1,7 +1,7 @@
-import { Link, useNavigate } from "react-router-dom";
-import { FaLocationDot } from "react-icons/fa6";
 import { BiTimeFive } from "react-icons/bi";
-import styled from "styled-components";
+import { FaLocationDot } from "react-icons/fa6";
+import { useNavigate } from "react-router-dom";
+import styled from "@emotion/styled";
 
 const MarkerWrap = styled.div`
   width: 100%;
@@ -10,7 +10,6 @@ const MarkerWrap = styled.div`
   background-color: #fff;
   box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
   overflow: hidden;
-
   div {
     width: 100%;
     height: 100%;

@@ -4,7 +4,24 @@ import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
 import * as yup from "yup";
 import axios from "axios";
-import { JoinPageWrap } from "../../styles/join/joinpage";
+import {
+  ChoiceRadioBox,
+  EssentialRadioBox,
+  JoinPageCheckArea,
+  JoinPageEmail,
+  JoinPageMainWrap,
+  JoinPageMoveNext,
+  JoinPageNickName,
+  JoinPagePassword,
+  JoinPageTextArea,
+  JoinPageTopArea,
+  JoinPageTopBackOff,
+  JoinPageTopText,
+  JoinPageWrap,
+  ServiceCheckBox,
+} from "../../styles/join/joinpage";
+import { NavBarDiv } from "../../styles/order/orderpage";
+import { IoIosArrowBack } from "react-icons/io";
 
 const loginSchema = yup.object({
   nickName: yup
@@ -120,20 +137,27 @@ const JoinPage = () => {
   return (
     <JoinPageWrap>
       <form onSubmit={handleSubmit(handleSubmitForm)}>
-        <joinPageTopArea>
-          <joinPageTopBackOff>
+        <JoinPageTopArea>
+          <JoinPageTopBackOff>
             <Link to="/login">
-              <span>◁</span>
+              <IoIosArrowBack
+                style={{
+                  fontSize: "20px",
+                  marginTop: "10px",
+                  marginLeft: "10px",
+                }}
+              />
             </Link>
-          </joinPageTopBackOff>
-          <joinPageTopText>
+          </JoinPageTopBackOff>
+          <JoinPageTopText>
             <span>회원가입</span>
-          </joinPageTopText>
-        </joinPageTopArea>
-        <div className="joinPageMainWrap">
-          <div className="joinPageTextArea">
+          </JoinPageTopText>
+        </JoinPageTopArea>
+
+        <JoinPageMainWrap>
+          <JoinPageTextArea>
             <span>회원정보를 입력해주세요</span>
-            <div className="joinPageNickName">
+            <JoinPageNickName>
               <p>닉네임</p>
               <input
                 name="nickName"
@@ -142,8 +166,8 @@ const JoinPage = () => {
                 placeholder="닉네임을 입력해 주세요."
               />
               <p style={{ color: "red" }}>{errors.nickName?.message}</p>
-            </div>
-            <div className="joinPageEmail">
+            </JoinPageNickName>
+            <JoinPageEmail>
               <p>이메일</p>
               <input
                 name="email"
@@ -153,7 +177,7 @@ const JoinPage = () => {
               />
               <p style={{ color: "red" }}>{errors.email?.message}</p>
               <p style={{ color: "red" }}>{emailError}</p>
-            </div>
+            </JoinPageEmail>
             <button
               type="button"
               onClick={() => handleEmailValidation(email)}
@@ -161,7 +185,7 @@ const JoinPage = () => {
             >
               중복 확인
             </button>
-            <div className="joinPagePassword">
+            <JoinPagePassword>
               <p>비밀번호</p>
               <input
                 name="password"
@@ -179,18 +203,18 @@ const JoinPage = () => {
               {password !== passwordCheck && (
                 <p style={{ color: "red" }}>비밀번호가 일치하지 않습니다.</p>
               )}
-            </div>
-          </div>
-          <div className="JoinPageCheckArea">
-            <div className="serviceCheckBox">
+            </JoinPagePassword>
+          </JoinPageTextArea>
+          <JoinPageCheckArea>
+            <ServiceCheckBox>
               <input
                 type="checkbox"
                 checked={isCheckbox}
                 onChange={handleCheckboxChange}
               />
               <span>서비스 이용약관 전체 동의</span>
-            </div>
-            <div className="essentialRadioBox">
+            </ServiceCheckBox>
+            <EssentialRadioBox>
               <input
                 type="checkbox"
                 checked={radioState.essential}
@@ -200,8 +224,8 @@ const JoinPage = () => {
                 [필수]<a href="#">이용약관</a> 및
                 <a href="#"> 개인정보처리방침</a>
               </span>
-            </div>
-            <div className="choiceRadioBox">
+            </EssentialRadioBox>
+            <ChoiceRadioBox>
               <input
                 type="checkbox"
                 checked={radioState.choice}
@@ -210,14 +234,14 @@ const JoinPage = () => {
               <span>
                 [선택]<a href="#">마케팅 정보 수집 및 수신 동의</a>
               </span>
-            </div>
-            <div className="joinPageMoveNext">
+            </ChoiceRadioBox>
+            <JoinPageMoveNext>
               <button type="submit" disabled={!formValid}>
                 다음
               </button>
-            </div>
-          </div>
-        </div>
+            </JoinPageMoveNext>
+          </JoinPageCheckArea>
+        </JoinPageMainWrap>
       </form>
     </JoinPageWrap>
   );
