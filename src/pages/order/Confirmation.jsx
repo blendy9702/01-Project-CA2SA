@@ -1,5 +1,6 @@
 import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
 import NavBar from "../../components/order/NavBar";
+import { ContainerDiv, LayoutDiv } from "../../styles/order/orderpage";
 
 const mockData = {
   resultMessage: "string",
@@ -54,6 +55,11 @@ function Confirmation() {
         icon={"close"}
         title={"결제 완료"}
       />
+      <LayoutDiv>
+        <ContainerDiv>
+          <h4 style={{ color: "var(--primary-color)" }}>컴포즈 동성로점</h4>
+        </ContainerDiv>
+      </LayoutDiv>
     </div>
   );
 }
