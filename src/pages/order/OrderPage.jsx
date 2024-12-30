@@ -27,8 +27,10 @@ const OrderPage = () => {
   // useNavigation
   const location = useLocation();
   const locationData = location.state;
+  const cafeId = locationData[0].cafeId;
   useEffect(() => {
     console.log("카페 페이지 location:", locationData);
+    console.log("cafeId:", cafeId);
   }, [locationData]);
   const navigate = useNavigate();
   const handleNavigateMain = () => {
@@ -47,7 +49,7 @@ const OrderPage = () => {
   const [cafeInfo, setCafeInfo] = useState({});
 
   // 임시 카페 아이디 설정
-  const cafeId = 3;
+
   // 카페 정보 조회
   useEffect(() => {
     const getCafe = async data => {

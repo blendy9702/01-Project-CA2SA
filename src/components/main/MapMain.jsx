@@ -29,12 +29,12 @@ const MarkerPos = styled.div`
   bottom: 20px;
   left: 50%;
   transform: translateX(-50%);
-  z-index: 1;
   transition: 0.2s;
 `;
 
 const MapMain = () => {
   const [cafeData, setCafeData] = useState([]);
+  const [openInfo, setOpenInfo] = useState(null);
   const [state, setState] = useState({
     center: {
       lat: 35.868408,
@@ -44,12 +44,16 @@ const MapMain = () => {
     isLoading: true,
   });
 
-  const [openInfo, setOpenInfo] = useState(null);
+  // 지도의 로딩 상태를 관리하는 state를 선언합니다
+  const [isMapLoaded, setIsMapLoaded] = useState(false);
 
   const cafeInfo = async () => {
     try {
-      const res = await axios.get(`http://localhost:3000/resultData`);
-      setCafeData(res.data);
+      const res = await axios.get(
+        `api/cafe/map?user_latitude=${state.center.lat}&user_longitude=${state.center.lng}`,
+      );
+      console.log(res.data);
+      setCafeData(res.data.resultData);
     } catch (error) {
       console.error(error);
     }
@@ -90,7 +94,36 @@ const MapMain = () => {
       }));
     }
   }, []);
+  // 컴포넌트가 마운트될 때 카카오맵 스크립트를 로드합니다
+  useEffect(() => {
+    // 카카오맵 스크립트 엘리먼트를 생성합니다
+    const kakaoMapScript = document.createElement("script");
+    // 스크립트를 비동기로 로드하도록 설정합니다
+    kakaoMapScript.async = true;
+    // 카카오맵 SDK URL을 설정합니다 (환경변수에서 API 키를 가져옵니다)
+    kakaoMapScript.src = `//dapi.kakao.com/v2/maps/sdk.js?appkey=${import.meta.env.VITE_KKO_MAP_KEY}&autoload=false`;
 
+    // 스크립트 로드가 완료되면 실행될 이벤트 리스너를 추가합니다
+    kakaoMapScript.addEventListener("load", () => {
+      // 카카오맵을 로드하고 로딩 상태를 true로 변경합니다
+      window.kakao.maps.load(() => {
+        setIsMapLoaded(true);
+      });
+    });
+
+    // 생성한 스크립트를 head에 추가합니다
+    document.head.appendChild(kakaoMapScript);
+
+    // 컴포넌트가 언마운트될 때 스크립트를 제거합니다
+    return () => {
+      document.head.removeChild(kakaoMapScript);
+    };
+  }, []);
+
+  // 지도가 로드되지 않았다면 로딩 메시지를 표시합니다
+  if (!isMapLoaded) {
+    return <div>지도를 불러오는 중입니다...</div>;
+  }
   const handleMapClick = () => {
     setOpenInfo(null); // 빈 공간 클릭 시 창 닫기
   };
@@ -104,13 +137,14 @@ const MapMain = () => {
           width: "100%",
           height: "calc(100vh - 105px)",
           position: "relative",
+          zIndex: 10,
         }}
         level={4} // 지도의 확대 레벨
         onClick={handleMapClick}
       >
-        {cafeData.map((cafe, id) => (
+        {cafeData.map(cafe => (
           <CustomOverlayMap
-            key={cafe.id}
+            key={cafe.cafeId}
             position={{
               lat: cafe.latitude, // 카페의 위도
               lng: cafe.longitude, // 카페의 경도
@@ -118,18 +152,21 @@ const MapMain = () => {
           >
             <MapMarkerStyle
               onClick={
-                () => setOpenInfo(prev => (prev?.id === cafe.id ? null : cafe)) // 클릭된 카페 정보를 저장
+                () =>
+                  setOpenInfo(prev =>
+                    prev?.cafeId === cafe.cafeId ? null : cafe,
+                  ) // 클릭된 카페 정보를 저장
               }
             >
               {cafe.cafeName}
-              {openInfo === cafe.id && ( // 해당 카페만 열리도록 조건 추가
+              {openInfo === cafe.cafeId && ( // 해당 카페만 열리도록 조건 추가
                 <CustomOverlayMap
                   position={{
                     lat: cafe.latitude,
                     lng: cafe.longitude,
                   }}
                 >
-                  <MapMarkrtItem key={cafe.id} cafe={cafe} />
+                  <MapMarkrtItem key={cafe.cafeId} cafe={cafe} />
                 </CustomOverlayMap>
               )}
             </MapMarkerStyle>

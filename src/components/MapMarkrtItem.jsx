@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { FaLocationDot } from "react-icons/fa6";
 import { BiTimeFive } from "react-icons/bi";
 import styled from "styled-components";
@@ -11,7 +11,7 @@ const MarkerWrap = styled.div`
   box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
   overflow: hidden;
 
-  a {
+  div {
     width: 100%;
     height: 100%;
     display: flex;
@@ -49,9 +49,14 @@ const MarkerWrap = styled.div`
 `;
 
 const MapMarkrtItem = ({ cafe }) => {
+  const showCafe = useNavigate();
+  const viewProduct = cafeId => {
+    showCafe(`/order/${cafeId}`); // 동적으로 상품 ID를 사용해 페이지 이동
+  };
+
   return (
     <MarkerWrap>
-      <Link to="#">
+      <div onClick={() => viewProduct(cafe.cafeId)}>
         <div className="imgWrap">
           <img src={cafe.cafePic} alt={cafe.cafeName} />
         </div>
@@ -63,10 +68,10 @@ const MapMarkrtItem = ({ cafe }) => {
           </p>
           <p>
             <FaLocationDot />
-            {cafe.location}
+            {cafe.distance}m
           </p>
         </div>
-      </Link>
+      </div>
     </MarkerWrap>
   );
 };

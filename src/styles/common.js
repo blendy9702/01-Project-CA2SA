@@ -85,6 +85,7 @@ export const DockBarNav = styled.div`
   height: 70px;
   background-color: #fff;
   border: 1px solid var(--color-gray-300);
+  z-index: 1;
   a {
     display: flex;
     width: 33.3%;
@@ -99,4 +100,12 @@ export const DockBarNav = styled.div`
   a > svg {
     font-size: 24px;
   }
+`;
+
+export const PageContainer = styled.div`
+  position: relative;
+  width: 100%;
+  height: 100%;
+  background-color: #fff;
+  z-index: 10;
 `;

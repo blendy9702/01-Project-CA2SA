@@ -1,11 +1,10 @@
-import { Link } from "react-router-dom";
 import { FaLocationDot } from "react-icons/fa6";
+import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import { SwiperSlide } from "swiper/react";
 
-const ListBoxItem = styled.a`
-  margin: 20px 0;
+const ListBoxItem = styled.div`
   display: inline-block;
+  margin-bottom: 30px;
   div {
     width: 150px;
     height: 150px;
@@ -41,16 +40,20 @@ const ListBoxItem = styled.a`
 `;
 
 const ListBox = ({ cafe }) => {
+  const showCafe = useNavigate();
+  const viewProduct = cafeId => {
+    showCafe(`/order?${cafeId}`, { state: [{ cafeId: cafeId }] }); // 동적으로 상품 ID를 사용해 페이지 이동
+  };
   if (!cafe) return null; // undefined 방지
   return (
-    <ListBoxItem to="">
+    <ListBoxItem onClick={() => viewProduct(cafe.cafeId)}>
       <div>
         <img src={cafe.cafePic} alt={cafe.cafeName} />
       </div>
       <h3>{cafe.cafeName}</h3>
       <p>
         <FaLocationDot />
-        {cafe.location}
+        {cafe.distance}m
       </p>
     </ListBoxItem>
   );

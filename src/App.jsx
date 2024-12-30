@@ -28,10 +28,11 @@ import OedersDetails from "./pages/orders/OedersDetails";
 import AdminPage from "./pages/ceoadmin/AdminPage";
 import { OrderContextProvider } from "./contexts/OrderContext";
 import { UserPageProvider } from "./contexts/UserPageContext";
+import FAQ from "./pages/terms/FAQ";
+import Event from "./components/terms/Event";
 
 function App() {
-  const isLogin = true;
-
+  const isLogin = JSON.parse(sessionStorage.getItem("userData"));
   return (
     <div style={{ maxWidth: "640px", width: "100%", margin: "0 auto" }}>
       <Router>
@@ -82,6 +83,8 @@ function App() {
               <Route path="/terms/privacy" element={<Privacy />} />
               <Route path="/terms/marketing" element={<Marketing />} />
               <Route path="/terms/payment" element={<PaymentService />} />
+              <Route path="/terms/FAQ" element={<FAQ />} />
+              <Route path="/terms/event" element={<Event />} />
               {/* 사장님페이지 */}
               <Route path="/admin" element={<AdminPage />}></Route>
               <Route path="*" element={<NotFound />}></Route>
