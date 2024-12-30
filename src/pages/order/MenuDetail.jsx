@@ -58,6 +58,7 @@ const MenuDetail = () => {
         // const res = await axios.get(`/api/menu/detail?menuId=${data}`); ///api/menu/detail
         const res = await axios.get(`/api/cafe/menu/option?menu_id=${data}`); ////api/cafe/menu/option
         const resultData = res.data.resultData;
+        console.log("resultData:", resultData);
         console.log(`menuId: ${menuId}의 상세 옵션 통신 결과:`, resultData);
         setOptionList(resultData);
       } catch (error) {
@@ -216,6 +217,7 @@ const MenuDetail = () => {
                     value={item.menuOptionId}
                     {...register("options")}
                     onChange={e => {
+                      console.log(item.menuOptionId);
                       // 이 후 카테고리 선택지가 늘어나면, 버튼을 누를 때 index에 따라서?
                       if (e.target.checked === true) {
                         setValue(`options[0]`, {

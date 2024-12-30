@@ -47,7 +47,7 @@ const JoinPage = () => {
     formState: { errors, isValid },
   } = useForm({
     resolver: yupResolver(loginSchema),
-    defaultValues: { nickName: "", email: "", upw: "", agree: "1" },
+    defaultValues: { nickName: "", email: "", upw: "" },
     mode: "onChange",
   });
 
@@ -63,7 +63,6 @@ const JoinPage = () => {
     nickName: "",
     email: "",
     upw: "",
-    agree: "1",
   });
 
   // 패스워드 일치 확인
@@ -177,14 +176,14 @@ const JoinPage = () => {
               />
               <p style={{ color: "red" }}>{errors.email?.message}</p>
               <p style={{ color: "red" }}>{emailError}</p>
+              <button
+                type="button"
+                onClick={() => handleEmailValidation(email)}
+                disabled={!email}
+              >
+                중복 확인
+              </button>
             </JoinPageEmail>
-            <button
-              type="button"
-              onClick={() => handleEmailValidation(email)}
-              disabled={!email}
-            >
-              중복 확인
-            </button>
             <JoinPagePassword>
               <p>비밀번호</p>
               <input

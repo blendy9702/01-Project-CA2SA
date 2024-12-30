@@ -80,12 +80,40 @@ export const JoinPageCheckArea = styled.div`
 export const ServiceCheckBox = styled.div``;
 export const EssentialRadioBox = styled.div`
   padding-top: 30px;
+  appearance: none;
 `;
 export const ChoiceRadioBox = styled.div`
   padding-top: 10px;
 `;
-export const JoinPageMoveNext = styled.div``;
-export const JustBox = styled.div`
-  width: 100%;
-  height: 200px;
+export const JoinPageMoveNext = styled.div`
+  padding-top: 20px;
+
+  button {
+    width: 100%;
+    height: 60px;
+    border-radius: 8px;
+    border: 0px solid rgb(201, 201, 201);
+    outline: none;
+    background-color: #afe799;
+    color: #f5f5f5;
+    font-size: 18px;
+    font-weight: 700;
+    cursor: not-allowed;
+    transition: all 0.3s ease;
+
+    &:not(:disabled) {
+      background-color: #88c200;
+      color: white;
+      cursor: pointer;
+    }
+
+    &:hover:not(:disabled) {
+      background-color: #76b000;
+    }
+
+    &:active:not(:disabled) {
+      background-color: #699600;
+      transform: scale(0.98);
+    }
+  }
 `;

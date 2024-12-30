@@ -15,11 +15,11 @@ const TabMenuBtn = styled.div`
   font-weight: 500;
   cursor: pointer;
   border-bottom: ${props =>
-    props.$isActiveIndex
+    props.isActiveIndex
       ? "3px solid var(--secondary-color)"
       : "1px solid var(--color-gray-500)"};
   color: ${props =>
-    props.$isActiveIndex ? "var(--secondary-color)" : "var(--color-gray-500"};
+    props.isActiveIndex ? "var(--secondary-color)" : "var(--color-gray-500"};
 `;
 
 const HomePage = () => {
@@ -30,13 +30,13 @@ const HomePage = () => {
       <Header />
       <div style={{ display: "flex" }}>
         <TabMenuBtn
-          $isActiveIndex={activeIndex === 0}
+          isActiveIndex={activeIndex === 0}
           onClick={() => setActiveIndex(0)}
         >
           리스트로 주문하기
         </TabMenuBtn>
         <TabMenuBtn
-          $isActiveIndex={activeIndex === 1}
+          isActiveIndex={activeIndex === 1}
           onClick={() => setActiveIndex(1)}
         >
           지도로 주문하기

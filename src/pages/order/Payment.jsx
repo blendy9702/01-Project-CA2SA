@@ -10,6 +10,7 @@ import PaymentOption from "../../components/order/PaymentOption";
 import PickUpTime from "../../components/order/PickUpTime";
 import { PrimaryButton } from "../../styles/common";
 import { ContainerDiv, LayoutDiv } from "../../styles/order/orderpage";
+
 import { OrderContext } from "../../contexts/OrderContext";
 
 // 예상 수령시간 관리용 배열
@@ -28,9 +29,7 @@ const Payment = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   // useContext
   const { order, setOrder, popMemo, setPopMemo } = useContext(OrderContext);
-  useEffect(() => {
-    console.log("order:", order);
-  }, [order]);
+  useEffect(() => {}, [order]);
 
   // uesNavigate
   const navigate = useNavigate();
@@ -68,7 +67,9 @@ const Payment = () => {
   };
   // 오자마자 cafeId, userId 다시 확인하고 집어 넣기
   useEffect(() => {
-    setOrder({ ...order, cafeId: cafeId.cafeId, userId: 0 });
+    const userData = JSON.parse(sessionStorage.getItem("userData"));
+    const userId = userData.resultData.userId;
+    setOrder({ ...order, cafeId: cafeId.cafeId, userId: userId });
   }, []);
   // order가 제대로 바뀌고 있는지 확인, 오자마자 배열 정리시키기
   useEffect(() => {
@@ -99,8 +100,8 @@ const Payment = () => {
   const handleClickPickUpTime = (item, index) => {
     // order에 픽업 시간 넣기
     const now = moment();
-    const nowTime = now.format("YYYY-MM-DD HH:mm:ss");
-    const addMinutes = now.add(item, "minutes").format("YYYY-MM-DD HH:mm:ss");
+    const nowTime = now.format("HH:mm:ss");
+    const addMinutes = now.add(item, "minutes").format("HH:mm:ss");
     // setOrder({ ...order, pickUpTime: addMinutes, orderTime: nowTime }); //orderTime 코드 삭제
     setOrder({ ...order, pickUpTime: addMinutes });
     // 예상 수령 시간 픽업 시 버튼과 selectedTime의 index 비교
@@ -139,9 +140,10 @@ const Payment = () => {
   const handleClickPay = () => {
     // axios
     const postOrder = async data => {
+      console.log("보내지는 데이터", data);
       try {
         const res = await axios.post(`/api/order`, data);
-        console.log(res.data);
+
         if (res.resultMessage) {
           setOrder([]);
         }
@@ -161,7 +163,7 @@ const Payment = () => {
       };
     });
     const fixedOrder = { ...order, menuList: fixedMenuList };
-    // console.log("fixedOrder:", fixedOrder);
+
     postOrder(fixedOrder);
 
     // postOrder(order); order에 있는 내용물을 보내고, 결과로 return result (=res.data)를 받기

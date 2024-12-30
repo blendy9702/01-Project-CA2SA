@@ -12,38 +12,6 @@ import {
   OrderButton,
 } from "../../styles/order/orderpage";
 import { FiSearch } from "react-icons/fi";
-// const mockData = {
-//   resultMessage: "메뉴 출력 완료",
-//   resultData: [
-//     {
-//       categoryName: "커피",
-//       menu: [
-//         {
-//           menuId: 2,
-//           menuName: "아메리카노",
-//           price: 1500,
-//           comment: "깔끔함",
-//           menuPic: null,
-//         },
-//         {
-//           menuId: 4,
-//           menuName: "카페라떼",
-//           price: 2000,
-//           comment: "우유맛이 진함",
-//           menuPic: null,
-//         },
-//         {
-//           menuId: 5,
-//           menuName: "바닐라라떼",
-//           price: 2500,
-//           comment: "달달함",
-//           menuPic: null,
-//         },
-//       ],
-//     },
-//   ],
-// };
-// const mockDataResult = mockData.resultData;
 
 const MenuList = () => {
   // 앞에서 보낸 navigate의 state 받아오기
