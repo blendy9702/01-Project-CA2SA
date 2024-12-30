@@ -40,6 +40,7 @@ export default [
       "prettier/prettier": "warn",
       "react/prop-types": "off",
       "no-unused-vars": "off", //임시
+      "react/display-name": "off", // React-memo(화살표 함수시 빨간줄)
     },
   },
 ];

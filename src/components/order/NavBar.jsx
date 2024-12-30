@@ -1,3 +1,4 @@
+import { IoClose } from "react-icons/io5";
 import { IoIosArrowBack } from "react-icons/io";
 import { NavBarDiv } from "../../styles/order/orderpage";
 import { useNavigate } from "react-router-dom";
@@ -39,9 +40,9 @@ const NavBar = ({ onClick, icon, title }) => {
       }}
     >
       <button className="link-icon" onClick={onClick}>
-        {icon === "close" ? "X" : <IoIosArrowBack />}
+        {icon === "close" ? <IoClose /> : <IoIosArrowBack />}
       </button>
-      <h3 className="navbar-title">{title ? title : "title 없음"}</h3>
+      <h3 className="navbar-title">{title ? title : ""}</h3>
     </NavBarDiv>
   );
 };

@@ -10,7 +10,6 @@ import PaymentOption from "../../components/order/PaymentOption";
 import PickUpTime from "../../components/order/PickUpTime";
 import { PrimaryButton } from "../../styles/common";
 import { ContainerDiv, LayoutDiv } from "../../styles/order/orderpage";
-import moment from "moment";
 
 import { OrderContext } from "../../contexts/OrderContext";
 

@@ -107,7 +107,13 @@ const MenuList = () => {
     .toLocaleString();
 
   return (
-    <div style={{ position: "relative", paddingBottom: 30 }}>
+    <div
+      style={{
+        position: "relative",
+        paddingBottom: 100,
+        backgroundColor: "#fff",
+      }}
+    >
       <NavBar
         onClick={handleNavigateBack}
         icon={"back"}
@@ -161,9 +167,9 @@ const MenuList = () => {
           </CateListDiv>
         </div>
         <div className="cate-detail" style={{ padding: 20 }}>
-          <h3>고른 카테고리</h3>
+          <h3>{cateArr[selectedCate]}</h3>
           <div className="menu-list">
-            {cafeMenuData[0]?.menu.map((item, index) => {
+            {cafeMenuData[selectedCate]?.menu.map((item, index) => {
               return (
                 <div key={index}>
                   <Menu
