@@ -4,6 +4,7 @@ import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
 import * as yup from "yup";
 import axios from "axios";
+import { JoinPageWrap } from "../../styles/join/joinpage";
 
 const loginSchema = yup.object({
   nickName: yup
@@ -117,18 +118,18 @@ const JoinPage = () => {
   }, [isValid, radioState.essential, password, passwordCheck]);
 
   return (
-    <div className="joinPageWrap">
+    <JoinPageWrap>
       <form onSubmit={handleSubmit(handleSubmitForm)}>
-        <div className="joinPageTopArea">
-          <div className="joinPageTopBackOff">
+        <joinPageTopArea>
+          <joinPageTopBackOff>
             <Link to="/login">
               <span>◁</span>
             </Link>
-          </div>
-          <div className="joinPageTopText">
+          </joinPageTopBackOff>
+          <joinPageTopText>
             <span>회원가입</span>
-          </div>
-        </div>
+          </joinPageTopText>
+        </joinPageTopArea>
         <div className="joinPageMainWrap">
           <div className="joinPageTextArea">
             <span>회원정보를 입력해주세요</span>
@@ -218,7 +219,7 @@ const JoinPage = () => {
           </div>
         </div>
       </form>
-    </div>
+    </JoinPageWrap>
   );
 };
 
