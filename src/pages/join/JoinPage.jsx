@@ -164,9 +164,9 @@ const JoinPage = () => {
                 {...register("nickName")}
                 placeholder="닉네임을 입력해 주세요."
               />
-              <p style={{ color: "red" }}>{errors.nickName?.message}</p>
-            </div>
-            <div className="joinPageEmail">
+              <p style={{ color: "#ff6600" }}>{errors.nickName?.message}</p>
+            </JoinPageNickName>
+            <JoinPageEmail>
               <p>이메일</p>
               <input
                 name="email"
@@ -174,9 +174,17 @@ const JoinPage = () => {
                 {...register("email")}
                 placeholder="이메일을 입력해 주세요."
               />
-              <p style={{ color: "red" }}>{errors.email?.message}</p>
-            </div>
-            <div className="joinPagePassword">
+              <p style={{ color: "#ff6600" }}>{errors.email?.message}</p>
+              <p style={{ color: "#ff6600" }}>{emailError}</p>
+              <button
+                type="button"
+                onClick={() => handleEmailValidation(email)}
+                disabled={!email}
+              >
+                중복 확인
+              </button>
+            </JoinPageEmail>
+            <JoinPagePassword>
               <p>비밀번호</p>
               <input
                 name="password"
@@ -206,8 +214,16 @@ const JoinPage = () => {
                 onChange={handleCheckboxChange}
               />
               <span>서비스 이용약관 전체 동의</span>
-            </div>
-            <div className="essentialRadioBox">
+            </ServiceCheckBox>
+            <div
+              style={{
+                width: "100%",
+                height: "2px",
+                background: "#e0e0e0",
+                marginTop: "15px",
+              }}
+            ></div>
+            <EssentialRadioBox>
               <input
                 type="checkbox"
                 checked={radioState.essential}
