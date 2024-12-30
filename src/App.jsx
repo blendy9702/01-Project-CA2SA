@@ -32,8 +32,7 @@ import FAQ from "./pages/terms/FAQ";
 import Event from "./components/terms/Event";
 
 function App() {
-  const isLogin = true;
-
+  const isLogin = JSON.parse(sessionStorage.getItem("userData"));
   return (
     <div style={{ maxWidth: "640px", width: "100%", margin: "0 auto" }}>
       <Router>
@@ -63,7 +62,7 @@ function App() {
                 <Route index element={<SearchPage />} /> {/* SearchPage */}
               </Route>
               {/* 주문 */}
-              <Route path="/order/:id">
+              <Route path="/order">
                 <Route index element={<OrderPage />} /> {/* OrderPage */}
                 <Route path="menu" element={<MenuList />} />
                 <Route path="menu/detail" element={<MenuDetail />} />

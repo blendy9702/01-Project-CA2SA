@@ -42,7 +42,7 @@ const ListBoxItem = styled.div`
 const ListBox = ({ cafe }) => {
   const showCafe = useNavigate();
   const viewProduct = cafeId => {
-    showCafe(`/order/${cafeId}`); // 동적으로 상품 ID를 사용해 페이지 이동
+    showCafe(`/order?${cafeId}`, { state: [{ cafeId: cafeId }] }); // 동적으로 상품 ID를 사용해 페이지 이동
   };
   if (!cafe) return null; // undefined 방지
   return (
