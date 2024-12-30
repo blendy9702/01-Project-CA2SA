@@ -11,6 +11,7 @@ import {
   OrderButton,
   ThumImageDiv,
 } from "../../styles/order/orderpage";
+import DockBar from "../../components/DockBar";
 
 const OrderPage = () => {
   //useSearchPrams

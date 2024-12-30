@@ -57,7 +57,10 @@ const MapMarkrtItem = ({ cafe }) => {
     <MarkerWrap>
       <div onClick={() => viewProduct(cafe.cafeId)}>
         <div className="imgWrap">
-          <img src={cafe.cafePic} alt={cafe.cafeName} />
+          <img
+            src="http://112.222.157.156:5214/pic/cafe/${cafe.afeId}/${cafe.cafePic}"
+            alt={cafe.cafeName}
+          />
         </div>
         <div className="txt">
           <h5>{cafe.cafeName}</h5>

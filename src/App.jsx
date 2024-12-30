@@ -33,7 +33,6 @@ import Event from "./components/terms/Event";
 import { useEffect, useState } from "react";
 
 function App() {
-
   const [loading, setLoading] = useState(true);
   const [isLogin, setIsLogin] = useState(null);
 
@@ -52,11 +51,11 @@ function App() {
     return;
   }
 
-  const isLogin = JSON.parse(sessionStorage.getItem("userData"));
-
-
   return (
-    <div style={{ maxWidth: "640px", width: "100%", margin: "0 auto" }}>
+    <div
+      className="mainWrap"
+      style={{ maxWidth: "640px", width: "100%", margin: "0 auto" }}
+    >
       <Router>
         <OrderContextProvider>
           <UserPageProvider>
@@ -107,10 +106,9 @@ function App() {
               <Route path="/terms/FAQ" element={<FAQ />} />
               <Route path="/terms/event" element={<Event />} />
               {/* 사장님페이지 */}
-              <Route path="/admin" element={<AdminPage />}></Route>
+
               <Route path="*" element={<NotFound />}></Route>
             </Routes>
-            <DockBar />
           </UserPageProvider>
         </OrderContextProvider>
       </Router>
