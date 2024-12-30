@@ -21,7 +21,7 @@ const OrderPage = () => {
   const imgtag = imgRef.current;
   const imgURL = imgtag?.getAttribute("src");
   useEffect(() => {
-    console.log("이미지 주소:", imgURL);
+    // console.log("이미지 주소:", imgURL);
   }, [imgURL]);
 
   // useNavigation
@@ -29,8 +29,7 @@ const OrderPage = () => {
   const locationData = location.state;
   const cafeId = locationData[0].cafeId;
   useEffect(() => {
-    console.log("카페 페이지 location:", locationData);
-    console.log("cafeId:", cafeId);
+    // console.log("카페 페이지 location:", locationData);
   }, [locationData]);
   const navigate = useNavigate();
   const handleNavigateMain = () => {
@@ -39,7 +38,7 @@ const OrderPage = () => {
   const handleNavigateList = () => {
     // useNavigate
     navigate(`/order/menu?cafeId=${cafeId}`, {
-      state: [{ cafeId: cafeId }, { ...cafeInfo }, { prev: "/order" }],
+      state: [{ cafeId: cafeId }, cafeInfo, { prev: "/order" }],
     });
   };
   // context
@@ -47,18 +46,13 @@ const OrderPage = () => {
 
   // useState
   const [cafeInfo, setCafeInfo] = useState({});
-
-  // 임시 카페 아이디 설정
-
   // 카페 정보 조회
   useEffect(() => {
     const getCafe = async data => {
       try {
         const res = await axios.get(`/api/cafe?cafe_id=${data}`);
         const resultData = res.data.resultData;
-        if (resultData) {
-          setCafeInfo(resultData);
-        }
+        setCafeInfo(resultData);
         console.log("카페정보 통신 결과:", cafeInfo);
       } catch (error) {
         console.log("카페정보 통신 결과:", error);
@@ -66,7 +60,9 @@ const OrderPage = () => {
         // setCafeInfo(mockDataResult);
       }
     };
-    getCafe(cafeId);
+    if (cafeId) {
+      getCafe(cafeId);
+    }
   }, []);
 
   return (
@@ -80,7 +76,7 @@ const OrderPage = () => {
         <img
           src={
             cafeInfo
-              ? `http://192.168.0.144:5214/download/ca2sa/image/cafe/${cafeId}/${cafeInfo?.cafePic}`
+              ? `http://112.222.157.156:5214/pic/cafe/${cafeId}/${cafeInfo?.cafePic}`
               : "/images/order/cat.jpg"
           }
           ref={imgRef}

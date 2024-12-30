@@ -32,7 +32,8 @@ import FAQ from "./pages/terms/FAQ";
 import Event from "./components/terms/Event";
 
 function App() {
-  const isLogin = JSON.parse(sessionStorage.getItem("userData"));
+  const isLogin = true;
+
   return (
     <div style={{ maxWidth: "640px", width: "100%", margin: "0 auto" }}>
       <Router>
