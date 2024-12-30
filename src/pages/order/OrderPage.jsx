@@ -1,108 +1,145 @@
-import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
-import { Link, useNavigate } from "react-router-dom";
+import axios from "axios";
+import moment from "moment/moment";
+import { useContext, useEffect, useRef, useState } from "react";
+import { IoIosArrowForward } from "react-icons/io";
+import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
+import NavBar from "../../components/order/NavBar";
+import { OrderContext } from "../../contexts/OrderContext";
 import {
   ContentDiv,
-  OrderPageDiv,
+  LayoutDiv,
+  OrderButton,
   ThumImageDiv,
 } from "../../styles/order/orderpage";
-import { useContext, useEffect } from "react";
-import { OrderContext } from "../../contexts/OrderContext";
-import { getCafeInfo, resPostLoginData } from "../../apis/order";
-import NavBar from "../../components/order/NavBar";
-import { getCafe } from "../../apis/orderapi";
-
-//주소 분활
-const splitLocation = getCafeInfo.resultData.location.split("(우)");
-const address = splitLocation[0];
-const postcode = splitLocation[1];
+import DockBar from "../../components/DockBar";
 
 const OrderPage = () => {
-  const { order, setOrder } = useContext(OrderContext);
-  // order가 제대로 바뀌고 있는지 확인
-  useEffect(() => {}, [order]);
-  // order에 cafeId, userId값 채워넣기
+  //useSearchPrams
+  const [searchParams, setSearchParams] = useSearchParams();
+  const cafe_id = searchParams.get("cafe_id");
+  // useRef
+  const imgRef = useRef(null);
+  const imgtag = imgRef.current;
+  const imgURL = imgtag?.getAttribute("src");
   useEffect(() => {
-    const updatedOrder = {
-      ...order,
-      cafeId: getCafeInfo.resultData.cafeId,
-      userId: resPostLoginData.resultData.userId,
-    };
-    setOrder(updatedOrder);
-    console.log(order);
-  }, []);
-  // 카페 정보 조회
-  useEffect(() => {
-    getCafe(2);
-  }, []);
+    // console.log("이미지 주소:", imgURL);
+  }, [imgURL]);
 
   // useNavigation
+  const location = useLocation();
+  const locationData = location.state;
+  const cafeId = locationData[0].cafeId;
+  useEffect(() => {
+    // console.log("카페 페이지 location:", locationData);
+  }, [locationData]);
   const navigate = useNavigate();
-  const addOrderInfo = () => {
-    const orderData = {
-      ...resPostLoginData.resultData,
-      ...getCafeInfo.resultData,
-    };
-    navigate("menu", {
-      state: orderData,
+  const handleNavigateMain = () => {
+    navigate("/");
+  };
+  const handleNavigateList = () => {
+    // useNavigate
+    navigate(`/order/menu?cafeId=${cafeId}`, {
+      state: [{ cafeId: cafeId }, cafeInfo, { prev: "/order" }],
     });
   };
+  // context
+  const { order, setOrder } = useContext(OrderContext);
+
+  // useState
+  const [cafeInfo, setCafeInfo] = useState({});
+  // 카페 정보 조회
+  useEffect(() => {
+    const getCafe = async data => {
+      try {
+        const res = await axios.get(`/api/cafe?cafe_id=${data}`);
+        const resultData = res.data.resultData;
+        setCafeInfo(resultData);
+        console.log("카페정보 통신 결과:", cafeInfo);
+      } catch (error) {
+        console.log("카페정보 통신 결과:", error);
+        // console.log("mockData가 적용됩니다.");
+        // setCafeInfo(mockDataResult);
+      }
+    };
+    if (cafeId) {
+      getCafe(cafeId);
+    }
+  }, []);
 
   return (
-    <OrderPageDiv>
+    <div style={{ position: "relative", paddingBottom: 30, width: "100%" }}>
       <NavBar
-        path={"/"}
-        title={getCafeInfo.resultData.cafeName}
-        scrollevent={true}
-        style={{ position: "fixed", top: 0, left: 0 }}
+        onClick={handleNavigateMain}
+        icon={"close"}
+        title={cafeInfo?.cafeName || "로딩중"}
       />
-      <ThumImageDiv>
-        <img src="#"></img>
+      <ThumImageDiv height={300}>
+        <img
+          src={
+            cafeInfo
+              ? `http://112.222.157.156:5214/pic/cafe/${cafeId}/${cafeInfo?.cafePic}`
+              : "/images/order/cat.jpg"
+          }
+          ref={imgRef}
+        ></img>
       </ThumImageDiv>
-      <ContentDiv>
-        <div className="title-box">
-          <h2>{getCafeInfo.resultData.cafeName}</h2>
-        </div>
-        <div className="cafe-info">
-          <h3>매장정보</h3>
-          <div className="info-box">
-            <p className="info-subtitle">영업시간</p>
-            <div className="info-detail">
-              <p>
-                매일 {getCafeInfo.resultData.openTime}-
-                {getCafeInfo.resultData.closeTime}
-              </p>
-              <p>라스트 오더{getCafeInfo.resultData.closeTime}</p>
+      <LayoutDiv>
+        <ContentDiv>
+          <div className="title-box">
+            <h2>{cafeInfo?.cafeName || "로딩중"}</h2>
+          </div>
+          <div className="cafe-info">
+            <h3>매장정보</h3>
+            <div className="info-box">
+              <p className="info-subtitle">영업시간</p>
+              <div className="info-detail">
+                <p>
+                  매일{" "}
+                  {moment(cafeInfo?.openTime || "로딩중", "HH:mm:ss").format(
+                    "HH:mm",
+                  )}
+                  -
+                  {moment(cafeInfo?.closeTime || "로딩중", "HH:mm:ss").format(
+                    "HH:mm",
+                  )}
+                </p>
+                <p>
+                  라스트 오더{" "}
+                  {moment(cafeInfo?.closeTime || "로딩중", "HH:mm:ss").format(
+                    "HH:mm",
+                  )}
+                </p>
+              </div>
+            </div>
+            <div className="info-box">
+              <p className="info-subtitle">전화번호</p>
+              <div className="info-detail">
+                <p className="tel">{cafeInfo?.tel || "로딩중"}</p>
+              </div>
+            </div>
+            <div className="info-box last">
+              <p className="info-subtitle">주소</p>
+              <div className="info-detail">
+                <p>{cafeInfo?.location || "로딩중"}</p>
+                <p>(우)우편번호</p>
+              </div>
+            </div>
+            <div className="map"></div>
+            <div className="business-number">
+              <p>사업자 정보 조회</p>
+              <IoIosArrowForward className="icon" />
             </div>
           </div>
-          <div className="info-box">
-            <p className="info-subtitle">전화번호</p>
-            <div className="info-detail">
-              <p className="tel">{getCafeInfo.resultData.tel}</p>
-            </div>
-          </div>
-          <div className="info-box last">
-            <p className="info-subtitle">주소</p>
-            <div className="info-detail">
-              <p>{address}</p>
-              <p>(우){postcode}</p>
-            </div>
-          </div>
-          <div className="map"></div>
-          <div className="business-number">
-            <p>사업자 정보 조회</p>
-            <IoIosArrowForward className="icon" />
-          </div>
-        </div>
-      </ContentDiv>
-      <button
-        type="button"
-        onClick={() => addOrderInfo()}
-        style={{ bottom: "80px" }}
-        className="go-menulist"
-      >
-        메뉴담기
-      </button>
-    </OrderPageDiv>
+        </ContentDiv>
+        <OrderButton
+          type="button"
+          onClick={handleNavigateList}
+          className="go-menulist"
+        >
+          메뉴담기
+        </OrderButton>
+      </LayoutDiv>
+    </div>
   );
 };
 

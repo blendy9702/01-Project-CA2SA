@@ -6,13 +6,14 @@ import { Link, useNavigate } from "react-router-dom";
 import * as yup from "yup";
 import {
   EmailArea,
+  JustBox,
   LoginButton,
   LoginTopArea,
   LoginWrap,
-  LoingText,
+  PasswordArea,
   ServiceTextArea,
   SignUpButton,
-} from "../../styles/join/joinpage";
+} from "../../styles/join/loginpage";
 import { UserPageContext } from "../../contexts/UserPageContext";
 
 const loginSchema = yup.object({
@@ -27,7 +28,15 @@ const loginSchema = yup.object({
     .required("비밀번호는 필수 입니다."),
 });
 
-const LoginPage = () => {
+const LoginPage = ({ onLoginSuccess }) => {
+  const handleLogin = () => {
+    const userData = {
+      userId: "",
+      nickName: "",
+      email: "",
+    };
+    onLoginSuccess(userData);
+  };
   const {
     register,
     handleSubmit,
@@ -79,7 +88,7 @@ const LoginPage = () => {
           <a href="#">X</a>
         </div>
         <div>
-          <LoingText>로그인</LoingText>
+          <p>로그인</p>
         </div>
       </LoginTopArea>
       <div className="loginMainWrap">
@@ -102,25 +111,31 @@ const LoginPage = () => {
               />
               <p style={{ color: "red" }}>{errors.email?.message}</p>
             </EmailArea>
-            <div className="passwordArea">
+            <PasswordArea>
               <p>비밀번호</p>
               <input
                 {...register("upw")}
                 type="password"
                 placeholder="비밀번호를 입력해주세요."
               />
-              <p style={{ color: "red" }}>{errors.upw?.message}</p>
-            </div>
+              <p style={{ color: "#ff6600", fontSize: "14px" }}>
+                {errors.upw?.message}
+              </p>
+            </PasswordArea>
           </LoginWrap>
           {loginError && <p style={{ color: "red" }}>{loginError}</p>}
           <div className="loginSignUpWrap">
             <LoginButton>
-              <button type="submit">로그인</button>
+              <button type="submit" onClick={handleLogin}>
+                로그인
+              </button>
             </LoginButton>
           </div>
+
           <Link to="/join">
             <SignUpButton>회원가입</SignUpButton>
           </Link>
+          <JustBox></JustBox>
         </form>
       </div>
     </div>

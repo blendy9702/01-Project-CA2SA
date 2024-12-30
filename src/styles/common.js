@@ -36,9 +36,9 @@ export const AlternativeButton = styled.button`
   font-size: 16px;
   transition: 0.1s;
   &:active {
-    color: #fff;
-    background-color: var(--color-gray-900);
-    border: 1px solid var(--color-gray-900);
+    color: var(--primary-darker);
+    background-color: #cfe799;
+    border: 1px solid var(--primary-darker);
   }
 `;
 
@@ -85,7 +85,8 @@ export const DockBarNav = styled.div`
   height: 70px;
   background-color: #fff;
   border: 1px solid var(--color-gray-300);
-  a {
+  z-index: 1;
+  .linkStyle {
     display: flex;
     width: 33.3%;
     height: 100%;
@@ -96,7 +97,15 @@ export const DockBarNav = styled.div`
     gap: 5px;
     font-size: 16px;
   }
-  a > svg {
+  svg {
     font-size: 24px;
   }
+`;
+
+export const PageContainer = styled.div`
+  position: relative;
+  width: 100%;
+  height: 100%;
+  background-color: #fff;
+  z-index: 10;
 `;

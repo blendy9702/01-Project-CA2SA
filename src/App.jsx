@@ -28,12 +28,34 @@ import OedersDetails from "./pages/orders/OedersDetails";
 import AdminPage from "./pages/ceoadmin/AdminPage";
 import { OrderContextProvider } from "./contexts/OrderContext";
 import { UserPageProvider } from "./contexts/UserPageContext";
+import FAQ from "./pages/terms/FAQ";
+import Event from "./components/terms/Event";
+import { useEffect, useState } from "react";
 
 function App() {
-  const isLogin = true;
+  const [loading, setLoading] = useState(true);
+  const [isLogin, setIsLogin] = useState(null);
+
+  useEffect(() => {
+    const userDatas = sessionStorage.getItem("userData");
+    setIsLogin(!!userDatas);
+    setLoading(false);
+  }, []);
+
+  const handleLoginSuccess = userData => {
+    sessionStorage.setItem("userData", JSON.stringify(userData));
+    setIsLogin(true);
+  };
+
+  if (loading) {
+    return;
+  }
 
   return (
-    <div style={{ maxWidth: "640px", width: "100%", margin: "0 auto" }}>
+    <div
+      className="mainWrap"
+      style={{ maxWidth: "640px", width: "100%", margin: "0 auto" }}
+    >
       <Router>
         <OrderContextProvider>
           <UserPageProvider>
@@ -50,7 +72,10 @@ function App() {
                 <Route path="confirmform" element={<ConfirmForm />} />
               </Route>
               {/* 로그인 */}
-              <Route path="/login" element={<LoginPage />} />
+              <Route
+                path="/login"
+                element={<LoginPage onLoginSuccess={handleLoginSuccess} />}
+              />
               <Route path="/reset-password" element={<ResetPassword />} />
               {/* 검색 */}
               <Route path="/search">
@@ -60,12 +85,9 @@ function App() {
               <Route path="/order">
                 <Route index element={<OrderPage />} /> {/* OrderPage */}
                 <Route path="menu" element={<MenuList />} />
-                <Route path=":menuId" element={<MenuDetail />} />
+                <Route path="menu/detail" element={<MenuDetail />} />
                 <Route path="payment" element={<Payment />} />
-                <Route
-                  path="confirmation/:orderId"
-                  element={<Confirmation />}
-                />
+                <Route path="confirmation" element={<Confirmation />} />
               </Route>
               {/* 주문 내역 */}
               <Route path="/orders" element={<OrdersPage />}>
@@ -81,11 +103,12 @@ function App() {
               <Route path="/terms/privacy" element={<Privacy />} />
               <Route path="/terms/marketing" element={<Marketing />} />
               <Route path="/terms/payment" element={<PaymentService />} />
+              <Route path="/terms/FAQ" element={<FAQ />} />
+              <Route path="/terms/event" element={<Event />} />
               {/* 사장님페이지 */}
-              <Route path="/admin" element={<AdminPage />}></Route>
+
               <Route path="*" element={<NotFound />}></Route>
             </Routes>
-            <DockBar />
           </UserPageProvider>
         </OrderContextProvider>
       </Router>

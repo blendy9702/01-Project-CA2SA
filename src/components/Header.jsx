@@ -1,6 +1,6 @@
-import { useState } from "react";
 import { FiSearch } from "react-icons/fi";
-import styled from "styled-components";
+import { useNavigate } from "react-router-dom";
+import styled from "@emotion/styled";
 
 const HeaderWrap = styled.div`
   width: 100%;
@@ -22,13 +22,18 @@ const HeaderWrap = styled.div`
 `;
 
 function Header() {
+  const search = useNavigate();
+  const handleClickSearch = () => {
+    // 추가 로직 (예: 검색어 저장, 로그 등)
+    search("/search");
+  };
   return (
     <div>
       <HeaderWrap>
         <h1>
           <img src="images/ca2saLogo.png" alt="logo" />
         </h1>
-        <FiSearch />
+        <FiSearch onClick={handleClickSearch} />
       </HeaderWrap>
     </div>
   );
