@@ -13,7 +13,7 @@ export const ConfirmTopText = styled.div`
   align-items: center;
   font-size: 20px;
   font-weight: 700;
-  padding-left: 260px;
+  padding-left: 250px;
   padding-top: 10px;
 `;
 export const ConfirmCodeArea = styled.div`
@@ -33,6 +33,7 @@ export const ConfirmEmailSend = styled.div`
   }
 `;
 export const EmailVerification = styled.div`
+  position: relative;
   input {
     width: 100%;
     height: 50px;
@@ -47,6 +48,12 @@ export const EmailVerification = styled.div`
   input:focus {
     border-color: #88c200;
   }
+`;
+export const AuthTimer = styled.div`
+  display: flex;
+  position: absolute;
+  top: 33px;
+  right: 10px;
 `;
 
 export const ConfirmResendEmail = styled.div`

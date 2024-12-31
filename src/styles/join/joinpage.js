@@ -11,17 +11,17 @@ export const JoinPageTopText = styled.div`
   align-items: center;
   font-size: 20px;
   font-weight: 700;
-  padding-left: 260px;
+  padding-left: 250px;
   margin-top: 10px;
 `;
 
 export const JoinPageMainWrap = styled.div``;
 
 export const JoinPageTextArea = styled.div`
-  p {
+  div {
     font-size: 12px;
-    margin-top: 10px;
-    margin-bottom: 2px;
+    margin-top: 3px;
+    margin-bottom: 10px;
   }
   span {
     font-size: 20px;
@@ -60,7 +60,7 @@ export const JoinPageEmail = styled.div`
     position: absolute;
     border-radius: 8px;
     font-size: 12px;
-    top: 37px;
+    top: 25px;
     right: 10px;
     padding: 5px 10px;
     border: 2px solid rgb(201, 201, 201);
@@ -83,6 +83,7 @@ export const JoinPageCheckArea = styled.div`
 `;
 export const ServiceCheckBox = styled.div`
   padding-top: 15px;
+  accent-color: #88c200;
   span {
     padding-left: 10px;
   }
@@ -107,7 +108,6 @@ export const EssentialRadioBox = styled.div`
     outline: none;
     cursor: pointer;
     position: relative;
-    transition: all 0.1s ease;
 
     &:checked {
       border-color: #88c200;
@@ -140,7 +140,6 @@ export const ChoiceRadioBox = styled.div`
     outline: none;
     cursor: pointer;
     position: relative;
-    transition: all 0.1s ease;
 
     &:checked {
       border-color: #88c200;
