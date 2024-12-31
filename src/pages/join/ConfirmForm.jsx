@@ -2,6 +2,7 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import {
+  AuthTimer,
   ComfirmDone,
   ConfirmBackOff,
   ConfirmCodeArea,
@@ -186,7 +187,9 @@ const ConfirmForm = () => {
                 onChange={e => setCode(e.target.value)}
                 maxLength={6}
               />
-              <div>{authTimer > 0 && <p>{formatTime(authTimer)}</p>}</div>
+              <AuthTimer>
+                {authTimer > 0 && <p>{formatTime(authTimer)}</p>}
+              </AuthTimer>
             </EmailVerification>
           </ConfirmEmailArea>
           {error && <p style={{ color: "#ff6600" }}>{error}</p>}

@@ -174,8 +174,8 @@ const JoinPage = () => {
                 {...register("email")}
                 placeholder="이메일을 입력해 주세요."
               />
-              <p style={{ color: "#ff6600" }}>{errors.email?.message}</p>
-              <p style={{ color: "#ff6600" }}>{emailError}</p>
+              <div style={{ color: "#ff6600" }}>{errors.email?.message}</div>
+              <div style={{ color: "#ff6600" }}>{emailError}</div>
               <button
                 type="button"
                 onClick={() => handleEmailValidation(email)}
@@ -192,7 +192,7 @@ const JoinPage = () => {
                 {...register("upw")}
                 placeholder="비밀번호를 입력해 주세요."
               />
-              <p style={{ color: "#ff6600" }}>{errors.upw?.message}</p>
+              <div style={{ color: "#ff6600" }}>{errors.upw?.message}</div>
               <input
                 name="passwordCheck"
                 type="password"
@@ -200,9 +200,9 @@ const JoinPage = () => {
                 placeholder="비밀번호를 재입력해 주세요."
               />
               {password !== passwordCheck && (
-                <p style={{ color: "#ff6600" }}>
+                <div style={{ color: "#ff6600" }}>
                   비밀번호가 일치하지 않습니다.
-                </p>
+                </div>
               )}
             </JoinPagePassword>
           </JoinPageTextArea>
@@ -277,6 +277,7 @@ const JoinPage = () => {
           </JoinPageCheckArea>
         </JoinPageMainWrap>
       </form>
+      <div style={{ width: "100%", height: "200px" }}></div>
     </JoinPageWrap>
   );
 };

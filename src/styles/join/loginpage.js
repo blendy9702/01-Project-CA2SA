@@ -5,8 +5,9 @@ export const LoginTopArea = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
-    font-size: 30px;
+    font-size: 20px;
     font-weight: 700;
+    padding-top: 10px;
   }
 `;
 
@@ -15,25 +16,26 @@ export const LoginMainWrap = styled.div``;
 export const ServiceTextArea = styled.div`
   margin-top: 200px;
   color: #616161;
-  font-size: 24px;
+  font-size: 12px;
   padding-bottom: 10px;
 
   .ca2sa {
     color: #88c200;
-    font-size: 60px;
+    font-size: 36px;
     font-weight: 700;
   }
 `;
 export const LoginWrap = styled.div`
-  padding-top: 20px;
-  font-weight: 500;
+  padding-top: 16px;
+  font-weight: 300;
+  color: #483a4b;
   input {
     width: 100%;
-    height: 80px;
-    padding-left: 20px;
-    margin-top: 5px;
-    font-size: 24px;
-    border-radius: 16px;
+    height: 50px;
+    font-size: 16px;
+    font-weight: 300;
+    padding-left: 10px;
+    border-radius: 8px;
     border: 2px solid rgb(201, 201, 201);
     outline: none;
     transition: border-color 0.3s ease;
@@ -46,13 +48,15 @@ export const LoginWrap = styled.div`
 export const EmailArea = styled.div`
   padding-bottom: 15px;
   p {
-    font-size: 26px;
+    font-size: 12px;
+    font-weight: 500;
   }
 `;
 
 export const PasswordArea = styled.div`
   p {
-    font-size: 26px;
+    font-size: 12px;
+    font-weight: 500;
   }
 `;
 
@@ -69,11 +73,10 @@ export const LoginButton = styled.div`
     justify-content: center;
     align-items: center;
     width: 100%;
-    height: 80px;
-    border-radius: 16px;
-    font-size: 36px;
+    height: 60px;
+    border-radius: 8px;
+    font-size: 18px;
     font-weight: 700;
-    padding: 50px;
     color: white;
     background-color: #88c200;
     border: 0px solid #fff;
@@ -81,11 +84,11 @@ export const LoginButton = styled.div`
     transition: background-color 0.3s ease;
 
     &:hover {
-      background-color: #5e8c00;
+      background-color: #648f00;
     }
 
     &:active {
-      background-color: #5e8c00;
+      background-color: #648f00;
     }
   }
 `;
@@ -95,22 +98,22 @@ export const SignUpButton = styled.div`
   justify-content: center;
   align-items: center;
   width: 100%;
-  height: 100px;
-  border-radius: 16px;
-  font-size: 36px;
+  height: 60px;
+  border-radius: 8px;
+  font-size: 18px;
   font-weight: 700;
   color: white;
-  background-color: rgb(39, 39, 39);
+  background-color: #483a4b;
   border: 0px solid #fff;
   cursor: pointer;
   transition: background-color 0.3s ease;
 
   &:hover {
-    background-color: rgb(104, 104, 104);
+    background-color: #352838;
   }
 
   &:active {
-    background-color: rgb(104, 104, 104);
+    background-color: #352838;
   }
 `;
 

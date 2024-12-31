@@ -85,16 +85,18 @@ const LoginPage = ({ onLoginSuccess }) => {
     <div>
       <LoginTopArea>
         <div>
-          <a href="#">X</a>
-        </div>
-        <div>
           <p>로그인</p>
         </div>
       </LoginTopArea>
       <div className="loginMainWrap">
         <ServiceTextArea>
           <div>
-            <span className="ca2sa">CA2SA</span>
+            <img
+              src="./public/images/ca2saLogo.png"
+              style={{
+                height: "80px",
+              }}
+            />
           </div>
           <div className="serviceText">
             <span>서비스 이용을 위해 로그인을 해주세요</span>
@@ -108,6 +110,7 @@ const LoginPage = ({ onLoginSuccess }) => {
                 {...register("email")}
                 type="text"
                 placeholder="이메일을 입력해주세요."
+                style={{ fontSize: "16px", fontWeight: "300" }}
               />
               <p style={{ color: "red" }}>{errors.email?.message}</p>
             </EmailArea>
@@ -117,6 +120,7 @@ const LoginPage = ({ onLoginSuccess }) => {
                 {...register("upw")}
                 type="password"
                 placeholder="비밀번호를 입력해주세요."
+                style={{ fontSize: "16px", fontWeight: "300" }}
               />
               <p style={{ color: "#ff6600", fontSize: "14px" }}>
                 {errors.upw?.message}
