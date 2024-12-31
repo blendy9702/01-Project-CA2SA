@@ -3,6 +3,7 @@ import Header from "../components/Header";
 import { useState } from "react";
 import ListMain from "../components/main/ListMain";
 import MapMain from "../components/main/MapMain";
+import DockBar from "../components/DockBar";
 
 const TabMenuBtn = styled.div`
   width: 50%;
@@ -44,6 +45,7 @@ const HomePage = () => {
       </div>
       {activeIndex === 0 && <ListMain />}
       {activeIndex === 1 && <MapMain />}
+      <DockBar />
     </div>
   );
 };

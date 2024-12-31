@@ -118,7 +118,9 @@ const LoginPage = ({ onLoginSuccess }) => {
                 type="password"
                 placeholder="비밀번호를 입력해주세요."
               />
-              <p style={{ color: "red" }}>{errors.upw?.message}</p>
+              <p style={{ color: "#ff6600", fontSize: "14px" }}>
+                {errors.upw?.message}
+              </p>
             </PasswordArea>
           </LoginWrap>
           {loginError && <p style={{ color: "red" }}>{loginError}</p>}

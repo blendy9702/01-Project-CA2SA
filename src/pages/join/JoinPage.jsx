@@ -47,7 +47,7 @@ const JoinPage = () => {
     formState: { errors, isValid },
   } = useForm({
     resolver: yupResolver(loginSchema),
-    defaultValues: { nickName: "", email: "", upw: "", agree: "1" },
+    defaultValues: { nickName: "", email: "", upw: "" },
     mode: "onChange",
   });
 
@@ -63,7 +63,6 @@ const JoinPage = () => {
     nickName: "",
     email: "",
     upw: "",
-    agree: "1",
   });
 
   // 패스워드 일치 확인
@@ -165,7 +164,7 @@ const JoinPage = () => {
                 {...register("nickName")}
                 placeholder="닉네임을 입력해 주세요."
               />
-              <p style={{ color: "red" }}>{errors.nickName?.message}</p>
+              <p style={{ color: "#ff6600" }}>{errors.nickName?.message}</p>
             </JoinPageNickName>
             <JoinPageEmail>
               <p>이메일</p>
@@ -175,16 +174,16 @@ const JoinPage = () => {
                 {...register("email")}
                 placeholder="이메일을 입력해 주세요."
               />
-              <p style={{ color: "red" }}>{errors.email?.message}</p>
-              <p style={{ color: "red" }}>{emailError}</p>
+              <p style={{ color: "#ff6600" }}>{errors.email?.message}</p>
+              <p style={{ color: "#ff6600" }}>{emailError}</p>
+              <button
+                type="button"
+                onClick={() => handleEmailValidation(email)}
+                disabled={!email}
+              >
+                중복 확인
+              </button>
             </JoinPageEmail>
-            <button
-              type="button"
-              onClick={() => handleEmailValidation(email)}
-              disabled={!email}
-            >
-              중복 확인
-            </button>
             <JoinPagePassword>
               <p>비밀번호</p>
               <input
@@ -193,7 +192,7 @@ const JoinPage = () => {
                 {...register("upw")}
                 placeholder="비밀번호를 입력해 주세요."
               />
-              <p style={{ color: "red" }}>{errors.upw?.message}</p>
+              <p style={{ color: "#ff6600" }}>{errors.upw?.message}</p>
               <input
                 name="passwordCheck"
                 type="password"
@@ -201,7 +200,9 @@ const JoinPage = () => {
                 placeholder="비밀번호를 재입력해 주세요."
               />
               {password !== passwordCheck && (
-                <p style={{ color: "red" }}>비밀번호가 일치하지 않습니다.</p>
+                <p style={{ color: "#ff6600" }}>
+                  비밀번호가 일치하지 않습니다.
+                </p>
               )}
             </JoinPagePassword>
           </JoinPageTextArea>
@@ -214,6 +215,14 @@ const JoinPage = () => {
               />
               <span>서비스 이용약관 전체 동의</span>
             </ServiceCheckBox>
+            <div
+              style={{
+                width: "100%",
+                height: "2px",
+                background: "#e0e0e0",
+                marginTop: "15px",
+              }}
+            ></div>
             <EssentialRadioBox>
               <input
                 type="checkbox"
@@ -221,8 +230,25 @@ const JoinPage = () => {
                 onChange={() => handleRadioChange("essential")}
               />
               <span>
-                [필수]<a href="#">이용약관</a> 및
-                <a href="#"> 개인정보처리방침</a>
+                [필수]
+                <a
+                  href="#"
+                  style={{
+                    textDecorationLine: "underline",
+                  }}
+                >
+                  이용약관
+                </a>{" "}
+                및
+                <a
+                  href="#"
+                  style={{
+                    textDecorationLine: "underline",
+                  }}
+                >
+                  {" "}
+                  개인정보처리방침
+                </a>
               </span>
             </EssentialRadioBox>
             <ChoiceRadioBox>
@@ -232,7 +258,15 @@ const JoinPage = () => {
                 onChange={() => handleRadioChange("choice")}
               />
               <span>
-                [선택]<a href="#">마케팅 정보 수집 및 수신 동의</a>
+                [선택]{" "}
+                <a
+                  href="#"
+                  style={{
+                    textDecorationLine: "underline",
+                  }}
+                >
+                  마케팅 정보 수집 및 수신 동의
+                </a>
               </span>
             </ChoiceRadioBox>
             <JoinPageMoveNext>

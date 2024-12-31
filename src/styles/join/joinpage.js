@@ -10,6 +10,7 @@ export const JoinPageTopText = styled.div`
   justify-content: center;
   align-items: center;
   font-size: 20px;
+  font-weight: 700;
   padding-left: 260px;
   margin-top: 10px;
 `;
@@ -73,19 +74,120 @@ export const JoinPageEmail = styled.div`
     transform: translateY(0);
   }
 `;
-export const JoinPagePassword = styled.div``;
+export const JoinPagePassword = styled.div`
+  input {
+  }
+`;
 export const JoinPageCheckArea = styled.div`
   padding-top: 70px;
 `;
-export const ServiceCheckBox = styled.div``;
+export const ServiceCheckBox = styled.div`
+  padding-top: 15px;
+  span {
+    padding-left: 10px;
+  }
+  input {
+  }
+`;
 export const EssentialRadioBox = styled.div`
-  padding-top: 30px;
+  padding-top: 15px;
+  appearance: none;
+
+  span {
+    padding-left: 10px;
+  }
+
+  input {
+    width: 14px;
+    height: 14px;
+    border: 1px solid #000;
+    border-radius: 50%;
+
+    appearance: none;
+    outline: none;
+    cursor: pointer;
+    position: relative;
+    transition: all 0.1s ease;
+
+    &:checked {
+      border-color: #88c200;
+    }
+
+    &:checked::before {
+      content: "";
+      width: 8px;
+      height: 8px;
+      background-color: #88c200;
+      border-radius: 50%;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
+  }
 `;
 export const ChoiceRadioBox = styled.div`
   padding-top: 10px;
+  span {
+    padding-left: 10px;
+  }
+  input {
+    width: 14px;
+    height: 14px;
+    border: 1px solid #000;
+    border-radius: 50%;
+    appearance: none;
+    outline: none;
+    cursor: pointer;
+    position: relative;
+    transition: all 0.1s ease;
+
+    &:checked {
+      border-color: #88c200;
+    }
+
+    &:checked::before {
+      content: "";
+      width: 8px;
+      height: 8px;
+      background-color: #88c200;
+      border-radius: 50%;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
+  }
 `;
-export const JoinPageMoveNext = styled.div``;
-export const JustBox = styled.div`
-  width: 100%;
-  height: 200px;
+export const JoinPageMoveNext = styled.div`
+  padding-top: 10px;
+
+  button {
+    width: 100%;
+    height: 60px;
+    border-radius: 8px;
+    border: 0px solid rgb(201, 201, 201);
+    outline: none;
+    background-color: #afe799;
+    color: #f5f5f5;
+    font-size: 18px;
+    font-weight: 700;
+    cursor: not-allowed;
+    transition: all 0.3s ease;
+
+    &:not(:disabled) {
+      background-color: #88c200;
+      color: white;
+      cursor: pointer;
+    }
+
+    &:hover:not(:disabled) {
+      background-color: #76b000;
+    }
+
+    &:active:not(:disabled) {
+      background-color: #699600;
+      transform: scale(0.98);
+    }
+  }
 `;

@@ -138,28 +138,6 @@ const ListMain = () => {
       </Swiper>
       <div>
         <TitleFlex>
-          <h2>
-            요즘은 <span>#오곡라떼</span> 가 대세
-          </h2>
-        </TitleFlex>
-        <Swiper
-          slidesPerView={3}
-          spaceBetween={30}
-          pagination={{
-            clickable: true,
-          }}
-          modules={[Pagination]}
-          className="mySwiper"
-        >
-          {cafeData.map(cafe => (
-            <SwiperSlide key={cafe.cafeId}>
-              <ListBox cafe={cafe} />
-            </SwiperSlide>
-          ))}
-        </Swiper>
-      </div>
-      <div>
-        <TitleFlex>
           <h2>나와 가까운 매장</h2>
         </TitleFlex>
         <Swiper
