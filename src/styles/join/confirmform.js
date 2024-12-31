@@ -1,6 +1,8 @@
 import styled from "@emotion/styled";
 
-export const ConfirmWrap = styled.div``;
+export const ConfirmWrap = styled.div`
+  margin: 20px;
+`;
 export const ConfirmTopArea = styled.div`
   display: flex;
 `;
@@ -13,7 +15,7 @@ export const ConfirmTopText = styled.div`
   align-items: center;
   font-size: 20px;
   font-weight: 700;
-  padding-left: 250px;
+  padding-left: 230px;
   padding-top: 10px;
 `;
 export const ConfirmCodeArea = styled.div`
