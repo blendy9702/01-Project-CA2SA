@@ -15,10 +15,10 @@ const mockData = {
       nickName: "고사리 빵펀치",
       cafeName: "스타벅스",
       location: "어쩌구 저쩌구 위치",
-      pickUpTime: "2024-12-30 00:05:00",
-      createdAt: "2024-12-30 00:00:00",
+      pickUpTime: "2024-12-20 03:10:00",
+      createdAt: "2024-12-20 02:00:00",
       memo: "얼음 꽊",
-      orderProgress: 3,
+      orderProgress: 2,
       orderMenuList: [
         {
           orderMenuId: 0,
@@ -30,6 +30,29 @@ const mockData = {
               menuOptionId: 0,
               optionName: "HOT",
               addPrice: 0,
+            },
+            {
+              menuOptionId: 0,
+              optionName: "샷 추가",
+              addPrice: 500,
+            },
+          ],
+        },
+        {
+          orderMenuId: 0,
+          orderMenuName: "카페라떼",
+          price: 3500,
+          count: 1,
+          options: [
+            {
+              menuOptionId: 0,
+              optionName: "HOT",
+              addPrice: 0,
+            },
+            {
+              menuOptionId: 0,
+              optionName: "샷 추가",
+              addPrice: 500,
             },
           ],
         },
@@ -64,12 +87,13 @@ function Confirmation() {
 
   // userId
   const userData = JSON.parse(sessionStorage.getItem("userData"));
-  const userId = userData.resultData.userId;
+  // const userId = userData.resultData.userId;
+  const userId = 39;
 
   // mocKData 적용
   useEffect(() => {
     setNowProgress(recentOrder.orderProgress);
-    console.log(nowProgress);
+    console.log("현재 주문 상태:", nowProgress);
   }, [nowProgress]);
   // axios
   useEffect(() => {

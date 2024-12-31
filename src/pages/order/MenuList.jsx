@@ -130,13 +130,13 @@ const MenuList = () => {
           <div
             style={{ width: "100%", marginBottom: 10, position: "relative" }}
           >
-            <SearchInput
+            {/* <SearchInput
               type="text"
               id="searchBar"
               style={{ width: "100%" }}
               placeholder="메뉴를 검색해보세요"
-            />
-            <label
+            /> */}
+            {/* <label
               htmlFor="searchBar"
               style={{
                 position: "absolute",
@@ -147,7 +147,7 @@ const MenuList = () => {
               }}
             >
               <FiSearch />
-            </label>
+            </label> */}
           </div>
           <CateListDiv>
             {cateArr.map((item, index) => {

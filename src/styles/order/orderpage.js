@@ -9,6 +9,8 @@ export const LayoutDiv = styled.div`
 `;
 export const ContainerDiv = styled.div`
   padding: 20px 0 22px 0;
+  border-bottom: ${props =>
+    props.borderBottom ? "1px dashed var(--primary-darker)" : "none"};
   .menuName {
     padding-bottom: 8px;
   }

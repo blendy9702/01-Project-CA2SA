@@ -11,12 +11,11 @@ import {
   OrderButton,
   ThumImageDiv,
 } from "../../styles/order/orderpage";
-import DockBar from "../../components/DockBar";
 
 const OrderPage = () => {
   //useSearchPrams
   const [searchParams, setSearchParams] = useSearchParams();
-  const cafe_id = searchParams.get("cafe_id");
+  const cafeId = searchParams.get("cafeId");
   // useRef
   const imgRef = useRef(null);
   const imgtag = imgRef.current;
@@ -28,7 +27,7 @@ const OrderPage = () => {
   // useNavigation
   const location = useLocation();
   const locationData = location.state;
-  const cafeId = locationData[0].cafeId;
+
   useEffect(() => {
     // console.log("카페 페이지 location:", locationData);
   }, [locationData]);
@@ -51,7 +50,7 @@ const OrderPage = () => {
   useEffect(() => {
     const getCafe = async data => {
       try {
-        const res = await axios.get(`/api/cafe?cafe_id=${data}`);
+        const res = await axios.get(`/api/cafe/${data}`);
         const resultData = res.data.resultData;
         setCafeInfo(resultData);
         console.log("카페정보 통신 결과:", cafeInfo);
@@ -65,9 +64,7 @@ const OrderPage = () => {
       getCafe(cafeId);
     }
   }, []);
-  useEffect(() => {
-    console.log("cafeInfo", cafeInfo);
-  }, [cafeInfo]);
+  useEffect(() => {}, [cafeInfo]);
 
   return (
     <div style={{ position: "relative", paddingBottom: 30, width: "100%" }}>
@@ -80,7 +77,7 @@ const OrderPage = () => {
         <img
           src={
             cafeInfo
-              ? `http://112.222.157.156:5214/pic/cafe/${cafeId}/${cafeInfo?.cafePic}`
+              ? `http://112.222.157.156:5214${cafeInfo?.cafePic}`
               : "/images/order/cat.jpg"
           }
           ref={imgRef}
