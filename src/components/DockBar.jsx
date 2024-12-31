@@ -2,7 +2,7 @@ import { Link, useLocation } from "react-router-dom";
 import { DockBarNav } from "../styles/common";
 import { AiFillHome } from "react-icons/ai";
 import { HiMiniReceiptPercent } from "react-icons/hi2";
-import { BiSolidUser } from "react-icons/bi";
+import { BiCalendar, BiSolidUser } from "react-icons/bi";
 import styled from "@emotion/styled";
 import { useEffect } from "react";
 
@@ -31,6 +31,10 @@ function DockBar() {
       <StyledLink to="/orders" isActive={isActive("/orders")}>
         <HiMiniReceiptPercent />
         주문내역
+      </StyledLink>
+      <StyledLink to="/calendar" isActive={isActive("/calendar")}>
+        <BiCalendar />
+        캘린더
       </StyledLink>
       <StyledLink to="/mypage" isActive={isActive("/mypage")}>
         <BiSolidUser />

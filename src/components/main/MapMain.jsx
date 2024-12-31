@@ -7,9 +7,11 @@ import MapMarkrtItem from "../MapMarkrtItem";
 const MapMarkerStyle = styled.div`
   position: relative;
   padding: 10px 20px;
-  background-color: #fff;
+  background-color: ${({ isClicked }) =>
+    isClicked ? "#fff" : "var(--color-gray-900)"};
   box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
   border-radius: 16px;
+
   &:after {
     content: "";
     position: absolute;
@@ -20,7 +22,10 @@ const MapMarkerStyle = styled.div`
     height: 0;
     border-style: solid;
     border-width: 8.66px 5px 0px 5px;
-    border-color: #ffffff transparent transparent transparent;
+    border-color: #fff transparent transparent transparent;
+  }
+  &:active {
+    background-color: var(--color-gray-900);
   }
 `;
 
@@ -35,6 +40,7 @@ const MarkerPos = styled.div`
 `;
 
 const MapMain = () => {
+  const [isClicked, setIsClicked] = useState(false);
   const [cafeData, setCafeData] = useState([]);
   const [openInfo, setOpenInfo] = useState(null);
   console.log(onclick, openInfo);
