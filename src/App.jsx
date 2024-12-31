@@ -33,7 +33,6 @@ import Event from "./components/terms/Event";
 import { useEffect, useState } from "react";
 
 function App() {
-
   const [loading, setLoading] = useState(true);
   const [isLogin, setIsLogin] = useState(null);
 
@@ -51,9 +50,6 @@ function App() {
   if (loading) {
     return;
   }
-
-  const isLogin = JSON.parse(sessionStorage.getItem("userData"));
-
 
   return (
     <div style={{ maxWidth: "640px", width: "100%", margin: "0 auto" }}>

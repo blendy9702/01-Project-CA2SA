@@ -82,14 +82,19 @@ const SearchPage = () => {
 
   const getcafes = async () => {
     try {
-      const cafeNames = resultData.map(item => item.cafeName);
-      const res = await axios.get(
-        `api/cafe/search?search_cafe_name=${isSearch}&max_distance=1000&user_latitude=${state.center.lat}&user_longitude=${state.center.lng}`,
-      );
-      console.log(isSearch);
-      setCafeData(res.data.resultData);
-      setState(prev => ({ ...prev, isLoading: false }));
-      console.log(res.data.resultData);
+      {
+        console.log(isSearch);
+        // const res2 = await axios.get(
+        //   `/api/cafe/search?search_location=${isSearch}&max_distance=1000&user_latitude=${state.center.lat}&user_longitude=${state.center.lng}`,
+        // );
+        const res = await axios.get(
+          `api/cafe/search?search_location=${isSearch}&search_cafe_name=${isSearch}&max_distance=1000&user_latitude=${state.center.lat}&user_longitude=${state.center.lng}`,
+        );
+        console.log(isSearch);
+        setCafeData(res.data.resultData);
+        // setState(prev => ({ ...prev, isLoading: false }));
+        // console.log(res.data.resultData);
+      }
     } catch (error) {
       console.log(error);
       setState(prev => ({ ...prev, isLoading: false }));
@@ -108,8 +113,19 @@ const SearchPage = () => {
   const isFocused = isSearch.length > 0; // 검색어가 있으면 focus 상태로 간주
 
   useEffect(() => {
-    getcafes();
-  }, []);
+    if (isSearch !== "") {
+      // getcafes();
+    }
+  }, [isSearch]);
+  const handleClickKeyDown = e => {
+    // e.key를 사용하여 키 입력 확인
+    if (e.key === "Enter") {
+      // isSearch가 유효한 값인지 확인
+      if (isSearch && isSearch.trim() !== "") {
+        getcafes();
+      }
+    }
+  };
   return (
     <div>
       <HeaderWrap>
@@ -123,6 +139,7 @@ const SearchPage = () => {
             value={isSearch}
             placeholder="먹고싶은 메뉴나 매장을 찾아보세요"
             onChange={e => setIsSearch(e.target.value)}
+            onKeyDown={e => handleClickKeyDown(e)}
           />
           <div>
             {/* 매장 검색 결과 렌더링 */}

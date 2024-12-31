@@ -184,6 +184,57 @@ export const ContainerDiv = styled.div`
       height: 60px;
     }
   }
+  .porogress-box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    .inProgress {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+      padding: 36px 0 10px 0;
+    }
+    p {
+      font-size: 12px;
+      color: var(--color-gray-500);
+    }
+  }
+  .orderdInfoBox {
+    border-bottom: 1px solid var(--color-gray-100);
+    .infoDetail {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 20px 0;
+      .light {
+        font-size: 14px;
+        font-weight: lighter;
+        color: var(--color-gray-700);
+      }
+      .menuInfo {
+        p {
+          font-size: 16px;
+        }
+        ul {
+          li {
+            font-size: 14px;
+            color: var(--color-gray-500);
+          }
+        }
+      }
+      .price {
+      }
+    }
+  }
+  .order-Info {
+    .info {
+      border-bottom: 1px dashed var(--primary-darker);
+
+      p {
+      }
+    }
+  }
 `;
 
 export const ThumImageDiv = styled.div`
@@ -419,4 +470,23 @@ export const PickUpTimeButton = styled.button`
   cursor: pointer;
   font-size: 16px;
   transition: 0.1s;
+`;
+
+export const OrderProgressDiv = styled.div`
+  .ProgressCircle {
+    width: 70px;
+    height: 70px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background-color: ${props =>
+      props.selectedProgress ? "var(--primary-color)" : "var(--color-white)"};
+  }
+  p {
+    padding-top: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
 `;

@@ -64,6 +64,9 @@ const OrderPage = () => {
       getCafe(cafeId);
     }
   }, []);
+  useEffect(() => {
+    console.log("cafeInfo", cafeInfo);
+  }, [cafeInfo]);
 
   return (
     <div style={{ position: "relative", paddingBottom: 30, width: "100%" }}>
