@@ -17,7 +17,31 @@ export const MyPageDiv = styled.div`
   }
 `;
 
+export const ProfileImg = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 50px;
+  div {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100px;
+    width: 100px;
+    overflow: hidden;
+    img {
+      object-fit: cover;
+      border-radius: 50%;
+      width: 100%;
+      height: 100%;
+    }
+  }
+`;
+
 export const ProfileArea = styled.div`
+  position: relative;
+  overflow: visible;
   p {
     display: flex;
   }
@@ -35,27 +59,7 @@ export const ProfileArea = styled.div`
     border-radius: 50%;
     color: white;
     text-decoration: none;
-  }
-`;
-export const ProfileImg = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin: 50px;
-  div {
-    position: relative;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100px;
-    width: 100px;
-    border-radius: 50%;
-    overflow: hidden;
-    img {
-      object-fit: cover;
-      width: 100%;
-      height: 100%;
-    }
+    z-index: 999;
   }
 `;
 

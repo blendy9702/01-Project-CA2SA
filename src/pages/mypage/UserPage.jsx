@@ -80,7 +80,7 @@ const UserPage = () => {
     // 세션 스토리지와 컨텍스트 초기화
     sessionStorage.clear();
     setMyPage({});
-    alert("로그아웃합니다..");
+    alert("로그아웃합니다.");
     navigate("/login");
   };
 
@@ -203,7 +203,7 @@ const UserPage = () => {
               </div>
               <div>
                 <Link
-                  to="/terms/service"
+                  to="/calendar"
                   style={{
                     color: "#616161",
                     display: "flex",
