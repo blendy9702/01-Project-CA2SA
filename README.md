@@ -48,6 +48,20 @@ Project-CA2SA
 ├─ public
 │  ├─ favicon.ico
 │  └─ images
+│     ├─ 404
+│     │  └─ 404.png
+│     ├─ ca2saLogo.png
+│     ├─ event
+│     │  ├─ image-0.png
+│     │  ├─ image-1.png
+│     │  ├─ image-2.png
+│     │  ├─ image-3.png
+│     │  ├─ image-4.png
+│     │  ├─ image-5.png
+│     │  └─ image-6.png
+│     ├─ event_banner.png
+│     ├─ footerca2saLogo.png
+│     ├─ Frame 307.png
 │     ├─ main_visual_image-0.png
 │     ├─ main_visual_image-1.png
 │     ├─ main_visual_image-2.png
@@ -55,24 +69,54 @@ Project-CA2SA
 │     ├─ main_visual_image-4.png
 │     ├─ main_visual_image-5.png
 │     ├─ main_visual_image-6.png
-│     └─ main_visual_image-7.png
+│     ├─ main_visual_image-7.png
+│     ├─ NoSearch.png
+│     ├─ order
+│     │  ├─ cat.jpg
+│     │  ├─ cat2.jpg
+│     │  ├─ checkboxOff.png
+│     │  └─ CheckboxOn.png
+│     └─ qna_banner.png
 ├─ README.md
+├─ server
+│  └─ DB.json
 ├─ src
 │  ├─ apis
-│  │  └─ order.jsx
+│  │  ├─ order.jsx
+│  │  └─ orderapi.jsx
 │  ├─ App.css
 │  ├─ App.jsx
+│  ├─ assets
+│  │  └─ react.svg
 │  ├─ components
 │  │  ├─ DockBar.jsx
 │  │  ├─ Header.jsx
+│  │  ├─ Icon.jsx
+│  │  ├─ Layout.jsx
 │  │  ├─ main
-│  │  │  └─ ListBox.jsx
-│  │  └─ order
-│  │     └─ Menu.jsx
-│  ├─ constants
+│  │  │  ├─ ListBox.jsx
+│  │  │  ├─ ListMain.jsx
+│  │  │  ├─ MapMain.jsx
+│  │  │  └─ SlideItem.jsx
+│  │  ├─ MapMarkrtItem.jsx
+│  │  ├─ order
+│  │  │  ├─ Memo.jsx
+│  │  │  ├─ Menu.jsx
+│  │  │  ├─ NavBar.jsx
+│  │  │  ├─ OrderDetail.jsx
+│  │  │  ├─ OrderProgress.jsx
+│  │  │  ├─ PaymentOption.jsx
+│  │  │  └─ PickUpTime.jsx
+│  │  ├─ search
+│  │  │  └─ SearchList.jsx
+│  │  └─ terms
+│  │     ├─ Event.jsx
+│  │     ├─ QnaList.jsx
+│  │     └─ Questions.jsx
 │  ├─ contexts
 │  │  ├─ LoginContext.jsx
-│  │  └─ OrderContext.jsx
+│  │  ├─ OrderContext.jsx
+│  │  └─ UserPageContext.jsx
 │  ├─ index.css
 │  ├─ main.jsx
 │  ├─ pages
@@ -119,19 +163,23 @@ Project-CA2SA
 │  │  │  ├─ OedersDetails.jsx
 │  │  │  └─ OrdersPage.jsx
 │  │  ├─ search
+│  │  │  ├─ SearchList.jsx
 │  │  │  └─ SearchPage.jsx
 │  │  └─ terms
+│  │     ├─ FAQ.jsx
 │  │     ├─ Marketing.jsx
 │  │     ├─ PaymentService.jsx
 │  │     ├─ Privacy.jsx
 │  │     └─ Service.jsx
-│  ├─ styles
-│  │  ├─ common.js
-│  │  ├─ join
-│  │  │  └─ joinpage.js
-│  │  └─ order
-│  │     └─ orderpage.js
-│  └─ utils
+│  └─ styles
+│     ├─ common.js
+│     ├─ join
+│     │  ├─ confirmform.js
+│     │  ├─ joinpage.js
+│     │  ├─ loginpage.js
+│     │  └─ userpage.js
+│     └─ order
+│        └─ orderpage.js
 └─ vite.config.js
 
 ```

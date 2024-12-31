@@ -16,7 +16,8 @@ export const LoginMainWrap = styled.div``;
 export const ServiceTextArea = styled.div`
   margin-top: 200px;
   color: #616161;
-  font-size: 12px;
+  font-size: 16px;
+  font-family: 300;
   padding-bottom: 10px;
 
   .ca2sa {

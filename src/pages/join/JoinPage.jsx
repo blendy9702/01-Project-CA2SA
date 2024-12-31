@@ -58,6 +58,7 @@ const JoinPage = () => {
     choice: false,
   });
   const [isEmailValid, setIsEmailValid] = useState(false);
+  const [isEmailChecked, setIsEmailChecked] = useState(false);
   const [emailError, setEmailError] = useState("");
   const navigate = useNavigate({
     nickName: "",
@@ -80,14 +81,17 @@ const JoinPage = () => {
       if (res.data?.resultData === 0) {
         setIsEmailValid(false);
         setEmailError("이미 사용 중인 이메일입니다.");
+        setIsEmailChecked(false);
       } else {
         setIsEmailValid(true);
         setEmailError("사용 가능한 이메일입니다.");
+        setIsEmailChecked(true);
       }
     } catch (error) {
       console.error("이메일 확인 오류:", error.response || error.message);
       setIsEmailValid(false);
       setEmailError("이메일 확인 중 오류가 발생했습니다.");
+      setIsEmailChecked(false);
     }
   };
 
@@ -130,8 +134,10 @@ const JoinPage = () => {
 
   useEffect(() => {
     const passwordsMatch = password === passwordCheck;
-    setFormValid(isValid && radioState.essential && passwordsMatch);
-  }, [isValid, radioState.essential, password, passwordCheck]);
+    setFormValid(
+      isValid && radioState.essential && passwordsMatch && isEmailChecked,
+    );
+  }, [isValid, radioState.essential, password, passwordCheck, isEmailChecked]);
 
   return (
     <JoinPageWrap>
@@ -181,7 +187,7 @@ const JoinPage = () => {
                 onClick={() => handleEmailValidation(email)}
                 disabled={!email}
               >
-                중복 확인
+                중복확인
               </button>
             </JoinPageEmail>
             <JoinPagePassword>
@@ -218,7 +224,7 @@ const JoinPage = () => {
             <div
               style={{
                 width: "100%",
-                height: "2px",
+                height: "1px",
                 background: "#e0e0e0",
                 marginTop: "15px",
               }}
@@ -231,16 +237,18 @@ const JoinPage = () => {
               />
               <span>
                 [필수]
-                <a
+                <Link
+                  to="/terms/service"
                   href="#"
                   style={{
                     textDecorationLine: "underline",
                   }}
                 >
                   이용약관
-                </a>{" "}
+                </Link>{" "}
                 및
-                <a
+                <Link
+                  to="/terms/privacy"
                   href="#"
                   style={{
                     textDecorationLine: "underline",
@@ -248,7 +256,7 @@ const JoinPage = () => {
                 >
                   {" "}
                   개인정보처리방침
-                </a>
+                </Link>
               </span>
             </EssentialRadioBox>
             <ChoiceRadioBox>
@@ -259,14 +267,15 @@ const JoinPage = () => {
               />
               <span>
                 [선택]{" "}
-                <a
+                <Link
+                  to="/terms/marketing"
                   href="#"
                   style={{
                     textDecorationLine: "underline",
                   }}
                 >
                   마케팅 정보 수집 및 수신 동의
-                </a>
+                </Link>
               </span>
             </ChoiceRadioBox>
             <JoinPageMoveNext>
