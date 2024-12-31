@@ -10,6 +10,7 @@ const MarkerWrap = styled.div`
   background-color: #fff;
   box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
   overflow: hidden;
+
   div {
     width: 100%;
     height: 100%;

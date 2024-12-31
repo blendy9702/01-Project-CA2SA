@@ -86,7 +86,7 @@ export const DockBarNav = styled.div`
   background-color: #fff;
   border: 1px solid var(--color-gray-300);
   z-index: 1;
-  .linkStyle {
+  a {
     display: flex;
     width: 33.3%;
     height: 100%;
