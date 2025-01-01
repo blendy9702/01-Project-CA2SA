@@ -30,6 +30,7 @@ import PaymentService from "./pages/terms/PaymentService";
 import Privacy from "./pages/terms/Privacy";
 import Service from "./pages/terms/Service";
 import Attendance from "./pages/calendar/Attendance ";
+import Notice from "./pages/terms/Notice";
 
 function App() {
   const [loading, setLoading] = useState(true);
@@ -102,6 +103,7 @@ function App() {
               <Route path="/terms/privacy" element={<Privacy />} />
               <Route path="/terms/marketing" element={<Marketing />} />
               <Route path="/terms/payment" element={<PaymentService />} />
+              <Route path="/terms/notice" element={<Notice />} />
               <Route path="/terms/FAQ" element={<FAQ />} />
               <Route path="/terms/event" element={<Event />} />
               {/* 사장님페이지 */}

@@ -29,7 +29,7 @@ export const MainWrap = styled.main`
 `;
 function Service() {
   return (
-    <PageContainer>
+    <div>
       <HeaderWrap>
         <IoIosArrowBack
           onClick={() => window.history.back()}
@@ -167,7 +167,7 @@ function Service() {
           합니다
         </p>
       </MainWrap>
-    </PageContainer>
+    </div>
   );
 }
 

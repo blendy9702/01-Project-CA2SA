@@ -163,7 +163,7 @@ const UserPage = () => {
             <InfoBox_1>
               <div>
                 <Link
-                  to="/terms/FAQ"
+                  to="/terms/notice"
                   style={{
                     color: "#616161",
                     display: "flex",

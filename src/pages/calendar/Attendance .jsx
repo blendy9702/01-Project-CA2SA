@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import Calendar from "react-calendar";
 import DockBar from "../../components/DockBar";
 import "../../styles/attendance.css"; // css import
+import { FaCertificate } from "react-icons/fa6";
+import { BiSolidDownArrow } from "react-icons/bi";
 
 const Attendance = () => {
   const [date, setDate] = useState(new Date());
@@ -16,18 +18,18 @@ const Attendance = () => {
     const month = date.toLocaleString("ko-KR", { month: "long" }); // 12월 형식
     const year = date.getFullYear(); // 2024 형식
     return (
-      <div style={{ display: "flex", alignItems: "center" }}>
+      <div>
         <span>{`${year}년 ${month}`}</span>
-        <img
-          src="/path/to/your/image.png"
-          alt="icon"
-          style={{ width: "16px", height: "16px", marginLeft: "8px" }}
-        />
+        <BiSolidDownArrow />
       </div>
     );
   };
-  const defaultImage = "🎈";
-  const completedImage = "🎆";
+  const defaultImage = (
+    <FaCertificate style={{ color: "#ddd", fontSize: "30px" }} />
+  );
+  const completedImage = (
+    <FaCertificate style={{ color: "blue", fontSize: "30px" }} />
+  );
   const handleDateClick = date => {
     const formattedDate = date.toISOString().split("T")[0];
     setDateImages(prev => ({
@@ -47,15 +49,23 @@ const Attendance = () => {
         prev2Label={null}
         prevLabel={null}
         navigationLabel={customNavigationLabel} // 네비게이션 라벨을 커스텀
-        formatDay={(locale, date) => date.getDate()} // 날짜 숫자만 반환
         onClickDay={handleDateClick} // 날짜 클릭 시 상태 업데이트
+        formatDay={(locale, date) => null} // 기본 <abbr> 제거
         tileContent={({ date, view }) => {
           if (view === "month") {
-            // 월간 뷰에서만 렌더링
             const formattedDate = date.toISOString().split("T")[0];
-            const imageUrl = dateImages[formattedDate] || defaultImage; // 상태 기반 이미지 결정
+            const imageUrl = dateImages[formattedDate] || defaultImage;
 
-            return <div>{imageUrl}</div>;
+            return (
+              <div style={{ display: "flex", flexDirection: "column" }}>
+                <div>{imageUrl}</div>
+                <abbr
+                  aria-label={`${date.getFullYear()}년 ${date.getMonth() + 1}월 ${date.getDate()}`}
+                >
+                  {date.getDate()}
+                </abbr>
+              </div>
+            );
           }
           return null;
         }}

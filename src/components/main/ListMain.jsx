@@ -83,7 +83,7 @@ const ListMain = () => {
   const cafeInfo = async () => {
     try {
       const res = await axios.get(
-        `api/user?userLatitude=${state.center.lat}&userLongitude=${state.center.lng}`,
+        `api/cafe?max_distance=1000&user_latitude=${state.center.lat}&user_longitude=${state.center.lng}`,
       );
       console.log("Response Data:", res.data);
       setCafeData(res.data.resultData);
