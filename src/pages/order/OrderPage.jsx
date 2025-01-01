@@ -24,6 +24,8 @@ const OrderPage = () => {
     // console.log("이미지 주소:", imgURL);
   }, [imgURL]);
 
+  // useState
+  const [cafeInfo, setCafeInfo] = useState({});
   // useNavigation
   const location = useLocation();
   const locationData = location.state;
@@ -38,14 +40,12 @@ const OrderPage = () => {
   const handleNavigateList = () => {
     // useNavigate
     navigate(`/order/menu?cafeId=${cafeId}`, {
-      state: [{ cafeId: cafeId }, cafeInfo, { prev: "/order" }],
+      state: { ...cafeInfo, cafeId: cafeId },
     });
   };
   // context
   const { order, setOrder } = useContext(OrderContext);
 
-  // useState
-  const [cafeInfo, setCafeInfo] = useState({});
   // 카페 정보 조회
   useEffect(() => {
     const getCafe = async data => {
@@ -53,25 +53,25 @@ const OrderPage = () => {
         const res = await axios.get(`/api/cafe/${data}`);
         const resultData = res.data.resultData;
         setCafeInfo(resultData);
-        console.log("카페정보 통신 결과:", cafeInfo);
       } catch (error) {
         console.log("카페정보 통신 결과:", error);
         // console.log("mockData가 적용됩니다.");
         // setCafeInfo(mockDataResult);
       }
     };
-    if (cafeId) {
-      getCafe(cafeId);
-    }
+    getCafe(cafeId);
   }, []);
-  useEffect(() => {}, [cafeInfo]);
+
+  useEffect(() => {
+    console.log("카페정보 통신 결과(cafeInfo):", cafeInfo);
+  }, [cafeInfo]);
 
   return (
     <div style={{ position: "relative", paddingBottom: 30, width: "100%" }}>
       <NavBar
         onClick={handleNavigateMain}
         icon={"close"}
-        title={cafeInfo?.cafeName || "로딩중"}
+        title={cafeInfo?.cafeName || "🐈"}
       />
       <ThumImageDiv height={300}>
         <img
@@ -86,7 +86,7 @@ const OrderPage = () => {
       <LayoutDiv>
         <ContentDiv>
           <div className="title-box">
-            <h2>{cafeInfo?.cafeName || "로딩중"}</h2>
+            <h2>{cafeInfo?.cafeName || "🐈"}</h2>
           </div>
           <div className="cafe-info">
             <h3>매장정보</h3>
@@ -95,17 +95,17 @@ const OrderPage = () => {
               <div className="info-detail">
                 <p>
                   매일{" "}
-                  {moment(cafeInfo?.openTime || "로딩중", "HH:mm:ss").format(
+                  {moment(cafeInfo?.openTime || "🐈", "HH:mm:ss").format(
                     "HH:mm",
                   )}
                   -
-                  {moment(cafeInfo?.closeTime || "로딩중", "HH:mm:ss").format(
+                  {moment(cafeInfo?.closeTime || "🐈", "HH:mm:ss").format(
                     "HH:mm",
                   )}
                 </p>
                 <p>
                   라스트 오더{" "}
-                  {moment(cafeInfo?.closeTime || "로딩중", "HH:mm:ss").format(
+                  {moment(cafeInfo?.closeTime || "🐈", "HH:mm:ss").format(
                     "HH:mm",
                   )}
                 </p>
@@ -114,13 +114,13 @@ const OrderPage = () => {
             <div className="info-box">
               <p className="info-subtitle">전화번호</p>
               <div className="info-detail">
-                <p className="tel">{cafeInfo?.tel || "로딩중"}</p>
+                <p className="tel">{cafeInfo?.tel || "🐈"}</p>
               </div>
             </div>
             <div className="info-box last">
               <p className="info-subtitle">주소</p>
               <div className="info-detail">
-                <p>{cafeInfo?.location || "로딩중"}</p>
+                <p>{cafeInfo?.location || "🐈"}</p>
                 <p>(우)우편번호</p>
               </div>
             </div>

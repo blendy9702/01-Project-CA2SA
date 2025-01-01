@@ -29,7 +29,6 @@ const Memo = () => {
 
   // memo에 체크한 것들 넣기
   const handleChangeMemo = e => {
-    console.log(e.target.value);
     const prevMemo = [...memo];
     const updatedMemo = [...memo, e.target.value];
     e.target.checked ? setMemo([...updatedMemo]) : setMemo([...prevMemo]);

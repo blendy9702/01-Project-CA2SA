@@ -13,52 +13,45 @@ import {
 } from "../../styles/order/orderpage";
 import { FiSearch } from "react-icons/fi";
 
+const userData = JSON.parse(sessionStorage.getItem("userData"));
+const userId = userData.resultData.userId;
+
 const MenuList = () => {
   // 앞에서 보낸 navigate의 state 받아오기
-  const { order } = useContext(OrderContext);
+  const { order, setOrder } = useContext(OrderContext);
   // useSearchParams
   const [searchParams, setSearchParams] = useSearchParams();
+  const cafeId = parseInt(searchParams.get("cafeId"));
   // useNavigate
   const navigate = useNavigate();
   const location = useLocation();
   const locationData = location.state;
-
-  const cafeId = locationData[0];
-  const cafeInfo = locationData[1];
-  const fromPage = locationData[2].prev;
-  useEffect(() => {
-    console.log("메뉴 리스트 location", locationData);
-  }, [locationData]);
-
-  const handleNavigateBack = () => {
-    navigate(`/order?cafeName=${cafeId.cafeName}`, {
-      state: [cafeId, cafeInfo],
-    });
-  };
-  const handleNavigateMenuOption = item => {
-    navigate(`/order/menu/detail?menuId=${item.menuId}`, {
-      state: [cafeId, cafeInfo, { from: `/order/menu?cafeId=${cafeId}` }, item],
-    });
-  };
-  const handleNavigatePayment = () => {
-    navigate(`/order/payment?cafeName=${cafeInfo.cafeName}`, {
-      state: [cafeId, cafeInfo, { from: `/order/menu?cafeId=${cafeId}` }],
-    });
-  };
-
   // useState
   const [selectedCate, setSelectedCate] = useState(0);
   const [cafeMenuData, setCafeMenuData] = useState({});
   const [cateList, setCateList] = useState([]);
   const [allMenu, setAllMenu] = useState([]);
+  const [cafeInfo, setCafeInfo] = useState({});
+
+  const handleNavigateBack = () => {
+    navigate(-1);
+  };
+  const handleNavigateMenuOption = item => {
+    navigate(`/order/menu/detail?menuId=${item.menuId}`, {
+      state: locationData,
+    });
+  };
+  const handleNavigatePayment = () => {
+    navigate(`/order/payment?cafeId=${cafeId}`, { state: locationData });
+  };
 
   // 정보 받아오기
   useEffect(() => {
     const getCafeMenu = async data => {
       try {
-        const res = await axios.get(`/api/menu?cafeId=${data}`);
+        const res = await axios.get(`/api/menu?cafeId=${cafeId}`);
+        console.log("메뉴 리스트 통신 결과:", res.data);
         const resultData = res.data.resultData;
-        console.log("메뉴 리스트 통신 결과:", resultData);
         if (resultData) {
           setCafeMenuData(resultData);
           setCateList(
@@ -73,18 +66,22 @@ const MenuList = () => {
             return acc.concat(curr);
           }, []);
           setAllMenu(combinedMenuArr);
+          setOrder({ ...order, cafeId: cafeId, userId: userId });
         }
       } catch (error) {
         console.log("메뉴 리스트 통신 결과:", error);
       }
     };
-    getCafeMenu(cafeId.cafeId);
+    getCafeMenu();
   }, []);
-
-  // cafeMenuData에 잘 담겨있는가
   useEffect(() => {
-    console.log("카테고리 상관 없이 모든 메뉴:", allMenu);
-  }, [allMenu]);
+    setCafeInfo(locationData);
+    console.log("locationData cafeInfo", cafeInfo);
+  }, [locationData, cafeInfo]);
+  // cafeMenuData에 잘 담겨있는가
+  // useEffect(() => {
+  //   console.log("카테고리 상관 없이 모든 메뉴:", allMenu);
+  // }, [allMenu]);
   // 검색창 내용 따라 allMenu에서 걸러내기.
 
   // 메뉴 리스트에서 카테고리 정보 뽑아내기
@@ -106,6 +103,9 @@ const MenuList = () => {
     }, 0)
     .toLocaleString();
 
+  useEffect(() => {
+    console.log("order:", order);
+  }, [order]);
   return (
     <div
       style={{
@@ -117,7 +117,7 @@ const MenuList = () => {
       <NavBar
         onClick={handleNavigateBack}
         icon={"back"}
-        title={cafeInfo?.cafeName || "로딩중"}
+        title={cafeInfo ? cafeInfo.cafeName : "로딩중"}
       />
       <LayoutDiv>
         <div

@@ -14,6 +14,9 @@ export const ContainerDiv = styled.div`
   .menuName {
     padding-bottom: 8px;
   }
+  h2 {
+    padding-bottom: 17px;
+  }
   h4 {
     padding-bottom: 17px;
   }
@@ -177,7 +180,7 @@ export const ContainerDiv = styled.div`
     align-items: center;
     justify-content: space-between;
     position: fixed;
-    bottom: 80px;
+    bottom: 30px;
     left: 50%;
     transform: translateX(-50%);
     gap: 10px;
@@ -204,6 +207,7 @@ export const ContainerDiv = styled.div`
   }
   .orderdInfoBox {
     border-bottom: 1px solid var(--color-gray-100);
+    margin-bottom: 10px;
     .infoDetail {
       display: flex;
       align-items: center;
@@ -211,7 +215,7 @@ export const ContainerDiv = styled.div`
       padding: 20px 0;
       .light {
         font-size: 14px;
-        font-weight: lighter;
+
         color: var(--color-gray-700);
       }
       .menuInfo {
@@ -234,6 +238,62 @@ export const ContainerDiv = styled.div`
       border-bottom: 1px dashed var(--primary-darker);
 
       p {
+      }
+    }
+  }
+  .toLink {
+    display: flex;
+    align-items: center;
+    justify-content: end;
+    button {
+      display: flex;
+      align-items: center;
+      background-color: transparent;
+      border: none;
+      gap: 10px;
+      font-size: 14px;
+      color: var(--color-gray-500);
+      i {
+        color: var(--color-gray-300);
+      }
+    }
+  }
+  .total-price {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    h3 {
+      font-weight: bold;
+    }
+    p {
+      font-size: 20px;
+      color: var(--primary-color);
+      font-weight: bold;
+    }
+  }
+  .info {
+    .info-detail {
+      display: flex;
+      padding-bottom: 5px;
+      .info-title {
+        width: 75px;
+      }
+    }
+  }
+  .menuDetail {
+    div {
+      h4 {
+      }
+      .info {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        .left {
+        }
+        .right {
+          font-size: 20px;
+          font-weight: bold;
+        }
       }
     }
   }
@@ -376,7 +436,8 @@ export const NavBarDiv = styled.div`
 export const CateListDiv = styled.div`
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: center;
+  gap: 20px;
   margin-bottom: 5px;
 `;
 export const CateButton = styled.button`
@@ -491,4 +552,59 @@ export const OrderProgressDiv = styled.div`
     align-items: center;
     justify-content: center;
   }
+`;
+
+export const MenuDiv = styled.div`
+  display: flex;
+  width: 100%;
+  padding: 20px 0;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--color-gray-100);
+  cursor: pointer;
+  .menu {
+    width: 400px;
+    p {
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      overflow: hidden;
+      margin-bottom: 7px;
+    }
+  }
+  .menu-thum {
+    width: 200px;
+    height: 200px;
+    border-radius: 8px;
+    overflow: hidden;
+    margin-left: 20px;
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+  }
+`;
+
+export const OrderDetailDiv = styled.div`
+  position: fixed;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: #fff;
+  width: 680px;
+  height: 100%;
+`;
+export const PeriodButton = styled.button`
+  width: 80px;
+  background-color: ${props =>
+    props.isSelected ? "var(--color-gray-900)" : "#fff"};
+  color: ${props => (props.isSelected ? "#fff" : "var(--color-gray-500);")};
+  padding: 10px 15px;
+  border: 1px solid
+    ${props =>
+      props.isSelected ? "var(--color-gray-500)" : "var(--color-gray-500)"};
+  border-radius: 16px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: 0.1s;
 `;

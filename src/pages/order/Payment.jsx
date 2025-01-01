@@ -27,6 +27,7 @@ const payOptionArr = [
 const Payment = () => {
   // 쿼리 스트링 주소 처리
   const [searchParams, setSearchParams] = useSearchParams();
+  const cafeId = parseInt(searchParams.get("cafeId"));
   // useContext
   const { order, setOrder, popMemo, setPopMemo } = useContext(OrderContext);
   useEffect(() => {}, [order]);
@@ -35,41 +36,38 @@ const Payment = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const locationData = location.state;
-  const cafeId = locationData[0];
-  const cafeInfo = locationData[1];
-  const fromPage = locationData[2];
+  //useState
+  const [isTime, setIsTime] = useState(null);
+  const [cafeInfo, setCafeInfo] = useState({});
+  const userData = JSON.parse(sessionStorage.getItem("userData"));
+  const userId = userData.resultData.userId;
+
   useEffect(() => {
-    console.log("Payment LocationData:", locationData);
-  }, [locationData]);
+    console.log("order:", order);
+  }, [order]);
+  useEffect(() => {
+    setCafeInfo(locationData);
+    console.log("Payment cafeInfo:", cafeInfo);
+  }, [locationData, cafeInfo]);
 
   const handleNavigateClose = () => {
-    navigate(`/order`, {
-      state: [cafeId, cafeInfo],
+    navigate(-1, {
+      state: cafeInfo,
     });
+  };
+  const handleNavigateHome = () => {
+    navigate("/");
   };
   const handleNavigateAddMenu = () => {
-    navigate(`/order/menu?cafeId=${cafeId.cafeId}`, {
-      state: [
-        cafeId,
-        cafeInfo,
-        { from: `/order/payment?cafeName=${cafeInfo.cafeName}` },
-      ],
-    });
+    navigate(`/order/menu?cafeId=${locationData.cafeId}`);
   };
   const handleNavigateConfirm = () => {
-    navigate(`/order/confirmation?userId=유저아이디&cafeId=${cafeId}`, {
-      state: [
-        cafeId,
-        cafeInfo,
-        { from: `/order/payment?cafeName=${cafeInfo.cafeName}` },
-      ],
-    });
+    navigate(`/order/confirmation?userId=${userId}&page=1&size=30`);
   };
   // 오자마자 cafeId, userId 다시 확인하고 집어 넣기
+
   useEffect(() => {
-    const userData = JSON.parse(sessionStorage.getItem("userData"));
-    const userId = userData.resultData.userId;
-    setOrder({ ...order, cafeId: cafeId.cafeId, userId: userId });
+    setOrder({ ...order, userId: userId, cafeId: cafeId });
   }, []);
   // order가 제대로 바뀌고 있는지 확인, 오자마자 배열 정리시키기
   useEffect(() => {
@@ -94,13 +92,10 @@ const Payment = () => {
     });
   }, [setOrder]);
 
-  //useState
-  const [isTime, setIsTime] = useState(null);
-
   const handleClickPickUpTime = (item, index) => {
     // order에 픽업 시간 넣기
     const now = moment();
-    const nowTime = now.format("HH:mm:ss");
+    const nowTime = now.format("YYYY-MM-DD HH:mm:ss");
     const addMinutes = now.add(item, "minutes").format("HH:mm:ss");
     // setOrder({ ...order, pickUpTime: addMinutes, orderTime: nowTime }); //orderTime 코드 삭제
     setOrder({ ...order, pickUpTime: addMinutes });
@@ -143,12 +138,32 @@ const Payment = () => {
       console.log("보내지는 데이터", data);
       try {
         const res = await axios.post(`/api/order`, data);
-
-        if (res.resultMessage) {
-          setOrder([]);
+        console.log(res.data);
+        const resultData = res.data.resultData;
+        if (resultData === 1) {
+          console.log("order을 비웁니다.");
+          setOrder({
+            pickUpTime: "",
+            memo: "",
+            userId: "",
+            cafeId: "",
+            menuList: [],
+            // orderTime: "",
+          });
         }
+        handleNavigateConfirm();
       } catch (error) {
         console.log(error);
+        alert("통신 오류로 인해 주문을 초기화합니다 ㅠㅠ");
+        // setOrder({
+        //   pickUpTime: "",
+        //   memo: "",
+        //   userId: "",
+        //   cafeId: "",
+        //   menuList: [],
+        //   // orderTime: "",
+        // });
+        // handleNavigateHome();
       }
     };
     // 최종 배열 정리
@@ -157,9 +172,12 @@ const Payment = () => {
       return {
         menuId: item.menuId,
         count: item.count,
-        options: item.options.map((_item, _index) => {
-          return { menuOptionId: _item.menuOptionId };
-        }),
+        options:
+          item.options.length !== 0
+            ? item.options.map((_item, _index) => {
+                return { menuOptionId: _item.menuOptionId };
+              })
+            : { menuOptionId: 0 },
       };
     });
     const fixedOrder = { ...order, menuList: fixedMenuList };
@@ -178,7 +196,7 @@ const Payment = () => {
       {/* 메뉴 주문 정보 */}
       <LayoutDiv borderTop={1} borderBottom={5}>
         <ContainerDiv>
-          <h4>{cafeInfo.cafeName}</h4>
+          <h4>{cafeInfo ? cafeInfo.cafeName : "정보가 없습니다"}</h4>
           <div className="orderListBox">
             <div className="orderList">
               {order.menuList.map((item, index) => {
