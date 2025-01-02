@@ -11,8 +11,12 @@ import {
   OrderButton,
   ThumImageDiv,
 } from "../../styles/order/orderpage";
+import CafeMap from "../../components/order/CafeMap";
 
 const OrderPage = () => {
+  // useState
+  const [cafeInfo, setCafeInfo] = useState({});
+
   //useSearchPrams
   const [searchParams, setSearchParams] = useSearchParams();
   const cafeId = searchParams.get("cafeId");
@@ -24,8 +28,6 @@ const OrderPage = () => {
     // console.log("이미지 주소:", imgURL);
   }, [imgURL]);
 
-  // useState
-  const [cafeInfo, setCafeInfo] = useState({});
   // useNavigation
   const location = useLocation();
   const locationData = location.state;
@@ -124,7 +126,9 @@ const OrderPage = () => {
                 <p>(우)우편번호</p>
               </div>
             </div>
-            <div className="map"></div>
+            <div className="map">
+              <CafeMap cafeInfo={cafeInfo} />
+            </div>
             <div className="business-number">
               <p>사업자 정보 조회</p>
               <IoIosArrowForward className="icon" />

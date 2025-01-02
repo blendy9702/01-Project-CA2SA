@@ -1,9 +1,21 @@
-import { useState } from "react";
+import { useContext, useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { AlternativeButton, PrimaryButton } from "../../styles/common";
 import { OrderedMenuDiv } from "../../styles/orders/orderspage";
-import OrderDetail from "../order/OrderDetail";
+import { OrderContext } from "../../contexts/OrderContext";
 
+const userData = JSON.parse(sessionStorage.getItem("userData"));
+const userId = userData ? userData.resultData.userId : "임시부여 ID";
+// 임시 cafeId
+const cafeId = 3;
 const OrderedMenu = ({ item }) => {
+  // useContext
+  const { order, setOrder } = useContext(OrderContext);
+  // useNavigate
+  const navigate = useNavigate();
+  const handleNavigateOrderDetails = item => {
+    navigate(`/orders/detail?orderId=${item.orderId}`);
+  };
   const progressArr = [0, 1, 2, 3];
   const menuInfo = item;
   const makeProgressName = item => {
@@ -34,9 +46,27 @@ const OrderedMenu = ({ item }) => {
   }, 0);
   //상세보기
   const handleClickShowMore = () => {
+    handleNavigateOrderDetails(item);
+  };
+  // 재주문
+
+  const handleClickReorder = () => {
     console.log(item);
-    setResentOrder(item);
-    setShowOrderDetail(false);
+    setOrder({
+      ...order,
+      cafeId: cafeId,
+      userId: userId,
+      menuList: item.orderMenuList.map((item, index) => {
+        return {
+          count: item.count,
+          options: item.options,
+          menuId: item.orderMenuId,
+          menuName: item.orderMenuName,
+          price: item.price,
+        };
+      }),
+    });
+    navigate(`/order/payment?cafeId=${cafeId}`);
   };
   return (
     <OrderedMenuDiv>
@@ -57,7 +87,9 @@ const OrderedMenu = ({ item }) => {
         </div>
       </div>
       <div className="orderButton">
-        <PrimaryButton>재주문 할게요</PrimaryButton>
+        <PrimaryButton onClick={() => handleClickReorder()}>
+          재주문 할게요
+        </PrimaryButton>
         <AlternativeButton onClick={() => handleClickShowMore()}>
           주문 상세
         </AlternativeButton>

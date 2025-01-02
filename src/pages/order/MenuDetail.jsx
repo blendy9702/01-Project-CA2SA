@@ -24,11 +24,20 @@ const MenuDetail = () => {
   const handleNavigateBack = () => {
     navigate(-1);
   };
+  // order 내 카페 아이디가 같은가?
   const handleNavigateList = () => {
+    // if (order.cafeId !== cafeInfo.cafeId) {
+    //   alert("다른 카페입니다.");
+    // }
     navigate(-1);
+    setOrder({ ...order, cafeId: cafeInfo.cafeId });
   };
   const handleNavigatePaymet = () => {
+    // if (order.cafeId !== cafeInfo.cafeId) {
+    //   alert("다른 카페입니다.");
+    // }
     navigate(`/order/payment?cafeId=${cafeInfo.cafeId}`, { state: cafeInfo });
+    setOrder({ ...order, cafeId: cafeInfo.cafeId });
   };
 
   // OrderContext
@@ -43,6 +52,10 @@ const MenuDetail = () => {
   const [optionList, setOptionList] = useState([]);
   const [cafeInfo, setCafeInfo] = useState({});
   const [totalPrice, setTotalPrice] = useState(0);
+  const [firstChecked, setFirstChecked] = useState(true);
+  useEffect(() => {
+    console.log(firstChecked);
+  }, [firstChecked]);
   // axios
   useEffect(() => {
     setCafeInfo(locationData);
@@ -83,7 +96,7 @@ const MenuDetail = () => {
   });
   //  menuId에 value값 넣기
   useEffect(() => {
-    setValue("menuId", menuId);
+    setValue("menuId", parseInt(menuId));
     setValue("menuName", optionInfo.menuName);
   }, [menuId, optionInfo.menuName, setValue]);
 
@@ -189,7 +202,7 @@ const MenuDetail = () => {
                 바로 주문
               </SecondaryButton>
               <PrimaryButton type="submit" onClick={handleNavigateList}>
-                {totalPrice} 원 담기
+                {totalPrice.toLocaleString()} 원 담기
               </PrimaryButton>
             </div>
           </form>

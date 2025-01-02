@@ -90,12 +90,8 @@ function App() {
                 <Route path="confirmation" element={<Confirmation />} />
               </Route>
               {/* 주문 내역 */}
-              <Route path="/orders" element={<OrdersPage />}>
-                <Route
-                  path="/orders/:menuId/details"
-                  element={<OedersDetails />}
-                />
-              </Route>
+              <Route path="/orders" element={<OrdersPage />} />
+              <Route path="/orders/detail" element={<OedersDetails />} />
               {/* 마이페이지 */}
               <Route path="/mypage" element={<UserPage />} />
               {/*약관페이지*/}

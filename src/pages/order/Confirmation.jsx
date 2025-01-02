@@ -1,12 +1,11 @@
+import axios from "axios";
+import moment from "moment/moment";
+import { useEffect, useState } from "react";
+import { IoIosArrowForward } from "react-icons/io";
 import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
 import NavBar from "../../components/order/NavBar";
-import { ContainerDiv, LayoutDiv } from "../../styles/order/orderpage";
-import { useEffect, useState } from "react";
-import axios from "axios";
 import OrderProgress from "../../components/order/OrderProgress";
-import moment from "moment/moment";
-import OrderDetail from "../../components/order/OrderDetail";
-import { IoIosArrowForward } from "react-icons/io";
+import { ContainerDiv, LayoutDiv } from "../../styles/order/orderpage";
 // progress
 const progressArr = [0, 1, 2, 3];
 
@@ -22,6 +21,9 @@ function Confirmation() {
   const handleNavigateClose = () => {
     navigate("/");
   };
+  const handleNavigateOrderDetails = () => {
+    navigate(`/orders/detail?orderId=${orderId}`);
+  };
   // axios 불러오기
   useEffect(() => {
     const getOrder = async () => {
@@ -31,7 +33,7 @@ function Confirmation() {
         );
         console.log("주문 확인 결과:", res.data);
         const resultData = res.data.resultData;
-        const nowOrder = resultData[resultData.length - 1];
+        const nowOrder = resultData[0];
         setOrderedList(resultData);
         setResentOrder(nowOrder);
         setNowProgress(nowOrder.orderProgress);
@@ -46,9 +48,9 @@ function Confirmation() {
   const [OrderedList, setOrderedList] = useState([]);
   const [recentOrder, setResentOrder] = useState({});
   const [nowProgress, setNowProgress] = useState(0);
-  const [showOrderDetail, setShowOrderDetail] = useState(false);
-  const orderMenuList = recentOrder.orderMenuList || [];
 
+  const orderMenuList = recentOrder.orderMenuList || [];
+  const orderId = recentOrder.orderId;
   // axios
   useEffect(() => {
     const getOrder = async data => {
@@ -150,25 +152,13 @@ function Confirmation() {
             </div>
           </div>
           <div className="toLink">
-            <button
-              type="button"
-              onClick={() => {
-                setShowOrderDetail(!showOrderDetail);
-              }}
-            >
+            <button type="button" onClick={() => handleNavigateOrderDetails()}>
               주문 상세내역 보기{" "}
               <i>
                 <IoIosArrowForward />
               </i>
             </button>
           </div>
-          {/* 주문 상세내역 */}
-          {showOrderDetail ? (
-            <OrderDetail
-              setShowOrderDetail={setShowOrderDetail}
-              recentOrder={recentOrder}
-            />
-          ) : null}
         </ContainerDiv>
       </LayoutDiv>
     </div>

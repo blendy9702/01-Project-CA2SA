@@ -172,12 +172,9 @@ const Payment = () => {
       return {
         menuId: item.menuId,
         count: item.count,
-        options:
-          item.options.length !== 0
-            ? item.options.map((_item, _index) => {
-                return { menuOptionId: _item.menuOptionId };
-              })
-            : { menuOptionId: 0 },
+        options: item.options.map((_item, _index) => {
+          return { menuOptionId: _item.menuOptionId };
+        }),
       };
     });
     const fixedOrder = { ...order, menuList: fixedMenuList };
@@ -297,7 +294,7 @@ const Payment = () => {
         </ContainerDiv>
       </LayoutDiv>
       {/* 결제 방법 */}
-      <LayoutDiv>
+      {/* <LayoutDiv>
         <ContainerDiv>
           <h4 style={{ paddingBottom: 10 }}>결제 방법</h4>
           <div className="paymentOption">
@@ -307,7 +304,7 @@ const Payment = () => {
             <p>* 매장 사정에 따라 주문이 취소될 수 있습니다.</p>
           </div>
         </ContainerDiv>
-      </LayoutDiv>
+      </LayoutDiv> */}
       {/* 결제 */}
       <LayoutDiv>
         <ContainerDiv>

@@ -20,9 +20,10 @@ const OrdersPage = () => {
   const userId = userInfo.resultData.userId;
   // uesNavigate
   const navigate = useNavigate();
-  const handleNavigate = () => {
+  const handleNavigateHome = () => {
     navigate("/");
   };
+
   // useState
   const [orderList, setOrderList] = useState([]);
   const [selectedPeriod, setSelectedPeriod] = useState(0);
@@ -38,6 +39,16 @@ const OrdersPage = () => {
         const resultData = res.data.resultData;
         console.log(res.data);
         setOrderList(resultData);
+        const filterdArr = resultData.filter(item => {
+          return moment(item.createdAt).isBetween(
+            moment().subtract(7, "days"),
+            moment(),
+            null,
+            `[]`,
+          );
+        });
+        setFilterdData(filterdArr);
+        console.log(filterdArr);
       } catch (error) {
         console.log(error);
       }
@@ -76,12 +87,11 @@ const OrdersPage = () => {
       return moment(item.createdAt).isBetween(beforeDay, now, null, `[]`);
     });
     setFilterdData(filterdArr);
-    console.log("기간 내 데이터", filterdData);
   }, [selectedPeriod]);
 
   return (
     <div style={{ paddingBottom: 80 }}>
-      <NavBar onClick={handleNavigate} title={"주문 내역"} icon={"back"} />
+      <NavBar onClick={handleNavigateHome} title={"주문 내역"} icon={"back"} />
       <LayoutDiv>
         {/* 기간 설정 */}
         <ContainerDiv>

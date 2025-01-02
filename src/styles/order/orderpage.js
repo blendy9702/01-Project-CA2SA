@@ -6,6 +6,23 @@ export const LayoutDiv = styled.div`
   border-top: ${props => `${props.borderTop}px solid var( --color-gray-100)`};
   border-bottom: ${props =>
     `${props.borderBottom}px solid var( --color-gray-100)`};
+  .notFound {
+    width: 100%;
+    height: 100%;
+    padding-top: 100px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    .thum {
+      width: 200px;
+      height: 200px;
+      img {
+        width: 100%;
+        height: 100%;
+      }
+    }
+  }
 `;
 export const ContainerDiv = styled.div`
   padding: 20px 0 22px 0;
@@ -351,7 +368,7 @@ export const ContentDiv = styled.div`
     .map {
       width: 100%;
       height: 209px;
-      background-color: darkgray;
+      overflow: hidden;
       margin-bottom: 10px;
       border-radius: 8px;
     }
@@ -379,7 +396,7 @@ export const OrderButton = styled.button`
   left: 50%;
   height: 60px;
   transform: translateX(-50%);
-  bottom: 80px;
+  bottom: 50px;
   width: ${props => (props.width ? props.width : "600")}px;
   background-color: ${props =>
     props.color ? props.color : "var(--primary-color)"};
@@ -396,8 +413,15 @@ export const OrderButton = styled.button`
   align-items: center;
   justify-content: center;
   gap: 10px;
+  z-index: 99;
+  &:disabled {
+    background-color: var(--primary-lighter); /* 회색 배경 */
+    color: #fff; /* 어두운 텍스트 */
+    cursor: not-allowed; /* 사용 불가 커서 */
+    opacity: 0.7; /* 투명도 */
+  }
   .circle {
-    width: 14px;
+    width: 15px;
     height: 15px;
     background-color: #fff;
     border-radius: 50%;
@@ -419,8 +443,7 @@ export const NavBarDiv = styled.div`
   justify-content: center;
   position: relative;
   background-color: #fff;
-
-  width: 100%;
+  max-width: 640px;
   padding: 15px 20px;
   .link-icon {
     position: absolute;
