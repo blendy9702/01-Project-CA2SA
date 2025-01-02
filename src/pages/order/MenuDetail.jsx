@@ -159,7 +159,7 @@ const MenuDetail = () => {
       {/* 메뉴 정보 */}
       <LayoutDiv borderBottom={5}>
         <ContainerDiv className="menuInfo">
-          <h4 className="menuName">{optionInfo?.menuName || "로딩중"}</h4>
+          <h3 className="menuName">{optionInfo?.menuName || "로딩중"}</h3>
           <p className="comment">{optionInfo.comment}</p>
           <p className="menu-price">
             {optionInfo.price

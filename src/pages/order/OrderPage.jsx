@@ -123,7 +123,6 @@ const OrderPage = () => {
               <p className="info-subtitle">주소</p>
               <div className="info-detail">
                 <p>{cafeInfo?.location || "🐈"}</p>
-                <p>(우)우편번호</p>
               </div>
             </div>
             <div className="map">

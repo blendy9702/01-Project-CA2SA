@@ -13,7 +13,7 @@ const OrderProgress = React.memo(({ progress, selectedProgress }) => {
         {progress === 2 && <BiSolidShoppingBagAlt style={{ fontSize: 24 }} />}
         {progress === 3 && <AiFillCheckCircle style={{ fontSize: 24 }} />}
       </div>
-      <p>
+      <p className="progressTitle">
         {progress === 0 && "주문접수"}
         {progress === 1 && "준비중"}
         {progress === 2 && "준비완료"}

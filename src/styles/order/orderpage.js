@@ -39,7 +39,7 @@ export const ContainerDiv = styled.div`
   }
   .comment {
     font-size: 16px;
-    font-weight: lighter;
+    font-weight: light;
     margin-bottom: 8px;
     color: var(--color-gray-700);
     letter-spacing: -0.5px;
@@ -215,10 +215,10 @@ export const ContainerDiv = styled.div`
       align-items: center;
       justify-content: space-between;
       width: 100%;
-      padding: 36px 0 10px 0;
+      padding: 36px 0 20px 0;
     }
     p {
-      font-size: 12px;
+      font-size: 14px;
       color: var(--color-gray-500);
     }
   }
@@ -235,9 +235,15 @@ export const ContainerDiv = styled.div`
 
         color: var(--color-gray-700);
       }
+      .title {
+        font-size: 16px;
+        font-weight: bold;
+      }
       .menuInfo {
         p {
           font-size: 16px;
+          font-weight: bold;
+          padding-bottom: 5px;
         }
         ul {
           li {
@@ -477,6 +483,7 @@ export const CateButton = styled.button`
 `;
 
 export const MemoDiv = styled.div`
+  display: ${props => (props.popMemo ? "block" : "none")};
   background-color: var(--color-gray-900);
   position: fixed;
   top: 0;
@@ -484,13 +491,14 @@ export const MemoDiv = styled.div`
   transform: translateX(-50%);
   width: 640px;
   height: 100%;
+  transition: all 0.3s;
   .inner {
     position: relative;
     height: 100%;
     .content {
       position: absolute;
       left: 0;
-      bottom: 70px;
+      bottom: 0px;
       border-top-right-radius: 16px;
       border-top-left-radius: 16px;
       padding: 20px;
@@ -569,7 +577,8 @@ export const OrderProgressDiv = styled.div`
     background-color: ${props =>
       props.selectedProgress ? "var(--primary-color)" : "var(--color-white)"};
   }
-  p {
+  .progressTitle {
+    font-size: 14px;
     padding-top: 10px;
     display: flex;
     align-items: center;

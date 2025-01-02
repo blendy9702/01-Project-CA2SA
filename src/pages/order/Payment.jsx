@@ -16,20 +16,20 @@ import { OrderContext } from "../../contexts/OrderContext";
 // 예상 수령시간 관리용 배열
 const pickUPTimeArr = [0, 5, 10, 15, 20, 30, 40, 60];
 // 결제 방법 관리용 배열
-const payOptionArr = [
-  "카카오페이",
-  "삼성페이",
-  "토스페이",
-  "네이버페이",
-  "PAYCO",
-  "신용/체크카드",
-];
+// const payOptionArr = [
+//   "카카오페이",
+//   "삼성페이",
+//   "토스페이",
+//   "네이버페이",
+//   "PAYCO",
+//   "신용/체크카드",
+// ];
 const Payment = () => {
   // 쿼리 스트링 주소 처리
   const [searchParams, setSearchParams] = useSearchParams();
   const cafeId = parseInt(searchParams.get("cafeId"));
   // useContext
-  const { order, setOrder, popMemo, setPopMemo } = useContext(OrderContext);
+  const { order, setOrder } = useContext(OrderContext);
   useEffect(() => {}, [order]);
 
   // uesNavigate
@@ -37,8 +37,10 @@ const Payment = () => {
   const location = useLocation();
   const locationData = location.state;
   //useState
-  const [isTime, setIsTime] = useState(null);
+  const [isTime, setIsTime] = useState(0);
   const [cafeInfo, setCafeInfo] = useState({});
+  //요청사항 팝업
+  const [popMemo, setPopMemo] = useState(false);
   const userData = JSON.parse(sessionStorage.getItem("userData"));
   const userId = userData.resultData.userId;
 
@@ -67,7 +69,12 @@ const Payment = () => {
   // 오자마자 cafeId, userId 다시 확인하고 집어 넣기
 
   useEffect(() => {
-    setOrder({ ...order, userId: userId, cafeId: cafeId });
+    setOrder({
+      ...order,
+      userId: userId,
+      cafeId: cafeId,
+      pickUpTime: moment().format("HH:mm:ss"),
+    });
   }, []);
   // order가 제대로 바뀌고 있는지 확인, 오자마자 배열 정리시키기
   useEffect(() => {
@@ -154,16 +161,16 @@ const Payment = () => {
         handleNavigateConfirm();
       } catch (error) {
         console.log(error);
-        alert("통신 오류로 인해 주문을 초기화합니다 ㅠㅠ");
-        // setOrder({
-        //   pickUpTime: "",
-        //   memo: "",
-        //   userId: "",
-        //   cafeId: "",
-        //   menuList: [],
-        //   // orderTime: "",
-        // });
-        // handleNavigateHome();
+        alert("통신 오류로 인해 주문을 초기화합니다");
+        setOrder({
+          pickUpTime: "",
+          memo: "",
+          userId: "",
+          cafeId: "",
+          menuList: [],
+          // orderTime: "",
+        });
+        handleNavigateHome();
       }
     };
     // 최종 배열 정리
@@ -274,7 +281,8 @@ const Payment = () => {
             <p>요청 사항 선택</p>
             <IoIosArrowDown />
           </div>
-          {popMemo ? <Memo /> : null}
+          <Memo popMemo={popMemo} setPopMemo={setPopMemo} />
+          {/* {popMemo ? <Memo /> : null} */}
         </ContainerDiv>
       </LayoutDiv>
       {/* 결제 금액 */}

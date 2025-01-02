@@ -8,6 +8,7 @@ import {
   OrderDetailDiv,
 } from "../../styles/order/orderpage";
 import NavBar from "../../components/order/NavBar";
+import DockBar from "../../components/DockBar";
 
 // userId
 const userData = JSON.parse(sessionStorage.getItem("userData")) || {
@@ -149,6 +150,7 @@ function OedersDetails() {
           </div>
         </ContainerDiv>
       </LayoutDiv>
+      <DockBar />
     </OrderDetailDiv>
   );
 }

@@ -6,6 +6,7 @@ import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
 import NavBar from "../../components/order/NavBar";
 import OrderProgress from "../../components/order/OrderProgress";
 import { ContainerDiv, LayoutDiv } from "../../styles/order/orderpage";
+import DockBar from "../../components/DockBar";
 // progress
 const progressArr = [0, 1, 2, 3];
 
@@ -97,7 +98,9 @@ function Confirmation() {
                 );
               })}
             </div>
-            <p>가게 사정에 따라 메뉴 완성 시간이 다를 수 있습니다.</p>
+            <p style={{ fontSize: 12 }}>
+              가게 사정에 따라 메뉴 완성 시간이 다를 수 있습니다.
+            </p>
           </div>
         </ContainerDiv>
       </LayoutDiv>
@@ -112,7 +115,7 @@ function Confirmation() {
                   return (
                     <div className="infoDetail" key={index}>
                       <div className="menuInfo">
-                        <p>{item.orderMenuName}</p>
+                        <p className="title">{item.orderMenuName}</p>
                         <ul>
                           {item.options.map((_item, _index) => {
                             return <li key={_index}>{_item.optionName}</li>;
@@ -136,7 +139,7 @@ function Confirmation() {
           {/* 주문 일시 */}
           <div className="orderdInfoBox">
             <div className="infoDetail">
-              <p>주문 일시</p>
+              <p className="title">주문 일시</p>
               <p className="light">
                 {moment(recentOrder.createdAt).format(
                   "YYYY년MM월DD일 HH:mm:ss",
@@ -147,7 +150,7 @@ function Confirmation() {
           {/* 요청 사항 */}
           <div className="orderdInfoBox">
             <div className="infoDetail">
-              <p>요청 사항</p>
+              <p className="title">요청 사항</p>
               <p className="light">{recentOrder.memo}</p>
             </div>
           </div>
@@ -161,6 +164,7 @@ function Confirmation() {
           </div>
         </ContainerDiv>
       </LayoutDiv>
+      <DockBar />
     </div>
   );
 }
