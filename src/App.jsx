@@ -31,6 +31,7 @@ import { UserPageProvider } from "./contexts/UserPageContext";
 import FAQ from "./pages/terms/FAQ";
 import Event from "./components/terms/Event";
 import { useEffect, useState } from "react";
+import CafePage from "./pages/cafe(test)/CafePage";
 
 function App() {
   const [loading, setLoading] = useState(true);
@@ -102,7 +103,8 @@ function App() {
               <Route path="/terms/FAQ" element={<FAQ />} />
               <Route path="/terms/event" element={<Event />} />
               {/* 사장님페이지 */}
-
+              <Route path="/admin" element={<CafePage />} />
+              {/* 404 */}
               <Route path="*" element={<NotFound />}></Route>
             </Routes>
           </UserPageProvider>
