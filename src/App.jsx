@@ -31,26 +31,21 @@ import Privacy from "./pages/terms/Privacy";
 import Service from "./pages/terms/Service";
 import Attendance from "./pages/calendar/Attendance ";
 import Notice from "./pages/terms/Notice";
-
 function App() {
   const [loading, setLoading] = useState(true);
   const [isLogin, setIsLogin] = useState(null);
-
   useEffect(() => {
     const userDatas = sessionStorage.getItem("userData");
     setIsLogin(!!userDatas);
     setLoading(false);
   }, []);
-
   const handleLoginSuccess = userData => {
     sessionStorage.setItem("userData", JSON.stringify(userData));
     setIsLogin(true);
   };
-
   if (loading) {
     return;
   }
-
   return (
     <div
       className="mainWrap"
@@ -104,7 +99,6 @@ function App() {
               <Route path="/terms/event" element={<Event />} />
               {/* 사장님페이지 */}
               <Route path="/calendar" element={<Attendance />} />
-
               {/* 404 */}
               <Route path="*" element={<NotFound />}></Route>
             </Routes>
@@ -114,5 +108,4 @@ function App() {
     </div>
   );
 }
-
 export default App;

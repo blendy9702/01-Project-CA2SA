@@ -12,6 +12,7 @@ import {
   OrderButton,
 } from "../../styles/order/orderpage";
 import { FiSearch } from "react-icons/fi";
+import BucketModal from "../../components/order/BucketModal";
 
 const userData = JSON.parse(sessionStorage.getItem("userData"));
 const userId = userData ? userData.resultData.userId : "임시부여 ID";
@@ -35,14 +36,17 @@ const MenuList = () => {
   const [showSearchMenu, setShowSearchMenu] = useState(false);
   const [text, setText] = useState("");
   const [searchText, setSearchText] = useState("");
+  const [showPopup, setShowPopup] = useState(false);
 
   const handleNavigateBack = () => {
-    navigate(-1);
+    navigate("/");
   };
   const handleNavigateMenuOption = item => {
-    navigate(`/order/menu/detail?menuId=${item.menuId}`, {
-      state: locationData,
-    });
+    order.cafeId === cafeId || order.cafeId === ""
+      ? navigate(`/order/menu/detail?menuId=${item.menuId}`, {
+          state: locationData,
+        })
+      : setShowPopup(true);
   };
   const handleNavigatePayment = () => {
     navigate(`/order/payment?cafeId=${cafeId}`, { state: locationData });
@@ -53,7 +57,7 @@ const MenuList = () => {
     const getCafeMenu = async data => {
       try {
         const res = await axios.get(`/api/menu?cafeId=${cafeId}`);
-        console.log("메뉴 리스트 통신 결과:", res.data);
+        // console.log("메뉴 리스트 통신 결과:", res.data);
         const resultData = res.data.resultData;
         if (resultData) {
           setCafeMenuData(resultData);
@@ -79,11 +83,11 @@ const MenuList = () => {
   }, []);
   useEffect(() => {
     setCafeInfo(locationData);
-    console.log("locationData cafeInfo", cafeInfo);
+    // console.log("locationData cafeInfo", cafeInfo);
   }, [locationData, cafeInfo]);
   // cafeMenuData에 잘 담겨있는가
   useEffect(() => {
-    console.log("카테고리 상관 없이 모든 메뉴:", allMenu);
+    // console.log("카테고리 상관 없이 모든 메뉴:", allMenu);
   }, [allMenu]);
   // 검색창 내용 따라 allMenu에서 걸러내기.
 
@@ -235,6 +239,14 @@ const MenuList = () => {
             </div>
           </div>
         )}
+        {/* 모달창 */}
+        {showPopup ? (
+          <BucketModal
+            showPopup={showPopup}
+            setShowPopup={setShowPopup}
+            cafeInfo={cafeInfo}
+          />
+        ) : null}
         {/* 장바구니 버튼 */}
         <OrderButton
           type="button"

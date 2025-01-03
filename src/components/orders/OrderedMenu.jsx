@@ -6,8 +6,7 @@ import { OrderContext } from "../../contexts/OrderContext";
 
 const userData = JSON.parse(sessionStorage.getItem("userData"));
 const userId = userData ? userData.resultData.userId : "임시부여 ID";
-// 임시 cafeId
-const cafeId = 3;
+
 const OrderedMenu = ({ item }) => {
   // useContext
   const { order, setOrder } = useContext(OrderContext);
@@ -54,7 +53,7 @@ const OrderedMenu = ({ item }) => {
     console.log(item);
     setOrder({
       ...order,
-      cafeId: cafeId,
+      cafeId: item.cafeId,
       userId: userId,
       menuList: item.orderMenuList.map((item, index) => {
         return {
@@ -66,7 +65,13 @@ const OrderedMenu = ({ item }) => {
         };
       }),
     });
-    navigate(`/order/payment?cafeId=${cafeId}`);
+    navigate(`/order/payment?cafeId=${item.cafeId}`, {
+      state: {
+        cafeId: item.cafeId,
+        cafeName: item.cafeName,
+        location: item.location,
+      },
+    });
   };
   return (
     <OrderedMenuDiv>
