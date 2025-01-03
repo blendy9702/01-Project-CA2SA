@@ -1,10 +1,13 @@
+import { useEffect, useState } from "react";
 import {
   Navigate,
   Route,
   BrowserRouter as Router,
   Routes,
 } from "react-router-dom";
-import DockBar from "./components/DockBar";
+import Event from "./components/terms/Event";
+import { OrderContextProvider } from "./contexts/OrderContext";
+import { UserPageProvider } from "./contexts/UserPageContext";
 import Index from "./pages/HomePage";
 import ConfirmForm from "./pages/join/ConfirmForm";
 import JoinPage from "./pages/join/JoinPage";
@@ -18,20 +21,14 @@ import MenuDetail from "./pages/order/MenuDetail";
 import MenuList from "./pages/order/MenuList";
 import OrderPage from "./pages/order/OrderPage";
 import Payment from "./pages/order/Payment";
+import OedersDetails from "./pages/orders/OedersDetails";
 import OrdersPage from "./pages/orders/OrdersPage";
 import SearchPage from "./pages/search/SearchPage";
+import FAQ from "./pages/terms/FAQ";
 import Marketing from "./pages/terms/Marketing";
 import PaymentService from "./pages/terms/PaymentService";
 import Privacy from "./pages/terms/Privacy";
 import Service from "./pages/terms/Service";
-import OedersDetails from "./pages/orders/OedersDetails";
-import AdminPage from "./pages/ceoadmin/AdminPage";
-import { OrderContextProvider } from "./contexts/OrderContext";
-import { UserPageProvider } from "./contexts/UserPageContext";
-import FAQ from "./pages/terms/FAQ";
-import Event from "./components/terms/Event";
-import { useEffect, useState } from "react";
-import CafePage from "./pages/cafe(test)/CafePage";
 
 function App() {
   const [loading, setLoading] = useState(true);
@@ -103,7 +100,7 @@ function App() {
               <Route path="/terms/FAQ" element={<FAQ />} />
               <Route path="/terms/event" element={<Event />} />
               {/* 사장님페이지 */}
-              <Route path="/admin" element={<CafePage />} />
+
               {/* 404 */}
               <Route path="*" element={<NotFound />}></Route>
             </Routes>
