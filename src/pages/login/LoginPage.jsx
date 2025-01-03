@@ -82,7 +82,11 @@ const LoginPage = ({ onLoginSuccess }) => {
   };
 
   return (
-    <div>
+    <div
+      style={{
+        margin: "20px",
+      }}
+    >
       <LoginTopArea>
         <div>
           <p>로그인</p>
@@ -94,7 +98,7 @@ const LoginPage = ({ onLoginSuccess }) => {
             <img
               src="./public/images/ca2saLogo.png"
               style={{
-                height: "80px",
+                height: "110px",
               }}
             />
           </div>

@@ -1,6 +1,8 @@
 import styled from "@emotion/styled";
 
-export const JoinPageWrap = styled.div``;
+export const JoinPageWrap = styled.div`
+  margin: 20px;
+`;
 export const JoinPageTopArea = styled.div`
   display: flex;
 `;
@@ -11,7 +13,7 @@ export const JoinPageTopText = styled.div`
   align-items: center;
   font-size: 20px;
   font-weight: 700;
-  padding-left: 250px;
+  padding-left: 230px;
   margin-top: 10px;
 `;
 
@@ -60,12 +62,24 @@ export const JoinPageEmail = styled.div`
     position: absolute;
     border-radius: 8px;
     font-size: 12px;
-    top: 25px;
+    top: 26px;
     right: 10px;
     padding: 5px 10px;
-    border: 2px solid rgb(201, 201, 201);
+    border: 1px solid rgb(201, 201, 201);
     outline: none;
     transition: border-color 0.3s ease;
+    background-color: #212121;
+    color: #f5f5f5;
+    cursor: pointer;
+    &:disabled {
+      color: #9e9e9e;
+      background-color: #e0e0e0;
+    }
+  }
+  button.active {
+    background-color: #88c200;
+    color: white;
+    border-color: #88c200;
   }
   button:focus {
     border-color: #88c200;
