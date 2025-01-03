@@ -125,7 +125,7 @@ const UserPage = () => {
           <ProfileImg>
             <div>
               <div>
-                <img src="/images/order/umjun.jpg" alt="Profile" />
+                <img src="/images/user.jpg" alt="Profile" />
               </div>
               <a href="#">
                 <AiFillCamera />

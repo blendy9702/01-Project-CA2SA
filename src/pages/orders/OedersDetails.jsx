@@ -11,15 +11,16 @@ import NavBar from "../../components/order/NavBar";
 import DockBar from "../../components/DockBar";
 
 // userId
-const userData = JSON.parse(sessionStorage.getItem("userData")) || {
-  resultData: { userId: "없음" },
-};
-console.log("유저", userData);
-const userId = userData.resultData.userId;
+// const userData = JSON.parse(sessionStorage.getItem("userData")) || {
+//   resultData: { userId: "없음" },
+// };
+// console.log("유저", userData);
+// const userId = userData.resultData.userId;
 
 function OedersDetails() {
   const [searchParams, setSearchParams] = useSearchParams();
   const orderId = parseInt(searchParams.get("orderId"));
+  const userId = searchParams.get("userId");
   // useNavigate
   const navigate = useNavigate();
   const handleClose = () => {

@@ -15,6 +15,7 @@ import {
   SignUpButton,
 } from "../../styles/join/loginpage";
 import { UserPageContext } from "../../contexts/UserPageContext";
+import { OrderContext } from "../../contexts/OrderContext";
 
 const loginSchema = yup.object({
   email: yup
@@ -29,6 +30,7 @@ const loginSchema = yup.object({
 });
 
 const LoginPage = ({ onLoginSuccess }) => {
+  const { setOrder, order } = useContext(OrderContext);
   const handleLogin = () => {
     const userData = {
       userId: "",
@@ -59,6 +61,8 @@ const LoginPage = ({ onLoginSuccess }) => {
       });
       // 로그인
       console.log("Response Data: ", response.data);
+      // context
+      setOrder({ ...order, userId: response.data.resultData.userId });
       if (response.data && response.data.resultMessage === "로그인 성공") {
         setMyPage(response.data.resultData);
         setLoginError("");

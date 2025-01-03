@@ -23,7 +23,7 @@ function Confirmation() {
     navigate("/");
   };
   const handleNavigateOrderDetails = () => {
-    navigate(`/orders/detail?orderId=${orderId}`);
+    navigate(`/orders/detail?userId=${userId}&orderId=${orderId}`);
   };
   // axios 불러오기
   useEffect(() => {
