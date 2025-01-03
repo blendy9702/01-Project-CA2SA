@@ -125,7 +125,7 @@ const UserPage = () => {
           <ProfileImg>
             <div>
               <div>
-                <img src="./public/images/order/umjun.jpg" alt="Profile" />
+                <img src="/images/order/umjun.jpg" alt="Profile" />
               </div>
               <a href="#">
                 <AiFillCamera />
@@ -215,7 +215,7 @@ const UserPage = () => {
               </div>
               <div>
                 <Link
-                  to="/terms/service"
+                  to="/calendar"
                   style={{
                     color: "#616161",
                     display: "flex",

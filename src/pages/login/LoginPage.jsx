@@ -96,7 +96,7 @@ const LoginPage = ({ onLoginSuccess }) => {
         <ServiceTextArea>
           <div>
             <img
-              src="./public/images/ca2saLogo.png"
+              src="/images/ca2saLogo.png"
               style={{
                 height: "110px",
               }}

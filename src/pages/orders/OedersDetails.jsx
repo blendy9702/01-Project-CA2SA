@@ -14,7 +14,7 @@ import DockBar from "../../components/DockBar";
 const userData = JSON.parse(sessionStorage.getItem("userData")) || {
   resultData: { userId: "없음" },
 };
-console.log(userData);
+console.log("유저", userData);
 const userId = userData.resultData.userId;
 
 function OedersDetails() {
@@ -31,6 +31,7 @@ function OedersDetails() {
   useEffect(() => {
     const getOrder = async () => {
       try {
+        console.log("보내기 직전 유저", userId);
         const res = await axios.get(
           `/api/order?signed_user_id=${userId}&page=1&size=30`,
         );
