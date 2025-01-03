@@ -5,8 +5,8 @@ import { OrderContext } from "../../contexts/OrderContext";
 import { CustomInputDiv, MemoDiv } from "../../styles/order/orderpage";
 import { PrimaryButton, SearchInput } from "../../styles/common";
 
-const Memo = () => {
-  const { setOrder, order, popMemo, setPopMemo } = useContext(OrderContext);
+const Memo = ({ popMemo, setPopMemo }) => {
+  const { setOrder, order } = useContext(OrderContext);
   // react-hook-form
   const {
     register,
@@ -29,7 +29,6 @@ const Memo = () => {
 
   // memo에 체크한 것들 넣기
   const handleChangeMemo = e => {
-    console.log(e.target.value);
     const prevMemo = [...memo];
     const updatedMemo = [...memo, e.target.value];
     e.target.checked ? setMemo([...updatedMemo]) : setMemo([...prevMemo]);
@@ -45,9 +44,14 @@ const Memo = () => {
   useEffect(() => {}, [memo]);
 
   return (
-    <MemoDiv>
-      <div className="inner">
-        <div className="content">
+    <MemoDiv popMemo={popMemo}>
+      <div className="inner" onClick={() => sendMemo()}>
+        <div
+          className="content"
+          onClick={e => {
+            e.stopPropagation();
+          }}
+        >
           <h5>요청 사항</h5>
           <div className="inputList">
             <CustomInputDiv>

@@ -6,6 +6,23 @@ export const LayoutDiv = styled.div`
   border-top: ${props => `${props.borderTop}px solid var( --color-gray-100)`};
   border-bottom: ${props =>
     `${props.borderBottom}px solid var( --color-gray-100)`};
+  .notFound {
+    width: 100%;
+    height: 100%;
+    padding-top: 100px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    .thum {
+      width: 200px;
+      height: 200px;
+      img {
+        width: 100%;
+        height: 100%;
+      }
+    }
+  }
 `;
 export const ContainerDiv = styled.div`
   padding: 20px 0 22px 0;
@@ -14,12 +31,15 @@ export const ContainerDiv = styled.div`
   .menuName {
     padding-bottom: 8px;
   }
+  h2 {
+    padding-bottom: 17px;
+  }
   h4 {
     padding-bottom: 17px;
   }
   .comment {
     font-size: 16px;
-    font-weight: lighter;
+    font-weight: light;
     margin-bottom: 8px;
     color: var(--color-gray-700);
     letter-spacing: -0.5px;
@@ -177,7 +197,7 @@ export const ContainerDiv = styled.div`
     align-items: center;
     justify-content: space-between;
     position: fixed;
-    bottom: 80px;
+    bottom: 30px;
     left: 50%;
     transform: translateX(-50%);
     gap: 10px;
@@ -195,15 +215,16 @@ export const ContainerDiv = styled.div`
       align-items: center;
       justify-content: space-between;
       width: 100%;
-      padding: 36px 0 10px 0;
+      padding: 36px 0 20px 0;
     }
     p {
-      font-size: 12px;
+      font-size: 14px;
       color: var(--color-gray-500);
     }
   }
   .orderdInfoBox {
     border-bottom: 1px solid var(--color-gray-100);
+    margin-bottom: 10px;
     .infoDetail {
       display: flex;
       align-items: center;
@@ -211,12 +232,18 @@ export const ContainerDiv = styled.div`
       padding: 20px 0;
       .light {
         font-size: 14px;
-        font-weight: lighter;
+
         color: var(--color-gray-700);
+      }
+      .title {
+        font-size: 16px;
+        font-weight: bold;
       }
       .menuInfo {
         p {
           font-size: 16px;
+          font-weight: bold;
+          padding-bottom: 5px;
         }
         ul {
           li {
@@ -234,6 +261,62 @@ export const ContainerDiv = styled.div`
       border-bottom: 1px dashed var(--primary-darker);
 
       p {
+      }
+    }
+  }
+  .toLink {
+    display: flex;
+    align-items: center;
+    justify-content: end;
+    button {
+      display: flex;
+      align-items: center;
+      background-color: transparent;
+      border: none;
+      gap: 10px;
+      font-size: 14px;
+      color: var(--color-gray-500);
+      i {
+        color: var(--color-gray-300);
+      }
+    }
+  }
+  .total-price {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    h3 {
+      font-weight: bold;
+    }
+    p {
+      font-size: 20px;
+      color: var(--primary-color);
+      font-weight: bold;
+    }
+  }
+  .info {
+    .info-detail {
+      display: flex;
+      padding-bottom: 5px;
+      .info-title {
+        width: 75px;
+      }
+    }
+  }
+  .menuDetail {
+    div {
+      h4 {
+      }
+      .info {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        .left {
+        }
+        .right {
+          font-size: 20px;
+          font-weight: bold;
+        }
       }
     }
   }
@@ -291,7 +374,7 @@ export const ContentDiv = styled.div`
     .map {
       width: 100%;
       height: 209px;
-      background-color: darkgray;
+      overflow: hidden;
       margin-bottom: 10px;
       border-radius: 8px;
     }
@@ -319,7 +402,7 @@ export const OrderButton = styled.button`
   left: 50%;
   height: 60px;
   transform: translateX(-50%);
-  bottom: 80px;
+  bottom: 50px;
   width: ${props => (props.width ? props.width : "600")}px;
   background-color: ${props =>
     props.color ? props.color : "var(--primary-color)"};
@@ -336,8 +419,15 @@ export const OrderButton = styled.button`
   align-items: center;
   justify-content: center;
   gap: 10px;
+  z-index: 99;
+  &:disabled {
+    background-color: var(--primary-lighter); /* 회색 배경 */
+    color: #fff; /* 어두운 텍스트 */
+    cursor: not-allowed; /* 사용 불가 커서 */
+    opacity: 0.7; /* 투명도 */
+  }
   .circle {
-    width: 14px;
+    width: 15px;
     height: 15px;
     background-color: #fff;
     border-radius: 50%;
@@ -359,8 +449,7 @@ export const NavBarDiv = styled.div`
   justify-content: center;
   position: relative;
   background-color: #fff;
-
-  width: 100%;
+  max-width: 640px;
   padding: 15px 20px;
   .link-icon {
     position: absolute;
@@ -376,7 +465,8 @@ export const NavBarDiv = styled.div`
 export const CateListDiv = styled.div`
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: center;
+  gap: 20px;
   margin-bottom: 5px;
 `;
 export const CateButton = styled.button`
@@ -393,6 +483,7 @@ export const CateButton = styled.button`
 `;
 
 export const MemoDiv = styled.div`
+  display: ${props => (props.popMemo ? "block" : "none")};
   background-color: var(--color-gray-900);
   position: fixed;
   top: 0;
@@ -400,13 +491,14 @@ export const MemoDiv = styled.div`
   transform: translateX(-50%);
   width: 640px;
   height: 100%;
+  transition: all 0.3s;
   .inner {
     position: relative;
     height: 100%;
     .content {
       position: absolute;
       left: 0;
-      bottom: 70px;
+      bottom: 0px;
       border-top-right-radius: 16px;
       border-top-left-radius: 16px;
       padding: 20px;
@@ -485,10 +577,66 @@ export const OrderProgressDiv = styled.div`
     background-color: ${props =>
       props.selectedProgress ? "var(--primary-color)" : "var(--color-white)"};
   }
-  p {
+  .progressTitle {
+    font-size: 14px;
     padding-top: 10px;
     display: flex;
     align-items: center;
     justify-content: center;
   }
+`;
+
+export const MenuDiv = styled.div`
+  display: flex;
+  width: 100%;
+  padding: 20px 0;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--color-gray-100);
+  cursor: pointer;
+  .menu {
+    width: 400px;
+    p {
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      overflow: hidden;
+      margin-bottom: 7px;
+    }
+  }
+  .menu-thum {
+    width: 200px;
+    height: 200px;
+    border-radius: 8px;
+    overflow: hidden;
+    margin-left: 20px;
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+  }
+`;
+
+export const OrderDetailDiv = styled.div`
+  position: fixed;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: #fff;
+  width: 680px;
+  height: 100%;
+`;
+export const PeriodButton = styled.button`
+  width: 80px;
+  background-color: ${props =>
+    props.isSelected ? "var(--color-gray-900)" : "#fff"};
+  color: ${props => (props.isSelected ? "#fff" : "var(--color-gray-500);")};
+  padding: 10px 15px;
+  border: 1px solid
+    ${props =>
+      props.isSelected ? "var(--color-gray-500)" : "var(--color-gray-500)"};
+  border-radius: 16px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: 0.1s;
 `;
