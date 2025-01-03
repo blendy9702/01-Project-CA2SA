@@ -8,16 +8,16 @@ const OrderProgress = React.memo(({ progress, selectedProgress }) => {
   return (
     <OrderProgressDiv selectedProgress={selectedProgress}>
       <div className="ProgressCircle">
-        {progress === 1 && <FaReceipt style={{ fontSize: 24 }} />}
-        {progress === 2 && <BiSolidTimer style={{ fontSize: 24 }} />}
-        {progress === 3 && <BiSolidShoppingBagAlt style={{ fontSize: 24 }} />}
-        {progress === 4 && <AiFillCheckCircle style={{ fontSize: 24 }} />}
+        {progress === 0 && <FaReceipt style={{ fontSize: 24 }} />}
+        {progress === 1 && <BiSolidTimer style={{ fontSize: 24 }} />}
+        {progress === 2 && <BiSolidShoppingBagAlt style={{ fontSize: 24 }} />}
+        {progress === 3 && <AiFillCheckCircle style={{ fontSize: 24 }} />}
       </div>
-      <p>
-        {progress === 1 && "주문접수"}
-        {progress === 2 && "준비중"}
-        {progress === 3 && "준비완료"}
-        {progress === 4 && "수령완료"}
+      <p className="progressTitle">
+        {progress === 0 && "주문접수"}
+        {progress === 1 && "준비중"}
+        {progress === 2 && "준비완료"}
+        {progress === 3 && "수령완료"}
       </p>
     </OrderProgressDiv>
   );
