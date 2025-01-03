@@ -30,14 +30,14 @@ const MenuDetail = () => {
     //   alert("다른 카페입니다.");
     // }
     navigate(-1);
-    setOrder({ ...order, cafeId: cafeInfo.cafeId });
+    setOrder({ ...order, cafeId: parseInt(cafeInfo.cafeId) });
   };
   const handleNavigatePaymet = () => {
     // if (order.cafeId !== cafeInfo.cafeId) {
     //   alert("다른 카페입니다.");
     // }
     navigate(`/order/payment?cafeId=${cafeInfo.cafeId}`, { state: cafeInfo });
-    setOrder({ ...order, cafeId: cafeInfo.cafeId });
+    setOrder({ ...order, cafeId: parseInt(cafeInfo.cafeId) });
   };
 
   // OrderContext
@@ -52,14 +52,11 @@ const MenuDetail = () => {
   const [optionList, setOptionList] = useState([]);
   const [cafeInfo, setCafeInfo] = useState({});
   const [totalPrice, setTotalPrice] = useState(0);
-  const [firstChecked, setFirstChecked] = useState(true);
-  useEffect(() => {
-    console.log(firstChecked);
-  }, [firstChecked]);
+
   // axios
   useEffect(() => {
     setCafeInfo(locationData);
-    console.log("상세 옵션 페이지 cafeInfo:", cafeInfo);
+    // console.log("상세 옵션 페이지 cafeInfo:", cafeInfo);
   }, [cafeInfo]);
   useEffect(() => {
     const getMenuOption = async data => {
@@ -67,7 +64,7 @@ const MenuDetail = () => {
         const res = await axios.get(`/api/menu/${data}`); ////api/cafe/menu/option
         const resultData = res.data.resultData;
         setOptionInfo(resultData);
-        console.log(`상세 옵션 통신 결과(optionInfo):`, resultData);
+        // console.log(`상세 옵션 통신 결과(optionInfo):`, resultData);
         // 옵션만 뽑아서 배열
         const optionInfoArr = [...resultData.detailList];
         // console.log(optionInfoArr);
@@ -135,7 +132,7 @@ const MenuDetail = () => {
 
   // 장바구니에 추가하기
   const handleSubmitForm = data => {
-    console.log("formData:", data);
+    // console.log("formData:", data);
     const fixedFormData = { ...data, options: options };
     addCartList(fixedFormData);
   };
