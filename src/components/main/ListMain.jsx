@@ -142,7 +142,7 @@ const ListMain = () => {
         </TitleFlex>
         <Swiper
           slidesPerView={3}
-          spaceBetween={30}
+          spaceBetween={10}
           pagination={{
             clickable: true,
           }}
