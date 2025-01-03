@@ -47,7 +47,7 @@ const JoinPage = () => {
     formState: { errors, isValid },
   } = useForm({
     resolver: yupResolver(loginSchema),
-    defaultValues: { nickName: "", email: "", upw: "" },
+    defaultValues: { nickName: "", email: "", upw: "", agree: 1 },
     mode: "onChange",
   });
 
@@ -64,6 +64,7 @@ const JoinPage = () => {
     nickName: "",
     email: "",
     upw: "",
+    agree: 1,
   });
 
   // 패스워드 일치 확인

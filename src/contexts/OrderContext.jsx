@@ -15,9 +15,6 @@ export const OrderContextProvider = ({ children }) => {
   const [order, setOrder] = useState(initData);
   const [cartList, setCartList] = useState([]);
 
-  //요청사항 팝업
-  const [popMemo, setPopMemo] = useState(false);
-
   // order-menuList에 계속 담기
   const addCartList = data => {
     const addlist = { ...data };
@@ -49,8 +46,6 @@ export const OrderContextProvider = ({ children }) => {
         cartList,
         setCartList,
         addCartList,
-        popMemo,
-        setPopMemo,
       }}
     >
       {children}
