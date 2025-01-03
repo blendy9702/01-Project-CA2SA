@@ -40,7 +40,7 @@ const CafeDataStyle = styled.div`
 const SearchList = ({ cafe }) => {
   const showCafe = useNavigate();
   const viewProduct = cafeId => {
-    showCafe(`/order/${cafeId}`); // 동적으로 상품 ID를 사용해 페이지 이동
+    showCafe(`/order?cafeId=${cafeId}`); // 동적으로 상품 ID를 사용해 페이지 이동
   };
   return (
     <CafeDataStyle onClick={() => viewProduct(cafe.cafeId)}>

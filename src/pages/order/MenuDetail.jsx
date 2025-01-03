@@ -132,7 +132,7 @@ const MenuDetail = () => {
 
   // 장바구니에 추가하기
   const handleSubmitForm = data => {
-    console.log("formData:", data);
+    // console.log("formData:", data);
     const fixedFormData = { ...data, options: options };
     // addCartList(fixedFormData);
     setOrder({ ...order, menuList: [...order.menuList, fixedFormData] });
@@ -147,9 +147,7 @@ const MenuDetail = () => {
       <ThumImageDiv height={375}>
         <img
           src={
-            optionInfo?.menuPic
-              ? `http://112.222.157.156:5214${optionInfo.menuPic}`
-              : "/images/order/cat2.jpg"
+            optionInfo?.menuPic ? optionInfo.menuPic : "/images/order/cat2.jpg"
           }
           alt="메뉴 사진"
         />

@@ -160,9 +160,9 @@ const Payment = () => {
         if (resultData === 1) {
           console.log("order을 비웁니다.");
           setOrder({
+            ...order,
             pickUpTime: "",
             memo: "",
-            userId: "",
             cafeId: "",
             menuList: [],
             // orderTime: "",
@@ -173,9 +173,9 @@ const Payment = () => {
         console.log(error);
         alert("통신 오류로 인해 주문을 초기화합니다");
         setOrder({
+          ...order,
           pickUpTime: "",
           memo: "",
-          userId: "",
           cafeId: "",
           menuList: [],
           // orderTime: "",

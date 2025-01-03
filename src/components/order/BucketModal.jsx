@@ -12,9 +12,9 @@ const BucketModal = ({ showPopUp, setShowPopup, cafeInfo }) => {
   const handleClickButton = () => {
     setShowPopup(false);
     setOrder({
+      ...order,
       pickUpTime: "",
       memo: "",
-      userId: "",
       cafeId: parseInt(cafeInfo.cafeId),
       menuList: [],
       // orderTime: "",

@@ -6,7 +6,9 @@ import {
   InfoBox_1,
   InfoBox_2,
   InfoBox_3,
+  InputFocus,
   MyPageDiv,
+  NicknameButton,
   ProfileArea,
   ProfileImg,
   ProfileInfoArea,
@@ -17,6 +19,7 @@ import { BsFillPatchQuestionFill } from "react-icons/bs";
 import { BiCalendar } from "react-icons/bi";
 
 const UserPage = () => {
+  const [updataNick, setUpdataNick] = useState(false);
   const { myPage, setMyPage } = useContext(UserPageContext);
   const [userData, setUserData] = useState({});
   const navigate = useNavigate();
@@ -26,7 +29,6 @@ const UserPage = () => {
     try {
       const res = await axios.put("/api/user/info", {
         userId: userData.userId,
-        upw: upw,
         nickName: userData.nickName,
       });
       console.log("서버 응답 데이터:", res.data);
@@ -81,7 +83,7 @@ const UserPage = () => {
     // 세션 스토리지와 컨텍스트 초기화
     sessionStorage.clear();
     setMyPage({});
-    alert("로그아웃합니다..");
+    alert("로그아웃합니다.");
     navigate("/login");
   };
 
@@ -123,7 +125,7 @@ const UserPage = () => {
           <ProfileImg>
             <div>
               <div>
-                <img src="./public/images/order/umjun.jpg" alt="Profile" />
+                <img src="/images/user.jpg" alt="Profile" />
               </div>
               <a href="#">
                 <AiFillCamera />
@@ -131,23 +133,32 @@ const UserPage = () => {
             </div>
           </ProfileImg>
           <ProfileInfoArea>
-            <p>이메일</p>
-            <input type="text" value={userData.email} readOnly />
             <p>닉네임</p>
-            <input
+            <InputFocus
               type="text"
               value={userData.nickName}
               onChange={e =>
                 setUserData(prev => ({ ...prev, nickName: e.target.value }))
               }
               placeholder="닉네임을 입력하세요"
+              readOnly={!updataNick ? true : false}
+              updataNick={updataNick}
             />
-            <p>비밀번호</p>
+            <NicknameButton
+              type="button"
+              onClick={() => {
+                setUpdataNick(true);
+              }}
+              updataNick={updataNick}
+            >
+              수정하기
+            </NicknameButton>
+            <p>이메일</p>
             <input
-              type="password"
-              value={upw}
-              onChange={e => setUpw(e.target.value)}
-              placeholder="닉네임 변경에 비밀번호가 필요합니다."
+              type="text"
+              value={userData.email}
+              readOnly
+              className="noneFocus"
             />
           </ProfileInfoArea>
         </ProfileArea>
@@ -204,7 +215,7 @@ const UserPage = () => {
               </div>
               <div>
                 <Link
-                  to="/terms/service"
+                  to="/calendar"
                   style={{
                     color: "#616161",
                     display: "flex",
