@@ -1,6 +1,7 @@
 import { FaLocationDot } from "react-icons/fa6";
 import { Link, useNavigate } from "react-router-dom";
 import styled from "@emotion/styled";
+import { useEffect, useRef } from "react";
 
 const ListBoxItem = styled.div`
   display: inline-block;
@@ -41,14 +42,25 @@ const ListBoxItem = styled.div`
 
 const ListBox = ({ cafe }) => {
   const showCafe = useNavigate();
+  const imgRef = useRef(null);
+  useEffect(() => {
+    // console.log("이미지 확인", imgRef.current);
+  }, [imgRef]);
+
   const viewProduct = cafeId => {
-    showCafe(`/order?${cafeId}`, { state: [{ cafeId: cafeId }] }); // 동적으로 상품 ID를 사용해 페이지 이동
+    showCafe(`/order?cafeId=${cafeId}`, { state: [{ cafeId: cafeId }] }); // 동적으로 상품 ID를 사용해 페이지 이동
   };
   if (!cafe) return null; // undefined 방지
+  // console.log(cafe);
   return (
     <ListBoxItem onClick={() => viewProduct(cafe.cafeId)}>
       <div>
-        <img src={cafe.cafePic} alt={cafe.cafeName} />
+        <img
+          ref={imgRef}
+          src={`http://112.222.157.156:5214${cafe.cafePic}`}
+          alt={cafe.cafeName}
+        />
+        {/* <img src={cafe.cafePic} alt={cafe.cafeName} /> */}
       </div>
       <h3>{cafe.cafeName}</h3>
       <p>

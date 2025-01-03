@@ -10,6 +10,7 @@ const MarkerWrap = styled.div`
   background-color: #fff;
   box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
   overflow: hidden;
+
   div {
     width: 100%;
     height: 100%;
@@ -66,7 +67,8 @@ const MapMarkrtItem = ({ cafe }) => {
           <h5>{cafe.cafeName}</h5>
           <p>
             <BiTimeFive />
-            {cafe.openTime}~{cafe.closeTime}
+            {cafe.openTime.split(":").slice(0, 2).join(":")}~
+            {cafe.closeTime.split(":").slice(0, 2).join(":")}
           </p>
           <p>
             <FaLocationDot />

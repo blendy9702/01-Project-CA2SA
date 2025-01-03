@@ -1,5 +1,4 @@
 import styled from "@emotion/styled";
-import { css } from "styled-components";
 
 export const LayoutDiv = styled.div`
   padding: 0 20px;
@@ -424,7 +423,7 @@ export const OrderButton = styled.button`
     background-color: var(--primary-lighter); /* 회색 배경 */
     color: #fff; /* 어두운 텍스트 */
     cursor: not-allowed; /* 사용 불가 커서 */
-    opacity: 0.7; /* 투명도 */
+    opacity: 1; /* 투명도 */
   }
   .circle {
     width: 15px;

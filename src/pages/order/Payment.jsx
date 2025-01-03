@@ -47,10 +47,21 @@ const Payment = () => {
   useEffect(() => {
     console.log("order:", order);
   }, [order]);
+
   useEffect(() => {
-    setCafeInfo(locationData);
-    console.log("Payment cafeInfo:", cafeInfo);
-  }, [locationData, cafeInfo]);
+    const getCafe = async data => {
+      try {
+        const res = await axios.get(`/api/cafe/${data}`);
+        const resultData = res.data.resultData;
+        setCafeInfo(resultData);
+      } catch (error) {
+        console.log("카페정보 통신 결과:", error);
+        // console.log("mockData가 적용됩니다.");
+        // setCafeInfo(mockDataResult);
+      }
+    };
+    getCafe(cafeId);
+  }, []);
 
   const handleNavigateClose = () => {
     navigate(-1, {
@@ -72,7 +83,6 @@ const Payment = () => {
     setOrder({
       ...order,
       userId: userId,
-      cafeId: cafeId,
       pickUpTime: moment().format("HH:mm:ss"),
     });
   }, []);
