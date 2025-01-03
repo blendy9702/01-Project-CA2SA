@@ -39,7 +39,7 @@ const MenuList = () => {
   const [showPopup, setShowPopup] = useState(false);
 
   const handleNavigateBack = () => {
-    navigate("/search");
+    navigate(-1);
   };
   const handleNavigateMenuOption = item => {
     order.cafeId === cafeId || order.cafeId === ""

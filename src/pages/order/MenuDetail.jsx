@@ -132,7 +132,7 @@ const MenuDetail = () => {
 
   // 장바구니에 추가하기
   const handleSubmitForm = data => {
-    console.log("formData:", data);
+    // console.log("formData:", data);
     const fixedFormData = { ...data, options: options };
     // addCartList(fixedFormData);
     setOrder({ ...order, menuList: [...order.menuList, fixedFormData] });
