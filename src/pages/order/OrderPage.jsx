@@ -22,11 +22,9 @@ const OrderPage = () => {
   const cafeId = searchParams.get("cafeId");
   // useRef
   const imgRef = useRef(null);
-  const imgtag = imgRef.current;
-  const imgURL = imgtag?.getAttribute("src");
   useEffect(() => {
-    // console.log("이미지 주소:", imgURL);
-  }, [imgURL]);
+    // console.log(imgRef.current);
+  }, [imgRef]);
 
   // useNavigation
   const location = useLocation();
@@ -65,7 +63,7 @@ const OrderPage = () => {
   }, []);
 
   useEffect(() => {
-    console.log("카페정보 통신 결과(cafeInfo):", cafeInfo);
+    // console.log("카페정보 통신 결과(cafeInfo):", cafeInfo);
   }, [cafeInfo]);
 
   return (
@@ -78,9 +76,7 @@ const OrderPage = () => {
       <ThumImageDiv height={300}>
         <img
           src={
-            cafeInfo
-              ? `http://112.222.157.156:5214${cafeInfo?.cafePic}`
-              : "/images/order/cat.jpg"
+            cafeInfo ? `http://112.222.157.156:5214${cafeInfo?.cafePic}` : ""
           }
           ref={imgRef}
         ></img>
