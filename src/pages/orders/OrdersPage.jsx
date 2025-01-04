@@ -19,7 +19,7 @@ const perriodArr = [7, 30, 90, 180, 360];
 const OrdersPage = () => {
   const { order } = useContext(OrderContext);
   useEffect(() => {
-    console.log(order);
+    // console.log(order);
   }, [order]);
   const userId = order.userId;
   // uesNavigate
@@ -52,13 +52,13 @@ const OrdersPage = () => {
           );
         });
         setFilterdData(filterdArr);
-        console.log(filterdArr);
+        // console.log(filterdArr);
       } catch (error) {
         console.log(error);
       }
     };
     getOrderList();
-    console.log(perriodArr[selectedPeriod]);
+    // console.log(perriodArr[selectedPeriod]);
   }, []);
 
   // 클릭 시 기간 변경

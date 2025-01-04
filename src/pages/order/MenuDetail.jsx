@@ -36,7 +36,9 @@ const MenuDetail = () => {
     // if (order.cafeId !== cafeInfo.cafeId) {
     //   alert("다른 카페입니다.");
     // }
-    navigate(`/order/payment?cafeId=${cafeInfo.cafeId}`, { state: cafeInfo });
+    navigate(`/order/payment?cafeId=${order.cafeId}`, {
+      state: locationData,
+    });
     setOrder({ ...order, cafeId: parseInt(cafeInfo.cafeId) });
   };
 
@@ -44,7 +46,7 @@ const MenuDetail = () => {
   const { order, setOrder, cartList, setCartList, addCartList } =
     useContext(OrderContext);
   useEffect(() => {
-    console.log("order:", order);
+    // console.log("order:", order);
   }, [order]);
 
   //useState

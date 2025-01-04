@@ -107,7 +107,7 @@ const MenuList = () => {
     .toLocaleString();
 
   useEffect(() => {
-    console.log("order:", order);
+    // console.log("order:", order);
   }, [order]);
 
   // 검색 결과 필터링하기
