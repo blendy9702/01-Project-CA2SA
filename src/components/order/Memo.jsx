@@ -4,6 +4,7 @@ import { useForm } from "react-hook-form";
 import { OrderContext } from "../../contexts/OrderContext";
 import { CustomInputDiv, MemoDiv } from "../../styles/order/orderpage";
 import { PrimaryButton, SearchInput } from "../../styles/common";
+import { OrderMemoInput } from "../../styles/order/orderMemo";
 
 const Memo = ({ popMemo, setPopMemo }) => {
   const { setOrder, order } = useContext(OrderContext);
@@ -100,7 +101,7 @@ const Memo = ({ popMemo, setPopMemo }) => {
               <label htmlFor="request5">직접 입력</label>
             </CustomInputDiv>
           </div>
-          <SearchInput
+          <OrderMemoInput
             type="text"
             className="searchInput"
             value={inputText}
@@ -111,6 +112,7 @@ const Memo = ({ popMemo, setPopMemo }) => {
               setInputText(e.target.value);
             }}
             onBlur={e => handleChangeMemo(e)}
+            isChecked={isChecked}
           />
           <PrimaryButton type="button" onClick={() => sendMemo()}>
             완료

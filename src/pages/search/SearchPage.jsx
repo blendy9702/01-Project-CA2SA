@@ -131,6 +131,24 @@ const SearchPage = () => {
             onChange={e => setIsSearch(e.target.value)}
             onKeyDown={e => handleClickKeyDown(e)}
           />
+          <div>
+            {/* Enter를 눌렀을 때만 검색 결과 렌더링 */}
+            {searchTriggered ? (
+              cafeData.length > 0 ? (
+                <>
+                  <h2 style={{ marginTop: "30px" }}>검색결과</h2>
+                  {cafeData.map(cafe => (
+                    <SearchList key={cafe.cafeId} cafe={cafe} />
+                  ))}
+                </>
+              ) : (
+                <NoSearchRes>
+                  <img src="/images/NoSearch.png" alt="" />
+                  <p>검색 결과가 없습니다.</p>
+                </NoSearchRes>
+              )
+            ) : null}
+          </div>
           {isFocused ? (
             <IoCloseCircleSharp onClick={handleClear} />
           ) : (

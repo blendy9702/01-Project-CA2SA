@@ -1,12 +1,14 @@
 # CA2SA
 
-## 1. 아이데이션 (주제선정)
+## 1. 서비스 소개
 
-## 2. 린캔버스로 아이템의 장단점을 분석해보자.
+- 바쁜 사용자들이 간단하고 빠르게 커피를 주문하고, 원하는 시간에 픽업할 수 있는 편리한 테이크아웃 웹앱.
 
-## 3. 요구사항문서(PRD)를 작성해보자.
+## 2.
 
-## 4. IA (Sitemap) / ERD
+## 3.
+
+## 4.
 
 ## 5. UI Flow /
 
@@ -14,17 +16,17 @@
 
 ## 7. 일정관리
 
-## 8. 테스트
+## 8.
 
-## 9. MVP
+## 9.
 
-## 10. 향후 진행할 작업에 대한 내용
+## 10.
 
-## 11. 시연 및 발표
+## 11.
 
-## 12. 팀 자체 피드백 발표
+## 12.
 
-## 13. 멘토 피드백
+## 13.
 
 ## 14. 브랜치 전략
 
@@ -39,7 +41,7 @@ hotfix : 버그를 수정용
 ## 15. 폴더 구조
 
 ```
-Project-CA2SA
+01-Project-CA2SA
 ├─ .prettierrc
 ├─ eslint.config.js
 ├─ index.html
@@ -51,6 +53,9 @@ Project-CA2SA
 │     ├─ 404
 │     │  └─ 404.png
 │     ├─ ca2saLogo.png
+│     ├─ calendar
+│     │  ├─ coffee-beans-completed.png
+│     │  └─ coffee-beans-default.png
 │     ├─ event
 │     │  ├─ image-0.png
 │     │  ├─ image-1.png
@@ -75,15 +80,11 @@ Project-CA2SA
 │     │  ├─ cat.jpg
 │     │  ├─ cat2.jpg
 │     │  ├─ checkboxOff.png
-│     │  └─ CheckboxOn.png
+│     │  ├─ CheckboxOn.png
+│     │  └─ umjun.jpg
 │     └─ qna_banner.png
 ├─ README.md
-├─ server
-│  └─ DB.json
 ├─ src
-│  ├─ apis
-│  │  ├─ order.jsx
-│  │  └─ orderapi.jsx
 │  ├─ App.css
 │  ├─ App.jsx
 │  ├─ assets
@@ -100,17 +101,22 @@ Project-CA2SA
 │  │  │  └─ SlideItem.jsx
 │  │  ├─ MapMarkrtItem.jsx
 │  │  ├─ order
+│  │  │  ├─ BucketModal.jsx
+│  │  │  ├─ CafeMap.jsx
 │  │  │  ├─ Memo.jsx
 │  │  │  ├─ Menu.jsx
 │  │  │  ├─ NavBar.jsx
-│  │  │  ├─ OrderDetail.jsx
 │  │  │  ├─ OrderProgress.jsx
 │  │  │  ├─ PaymentOption.jsx
-│  │  │  └─ PickUpTime.jsx
+│  │  │  ├─ PickUpTime.jsx
+│  │  │  └─ SearchMenu.jsx
+│  │  ├─ orders
+│  │  │  └─ OrderedMenu.jsx
 │  │  ├─ search
 │  │  │  └─ SearchList.jsx
 │  │  └─ terms
 │  │     ├─ Event.jsx
+│  │     ├─ noticeContent.jsx
 │  │     ├─ QnaList.jsx
 │  │     └─ Questions.jsx
 │  ├─ contexts
@@ -120,6 +126,8 @@ Project-CA2SA
 │  ├─ index.css
 │  ├─ main.jsx
 │  ├─ pages
+│  │  ├─ calendar
+│  │  │  └─ Attendance .jsx
 │  │  ├─ ceoadmin
 │  │  │  ├─ AdminPage.jsx
 │  │  │  ├─ Dashboard.jsx
@@ -156,30 +164,36 @@ Project-CA2SA
 │  │  │  ├─ Confirmation.jsx
 │  │  │  ├─ MenuDetail.jsx
 │  │  │  ├─ MenuList.jsx
-│  │  │  ├─ OedersDetails.jsx
 │  │  │  ├─ OrderPage.jsx
 │  │  │  └─ Payment.jsx
 │  │  ├─ orders
 │  │  │  ├─ OedersDetails.jsx
 │  │  │  └─ OrdersPage.jsx
 │  │  ├─ search
-│  │  │  ├─ SearchList.jsx
 │  │  │  └─ SearchPage.jsx
 │  │  └─ terms
 │  │     ├─ FAQ.jsx
 │  │     ├─ Marketing.jsx
+│  │     ├─ Notice.jsx
 │  │     ├─ PaymentService.jsx
 │  │     ├─ Privacy.jsx
 │  │     └─ Service.jsx
+│  ├─ server
+│  │  ├─ notice.json
+│  │  └─ qnaData.json
 │  └─ styles
+│     ├─ attendance.css
 │     ├─ common.js
 │     ├─ join
 │     │  ├─ confirmform.js
 │     │  ├─ joinpage.js
 │     │  ├─ loginpage.js
 │     │  └─ userpage.js
-│     └─ order
-│        └─ orderpage.js
+│     ├─ order
+│     │  ├─ BucketModal.js
+│     │  └─ orderpage.js
+│     └─ orders
+│        └─ orderspage.js
 └─ vite.config.js
 
 ```

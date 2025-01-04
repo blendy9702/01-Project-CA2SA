@@ -11,11 +11,7 @@ const Menu = ({ item, index, onClick }) => {
       <div className="menu-thum">
         {/* <img src={item.menuPic} alt="메뉴 사진" /> */}
         <img
-          src={
-            item.menuPic
-              ? `http://112.222.157.156:5214${item.menuPic}`
-              : "/images/order/cat.jpg"
-          }
+          src={item.menuPic ? item.menuPic : "/images/order/cat.jpg"}
           alt="메뉴 사진"
         />
       </div>

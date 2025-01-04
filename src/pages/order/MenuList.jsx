@@ -14,9 +14,6 @@ import {
 import { FiSearch } from "react-icons/fi";
 import BucketModal from "../../components/order/BucketModal";
 
-const userData = JSON.parse(sessionStorage.getItem("userData"));
-const userId = userData ? userData.resultData.userId : "임시부여 ID";
-
 const MenuList = () => {
   // 앞에서 보낸 navigate의 state 받아오기
   const { order, setOrder } = useContext(OrderContext);
@@ -73,7 +70,6 @@ const MenuList = () => {
             return acc.concat(curr);
           }, []);
           setAllMenu(combinedMenuArr);
-          setOrder({ ...order, userId: userId });
         }
       } catch (error) {
         console.log("메뉴 리스트 통신 결과:", error);
@@ -111,7 +107,7 @@ const MenuList = () => {
     .toLocaleString();
 
   useEffect(() => {
-    console.log("order:", order);
+    // console.log("order:", order);
   }, [order]);
 
   // 검색 결과 필터링하기
