@@ -27,9 +27,9 @@ const TabMenuBtn = styled.div`
 const HomePage = () => {
   const { order } = useContext(OrderContext);
   const [activeIndex, setActiveIndex] = useState(0);
-  useEffect(() => {
-    console.log(order);
-  }, [order]);
+  // useEffect(() => {
+  //   console.log(order);
+  // }, [order]);
   return (
     <div>
       <Header />

@@ -25,6 +25,10 @@ const OrderedMenu = ({ item }) => {
         return "준비완료";
       case 3:
         return "수령완료";
+      case 5:
+        return "주문취소";
+      case 6:
+        return "주문취소 확정";
       default:
         return "기타";
     }

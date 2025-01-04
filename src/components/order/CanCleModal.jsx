@@ -3,47 +3,48 @@ import { useNavigate } from "react-router-dom";
 import { OrderContext } from "../../contexts/OrderContext";
 import { PrimaryButton } from "../../styles/common";
 import { ModalDiv, ModalButton } from "../../styles/order/BucketModal";
+import axios from "axios";
 
-const BucketModal = ({ showPopUp, setShowPopup, cafeInfo }) => {
+const CancleModal = ({ showCancleModal, setShowCancleModal, orderId }) => {
   const { setOrder, order } = useContext(OrderContext);
+  const userId = order.userId;
   const navigate = useNavigate();
-  const handleClickButton = () => {
-    setShowPopup(false);
-    setOrder({
-      ...order,
-      pickUpTime: "",
-      memo: "",
-      cafeId: parseInt(cafeInfo.cafeId),
-      menuList: [],
-      // orderTime: "",
-    });
+  const handleClickButton = async () => {
+    try {
+      const res = await axios.patch(
+        `/api/order/cancel?orderId=${orderId}&signedUserId=${userId}`,
+      );
+      const resultData = res.data.resultData;
+      console.log(res.data);
+      if (resultData === 1) {
+        navigate("/");
+        setShowCancleModal(false);
+      }
+    } catch (error) {
+      console.log("주문 취소:", error);
+    }
   };
   return (
     <ModalDiv>
       <div className="inner">
         <div className="container">
           <div className="content">
-            <p className="main">
-              장바구니에는 같은 가게의 메뉴만 담을 수 있습니다.
-            </p>
+            <p className="main">주문을 취소하시겠습니까?.</p>
             <p className="sub">
-              선택하신 메뉴를 장바구니에 담을 경우 이전에 담은 메뉴가
-              <br />
-              삭제됩니다.
+              취소 버튼을 누르실 경우, 해당 주문이 취소됩니다.
             </p>
           </div>
           <div className="button-box">
             <ModalButton
               type="button"
               onClick={() => {
-                navigate(`/order/menu?cafeId=${order.cafeId}`);
-                setShowPopup(false);
+                setShowCancleModal(false);
               }}
             >
-              취소
+              닫기
             </ModalButton>
             <PrimaryButton type="button" onClick={() => handleClickButton()}>
-              담기
+              취소
             </PrimaryButton>
           </div>
         </div>
@@ -52,4 +53,4 @@ const BucketModal = ({ showPopUp, setShowPopup, cafeInfo }) => {
   );
 };
 
-export default BucketModal;
+export default CancleModal;
