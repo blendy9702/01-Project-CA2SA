@@ -71,7 +71,9 @@ const Attendance = () => {
           <div
             onClick={() =>
               matchingOrder.orderMenuList.length > 0 &&
-              navigate(`/orders/detail?orderId=${matchingOrder.orderId}`)
+              navigate(
+                `/orders/detail?userId=${userId}&orderId=${matchingOrder.orderId}`,
+              )
             }
             style={{
               cursor:
