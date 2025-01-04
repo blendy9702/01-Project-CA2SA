@@ -47,13 +47,6 @@ export const ProfileImg = styled.div`
     position: relative;
     height: 100px;
     width: 100px;
-    img {
-      object-fit: cover;
-      width: 100%;
-      height: 100%;
-      border-radius: 50%;
-      overflow: hidden;
-    }
   }
   a {
     > svg {

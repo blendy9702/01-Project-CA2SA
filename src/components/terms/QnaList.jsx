@@ -9,6 +9,7 @@ const QNAstyle = styled.div`
     display: flex;
     align-items: center;
     border-bottom: 1px solid var(--color-gray-100);
+    padding: 0 20px;
 
     strong {
       font-size: 16px;
@@ -21,6 +22,7 @@ const QNAstyle = styled.div`
     }
   }
   .answerItem {
+    padding: 0 20px;
     height: 100%;
     background-color: var(--color-white);
     p {

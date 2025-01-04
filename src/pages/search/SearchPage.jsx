@@ -143,7 +143,9 @@ const SearchPage = () => {
         {searchTriggered ? (
           cafeData.length > 0 ? (
             <>
-              <h2 style={{ marginTop: "30px" }}>검색결과</h2>
+              <h2 style={{ marginTop: "30px", marginBottom: "20px" }}>
+                검색결과
+              </h2>
               {cafeData.map(cafe => (
                 <SearchList key={cafe.cafeId} cafe={cafe} />
               ))}

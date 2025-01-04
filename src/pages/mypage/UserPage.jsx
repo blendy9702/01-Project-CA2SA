@@ -16,7 +16,7 @@ import {
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 import { AiFillCamera, AiFillNotification } from "react-icons/ai";
 import { BsFillPatchQuestionFill } from "react-icons/bs";
-import { BiCalendar } from "react-icons/bi";
+import { BiCalendar, BiSolidUser } from "react-icons/bi";
 
 const UserPage = () => {
   const [updataNick, setUpdataNick] = useState(false);
@@ -123,8 +123,24 @@ const UserPage = () => {
         <ProfileArea>
           <ProfileImg>
             <div>
-              <div>
-                <img src="/images/order/umjun.jpg" alt="Profile" />
+              <div
+                style={{
+                  backgroundColor: "var(--color-white)",
+                  border: "1px solid var(--color-gray-100)",
+                  borderRadius: "50%",
+                  width: "100px",
+                  height: "100px",
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+              >
+                <BiSolidUser
+                  style={{
+                    fontSize: "30px",
+                    color: "var(--color-gray-500)",
+                  }}
+                />
               </div>
               <a href="#">
                 <AiFillCamera />
@@ -218,7 +234,7 @@ const UserPage = () => {
               </div>
               <div>
                 <Link
-                  to="/terms/service"
+                  to="/calendar"
                   style={{
                     color: "var(--color-gray-700)",
                     display: "flex",
