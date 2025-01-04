@@ -150,7 +150,7 @@ const SearchPage = () => {
             </>
           ) : (
             <NoSearchRes>
-              <img src="../public/images/NoSearch.png" alt="" />
+              <img src="/images/NoSearch.png" alt="" />
               <p>검색 결과가 없습니다.</p>
             </NoSearchRes>
           )

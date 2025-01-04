@@ -44,7 +44,7 @@ const NotFound = () => {
   };
   return (
     <NotFoundStyle>
-      <img src="/public/images/404/404.png" alt="" />
+      <img src="/images/404/404.png" alt="" />
       <h1>찾을 수 없어요 !</h1>
       <p>
         주소를 잘못 입력하셨거나 <br />
