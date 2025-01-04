@@ -288,7 +288,7 @@ const Payment = () => {
               setPopMemo(!popMemo);
             }}
           >
-            <p>요청 사항 선택</p>
+            <p>{order.memo ? order.memo : "요청 사항 선택"}</p>
             <IoIosArrowDown />
           </div>
           <Memo popMemo={popMemo} setPopMemo={setPopMemo} />

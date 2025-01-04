@@ -64,6 +64,25 @@ function OedersDetails() {
     time2: time2,
     diffInMinutes: diffInMinutes,
   });
+  const showPickUpTime = diffInMinutes => {
+    if (diffInMinutes <= 0) {
+      return "지금 받으러 갈게요";
+    } else if (diffInMinutes > 0 && diffInMinutes <= 5) {
+      return "5분 뒤에 받으러 갈게요";
+    } else if (diffInMinutes > 5 && diffInMinutes <= 10) {
+      return "10분 뒤에 받으러 갈게요";
+    } else if (diffInMinutes > 10 && diffInMinutes <= 15) {
+      return "15분 뒤에 받으러 갈게요";
+    } else if (diffInMinutes > 15 && diffInMinutes <= 20) {
+      return "20분 뒤에 받으러 갈게요";
+    } else if (diffInMinutes > 20 && diffInMinutes <= 30) {
+      return "30분 뒤에 받으러 갈게요";
+    } else if (diffInMinutes > 30 && diffInMinutes <= 40) {
+      return "40분 뒤에 받으러 갈게요";
+    } else {
+      return "1시간 이상 뒤에 받으러 갈게요";
+    }
+  };
   const orderMenuList = selectedOrder.orderMenuList;
   const totalPrice = (orderMenuList || []).reduce((acc, curr) => {
     const menuDefualtPrice = curr.price;
@@ -137,11 +156,7 @@ function OedersDetails() {
                   );
                 })
               : "정보를 불러오고 있습니다."}
-            <p>
-              {diffInMinutes < 60
-                ? `${diffInMinutes}분 뒤에 받으러 갈게요`
-                : `1시간 이상 뒤에 받으러 갈게요`}
-            </p>
+            <p>{showPickUpTime(diffInMinutes)}</p>
           </div>
         </ContainerDiv>
         {/* 총 결제 금액 */}
