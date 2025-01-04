@@ -7,8 +7,14 @@ import MapMarkrtItem from "../MapMarkrtItem";
 const MapMarkerStyle = styled.div`
   position: relative;
   padding: 10px 20px;
-  background-color: ${({ isClicked }) =>
-    isClicked ? "#fff" : "var(--color-gray-900)"};
+  background-color: ${props =>
+    props.isActive
+      ? "var(--color-gray-900)"
+      : "#fff"}; /* 활성화 상태에 따라 색상 변경 */
+  color: ${props =>
+    props.isActive
+      ? "#fff"
+      : "var(--color-gray-900)"}; /* 활성화 상태에 따라 글자색 변경 */
   box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
   border-radius: 16px;
 
@@ -22,10 +28,19 @@ const MapMarkerStyle = styled.div`
     height: 0;
     border-style: solid;
     border-width: 8.66px 5px 0px 5px;
-    border-color: #fff transparent transparent transparent;
+    border-color: transparent;
+    border-top-color: ${props =>
+      props.isActive
+        ? "var(--color-gray-900)"
+        : "#fff"}; /* 활성화 상태에 따라 색상 변경 */
   }
   &:active {
     background-color: var(--color-gray-900);
+    color: #fff;
+  }
+  &:active::after {
+    content: "";
+    border-color: var(--color-gray-900) transparent transparent transparent;
   }
 `;
 
@@ -40,7 +55,6 @@ const MarkerPos = styled.div`
 `;
 
 const MapMain = () => {
-  const [isClicked, setIsClicked] = useState(false);
   const [cafeData, setCafeData] = useState([]);
   const [openInfo, setOpenInfo] = useState(null);
   console.log(onclick, openInfo);
@@ -59,7 +73,7 @@ const MapMain = () => {
   const cafeInfo = async () => {
     try {
       const res = await axios.get(
-        `api/cafe/map?user_latitude=${state.center.lat}&user_longitude=${state.center.lng}`,
+        `api/cafe?max_distance=1000&user_latitude=${state.center.lat}&user_longitude=${state.center.lng}`,
       );
       console.log(res.data);
       setCafeData(res.data.resultData);
@@ -158,14 +172,18 @@ const MapMain = () => {
               lat: cafe.latitude, // 카페의 위도
               lng: cafe.longitude, // 카페의 경도
             }}
+            style={{
+              zIndex: openInfo?.cafeId === cafe.cafeId ? 1 : 0, // 활성화된 카페의 z-index를 1로 설정
+            }}
           >
             <MapMarkerStyle
-              onClick={
-                () =>
-                  setOpenInfo(prev =>
-                    prev?.cafeId === cafe.cafeId ? null : cafe,
-                  ) // 클릭된 카페 정보를 저장
-              }
+              isActive={openInfo?.cafeId === cafe.cafeId} // 활성화 상태 전달
+              onClick={e => {
+                // 클릭된 카페 정보를 저장
+                setOpenInfo(prev =>
+                  prev?.cafeId === cafe.cafeId ? null : cafe,
+                );
+              }}
             >
               {cafe.cafeName}
               {openInfo === cafe.cafeId && ( // 해당 카페만 열리도록 조건 추가

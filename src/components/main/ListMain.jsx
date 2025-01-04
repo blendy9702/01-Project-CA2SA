@@ -43,8 +43,10 @@ export const FooterStyle = styled.footer`
   padding: 30px 20px 100px 20px;
   ul {
     display: flex;
+    flex-wrap: wrap;
     gap: 10px;
     margin: 15px 0;
+
     li {
       color: var(--color-gray-300);
     }
@@ -83,7 +85,7 @@ const ListMain = () => {
   const cafeInfo = async () => {
     try {
       const res = await axios.get(
-        `api/user?userLatitude=${state.center.lat}&userLongitude=${state.center.lng}`,
+        `api/cafe?max_distance=1000&user_latitude=${state.center.lat}&user_longitude=${state.center.lng}`,
       );
       console.log("Response Data:", res.data);
       setCafeData(res.data.resultData);
@@ -142,9 +144,17 @@ const ListMain = () => {
         </TitleFlex>
         <Swiper
           slidesPerView={3}
-          spaceBetween={30}
+          spaceBetween={10}
           pagination={{
             clickable: true,
+          }}
+          breakpoints={{
+            480: {
+              slidesPerView: 3, // 뷰포트가 480px 이상일 때
+            },
+            0: {
+              slidesPerView: 2.5, // 뷰포트가 480px 미만일 때
+            },
           }}
           modules={[Pagination]}
           className="mySwiper"

@@ -1,14 +1,15 @@
-import { useRef, useState } from "react";
-import { IoIosArrowDown } from "react-icons/io";
 import styled from "@emotion/styled";
+import { useRef } from "react";
+import { IoIosArrowDown } from "react-icons/io";
 
 const QNAstyle = styled.div`
   .questionTitle {
     width: 100%;
-    height: 60px;
+    height: 70px;
     display: flex;
     align-items: center;
     border-bottom: 1px solid var(--color-gray-100);
+    padding: 0 20px;
 
     strong {
       font-size: 16px;
@@ -21,8 +22,9 @@ const QNAstyle = styled.div`
     }
   }
   .answerItem {
+    padding: 0 20px;
     height: 100%;
-    background-color: var(--color-gray-100);
+    background-color: var(--color-white);
     p {
       margin: 20px 10px;
       color: var(--color-gray-700);

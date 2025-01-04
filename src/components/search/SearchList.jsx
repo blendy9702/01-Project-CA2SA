@@ -15,6 +15,7 @@ const CafeDataStyle = styled.div`
     width: 60px;
     height: 60px;
     object-fit: cover;
+    border-radius: 8px;
   }
   .cafeDesc {
     margin-left: 20px;
@@ -40,12 +41,15 @@ const CafeDataStyle = styled.div`
 const SearchList = ({ cafe }) => {
   const showCafe = useNavigate();
   const viewProduct = cafeId => {
-    showCafe(`/order/${cafeId}`); // 동적으로 상품 ID를 사용해 페이지 이동
+    showCafe(`/order?cafeId=${cafeId}`, { state: [{ cafeId: cafeId }] }); // 동적으로 상품 ID를 사용해 페이지 이동
   };
   return (
     <CafeDataStyle onClick={() => viewProduct(cafe.cafeId)}>
       <span>
-        <img src={cafe.cafePic} alt={cafe.cafeName} />
+        <img
+          src={`http://112.222.157.156:5214${cafe.cafePic}`}
+          alt={cafe.cafeName}
+        />
       </span>
       <p className="cafeDesc">
         {cafe.cafeName}
@@ -56,7 +60,7 @@ const SearchList = ({ cafe }) => {
       </p>
       <IoIosArrowForward
         style={{
-          "font-size": "24px",
+          fontSize: "24px",
           color: "var(--color-gray-500)",
         }}
       />

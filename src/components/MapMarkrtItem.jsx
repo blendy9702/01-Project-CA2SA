@@ -51,7 +51,7 @@ const MarkerWrap = styled.div`
 const MapMarkrtItem = ({ cafe }) => {
   const showCafe = useNavigate();
   const viewProduct = cafeId => {
-    showCafe(`/order/${cafeId}`); // 동적으로 상품 ID를 사용해 페이지 이동
+    showCafe(`/order?cafeId=${cafeId}`, { state: [{ cafeId: cafeId }] });
   };
 
   return (
@@ -67,7 +67,8 @@ const MapMarkrtItem = ({ cafe }) => {
           <h5>{cafe.cafeName}</h5>
           <p>
             <BiTimeFive />
-            {cafe.openTime}~{cafe.closeTime}
+            {cafe.openTime.split(":").slice(0, 2).join(":")}~
+            {cafe.closeTime.split(":").slice(0, 2).join(":")}
           </p>
           <p>
             <FaLocationDot />

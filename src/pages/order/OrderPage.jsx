@@ -11,24 +11,25 @@ import {
   OrderButton,
   ThumImageDiv,
 } from "../../styles/order/orderpage";
-import DockBar from "../../components/DockBar";
+import CafeMap from "../../components/order/CafeMap";
 
 const OrderPage = () => {
+  // useState
+  const [cafeInfo, setCafeInfo] = useState({});
+
   //useSearchPrams
   const [searchParams, setSearchParams] = useSearchParams();
-  const cafe_id = searchParams.get("cafe_id");
+  const cafeId = searchParams.get("cafeId");
   // useRef
   const imgRef = useRef(null);
-  const imgtag = imgRef.current;
-  const imgURL = imgtag?.getAttribute("src");
   useEffect(() => {
-    // console.log("이미지 주소:", imgURL);
-  }, [imgURL]);
+    // console.log(imgRef.current);
+  }, [imgRef]);
 
   // useNavigation
   const location = useLocation();
   const locationData = location.state;
-  const cafeId = locationData[0].cafeId;
+
   useEffect(() => {
     // console.log("카페 페이지 location:", locationData);
   }, [locationData]);
@@ -39,34 +40,30 @@ const OrderPage = () => {
   const handleNavigateList = () => {
     // useNavigate
     navigate(`/order/menu?cafeId=${cafeId}`, {
-      state: [{ cafeId: cafeId }, cafeInfo, { prev: "/order" }],
+      state: { ...cafeInfo, cafeId: cafeId },
     });
   };
   // context
   const { order, setOrder } = useContext(OrderContext);
 
-  // useState
-  const [cafeInfo, setCafeInfo] = useState({});
   // 카페 정보 조회
   useEffect(() => {
     const getCafe = async data => {
       try {
-        const res = await axios.get(`/api/cafe?cafe_id=${data}`);
+        const res = await axios.get(`/api/cafe/${data}`);
         const resultData = res.data.resultData;
         setCafeInfo(resultData);
-        console.log("카페정보 통신 결과:", cafeInfo);
       } catch (error) {
         console.log("카페정보 통신 결과:", error);
         // console.log("mockData가 적용됩니다.");
         // setCafeInfo(mockDataResult);
       }
     };
-    if (cafeId) {
-      getCafe(cafeId);
-    }
+    getCafe(cafeId);
   }, []);
+
   useEffect(() => {
-    console.log("cafeInfo", cafeInfo);
+    // console.log("카페정보 통신 결과(cafeInfo):", cafeInfo);
   }, [cafeInfo]);
 
   return (
@@ -74,14 +71,12 @@ const OrderPage = () => {
       <NavBar
         onClick={handleNavigateMain}
         icon={"close"}
-        title={cafeInfo?.cafeName || "로딩중"}
+        title={cafeInfo?.cafeName || "🐈"}
       />
       <ThumImageDiv height={300}>
         <img
           src={
-            cafeInfo
-              ? `http://112.222.157.156:5214/pic/cafe/${cafeId}/${cafeInfo?.cafePic}`
-              : "/images/order/cat.jpg"
+            cafeInfo ? `http://112.222.157.156:5214${cafeInfo?.cafePic}` : ""
           }
           ref={imgRef}
         ></img>
@@ -89,7 +84,7 @@ const OrderPage = () => {
       <LayoutDiv>
         <ContentDiv>
           <div className="title-box">
-            <h2>{cafeInfo?.cafeName || "로딩중"}</h2>
+            <h2>{cafeInfo?.cafeName || "🐈"}</h2>
           </div>
           <div className="cafe-info">
             <h3>매장정보</h3>
@@ -98,17 +93,17 @@ const OrderPage = () => {
               <div className="info-detail">
                 <p>
                   매일{" "}
-                  {moment(cafeInfo?.openTime || "로딩중", "HH:mm:ss").format(
+                  {moment(cafeInfo?.openTime || "🐈", "HH:mm:ss").format(
                     "HH:mm",
                   )}
                   -
-                  {moment(cafeInfo?.closeTime || "로딩중", "HH:mm:ss").format(
+                  {moment(cafeInfo?.closeTime || "🐈", "HH:mm:ss").format(
                     "HH:mm",
                   )}
                 </p>
                 <p>
                   라스트 오더{" "}
-                  {moment(cafeInfo?.closeTime || "로딩중", "HH:mm:ss").format(
+                  {moment(cafeInfo?.closeTime || "🐈", "HH:mm:ss").format(
                     "HH:mm",
                   )}
                 </p>
@@ -117,17 +112,18 @@ const OrderPage = () => {
             <div className="info-box">
               <p className="info-subtitle">전화번호</p>
               <div className="info-detail">
-                <p className="tel">{cafeInfo?.tel || "로딩중"}</p>
+                <p className="tel">{cafeInfo?.tel || "🐈"}</p>
               </div>
             </div>
             <div className="info-box last">
               <p className="info-subtitle">주소</p>
               <div className="info-detail">
-                <p>{cafeInfo?.location || "로딩중"}</p>
-                <p>(우)우편번호</p>
+                <p>{cafeInfo?.location || "🐈"}</p>
               </div>
             </div>
-            <div className="map"></div>
+            <div className="map">
+              <CafeMap cafeInfo={cafeInfo} />
+            </div>
             <div className="business-number">
               <p>사업자 정보 조회</p>
               <IoIosArrowForward className="icon" />

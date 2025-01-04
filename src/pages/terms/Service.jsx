@@ -1,6 +1,5 @@
-import { IoIosArrowBack } from "react-icons/io";
 import styled from "@emotion/styled";
-import { PageContainer } from "../../styles/common";
+import { IoIosArrowBack } from "react-icons/io";
 
 export const HeaderWrap = styled.header`
   position: sticky;
@@ -22,14 +21,14 @@ export const HeaderWrap = styled.header`
   }
 `;
 export const MainWrap = styled.main`
-  padding: 20px 30px;
+  padding: 0 20px;
   h4 {
     margin: 20px 0;
   }
 `;
 function Service() {
   return (
-    <PageContainer>
+    <div>
       <HeaderWrap>
         <IoIosArrowBack
           onClick={() => window.history.back()}
@@ -167,7 +166,7 @@ function Service() {
           합니다
         </p>
       </MainWrap>
-    </PageContainer>
+    </div>
   );
 }
 

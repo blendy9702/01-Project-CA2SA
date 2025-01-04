@@ -12,64 +12,80 @@ import { PrimaryButton } from "../../styles/common";
 import { ContainerDiv, LayoutDiv } from "../../styles/order/orderpage";
 
 import { OrderContext } from "../../contexts/OrderContext";
+import { AiOutlineMinus, AiOutlinePlus } from "react-icons/ai";
 
 // 예상 수령시간 관리용 배열
 const pickUPTimeArr = [0, 5, 10, 15, 20, 30, 40, 60];
 // 결제 방법 관리용 배열
-const payOptionArr = [
-  "카카오페이",
-  "삼성페이",
-  "토스페이",
-  "네이버페이",
-  "PAYCO",
-  "신용/체크카드",
-];
+// const payOptionArr = [
+//   "카카오페이",
+//   "삼성페이",
+//   "토스페이",
+//   "네이버페이",
+//   "PAYCO",
+//   "신용/체크카드",
+// ];
 const Payment = () => {
   // 쿼리 스트링 주소 처리
   const [searchParams, setSearchParams] = useSearchParams();
+  const cafeId = parseInt(searchParams.get("cafeId"));
   // useContext
-  const { order, setOrder, popMemo, setPopMemo } = useContext(OrderContext);
+  const { order, setOrder } = useContext(OrderContext);
   useEffect(() => {}, [order]);
 
   // uesNavigate
   const navigate = useNavigate();
   const location = useLocation();
   const locationData = location.state;
-  const cafeId = locationData[0];
-  const cafeInfo = locationData[1];
-  const fromPage = locationData[2];
+  //useState
+  const [isTime, setIsTime] = useState(0);
+  const [cafeInfo, setCafeInfo] = useState({});
+  //요청사항 팝업
+  const [popMemo, setPopMemo] = useState(false);
+  const userData = JSON.parse(sessionStorage.getItem("userData"));
+  const userId = userData.resultData.userId;
+
   useEffect(() => {
-    console.log("Payment LocationData:", locationData);
-  }, [locationData]);
+    console.log("order:", order);
+  }, [order]);
+
+  useEffect(() => {
+    const getCafe = async data => {
+      try {
+        const res = await axios.get(`/api/cafe/${data}`);
+        const resultData = res.data.resultData;
+        setCafeInfo(resultData);
+      } catch (error) {
+        console.log("카페정보 통신 결과:", error);
+        // console.log("mockData가 적용됩니다.");
+        // setCafeInfo(mockDataResult);
+      }
+    };
+    getCafe(cafeId);
+  }, []);
 
   const handleNavigateClose = () => {
-    navigate(`/order`, {
-      state: [cafeId, cafeInfo],
+    navigate(-1, {
+      state: cafeInfo,
     });
+  };
+  const handleNavigateHome = () => {
+    navigate("/");
   };
   const handleNavigateAddMenu = () => {
-    navigate(`/order/menu?cafeId=${cafeId.cafeId}`, {
-      state: [
-        cafeId,
-        cafeInfo,
-        { from: `/order/payment?cafeName=${cafeInfo.cafeName}` },
-      ],
-    });
+    navigate(`/order/menu?cafeId=${locationData.cafeId}`);
   };
   const handleNavigateConfirm = () => {
-    navigate(`/order/confirmation?userId=유저아이디&cafeId=${cafeId}`, {
-      state: [
-        cafeId,
-        cafeInfo,
-        { from: `/order/payment?cafeName=${cafeInfo.cafeName}` },
-      ],
-    });
+    navigate(`/order/confirmation?userId=${userId}&page=1&size=30`);
   };
   // 오자마자 cafeId, userId 다시 확인하고 집어 넣기
+
   useEffect(() => {
-    const userData = JSON.parse(sessionStorage.getItem("userData"));
-    const userId = userData.resultData.userId;
-    setOrder({ ...order, cafeId: cafeId.cafeId, userId: userId });
+    setOrder({
+      ...order,
+      userId: userId,
+      pickUpTime: moment().format("HH:mm:ss"),
+    });
   }, []);
   // order가 제대로 바뀌고 있는지 확인, 오자마자 배열 정리시키기
   useEffect(() => {
@@ -94,13 +110,10 @@ const Payment = () => {
     });
   }, [setOrder]);
 
-  //useState
-  const [isTime, setIsTime] = useState(null);
-
   const handleClickPickUpTime = (item, index) => {
     // order에 픽업 시간 넣기
     const now = moment();
-    const nowTime = now.format("HH:mm:ss");
+    const nowTime = now.format("YYYY-MM-DD HH:mm:ss");
     const addMinutes = now.add(item, "minutes").format("HH:mm:ss");
     // setOrder({ ...order, pickUpTime: addMinutes, orderTime: nowTime }); //orderTime 코드 삭제
     setOrder({ ...order, pickUpTime: addMinutes });
@@ -143,12 +156,32 @@ const Payment = () => {
       console.log("보내지는 데이터", data);
       try {
         const res = await axios.post(`/api/order`, data);
-
-        if (res.resultMessage) {
-          setOrder([]);
+        console.log(res.data);
+        const resultData = res.data.resultData;
+        if (resultData === 1) {
+          console.log("order을 비웁니다.");
+          setOrder({
+            pickUpTime: "",
+            memo: "",
+            userId: "",
+            cafeId: "",
+            menuList: [],
+            // orderTime: "",
+          });
         }
+        handleNavigateConfirm();
       } catch (error) {
         console.log(error);
+        alert("통신 오류로 인해 주문을 초기화합니다");
+        setOrder({
+          pickUpTime: "",
+          memo: "",
+          userId: "",
+          cafeId: "",
+          menuList: [],
+          // orderTime: "",
+        });
+        handleNavigateHome();
       }
     };
     // 최종 배열 정리
@@ -178,7 +211,7 @@ const Payment = () => {
       {/* 메뉴 주문 정보 */}
       <LayoutDiv borderTop={1} borderBottom={5}>
         <ContainerDiv>
-          <h4>{cafeInfo.cafeName}</h4>
+          <h4>{cafeInfo ? cafeInfo.cafeName : "정보가 없습니다"}</h4>
           <div className="orderListBox">
             <div className="orderList">
               {order.menuList.map((item, index) => {
@@ -200,7 +233,7 @@ const Payment = () => {
                             type="button"
                             onClick={() => handleClickMinus(index)}
                           >
-                            -
+                            <AiOutlineMinus />
                           </button>
                           <input
                             type="text"
@@ -213,7 +246,7 @@ const Payment = () => {
                             type="button"
                             onClick={() => handleClickPluls(index)}
                           >
-                            +
+                            <AiOutlinePlus />
                           </button>
                         </div>
                       </div>
@@ -230,7 +263,7 @@ const Payment = () => {
       </LayoutDiv>
       {/* 예상 수령 시간 */}
       <LayoutDiv borderBottom={5}>
-        <ContainerDiv>
+        <ContainerDiv style={{ padding: "20px" }}>
           <h4 style={{ paddingBottom: 10 }}>예상 수령 시간</h4>
           <div className="pickUpTimeList">
             {pickUPTimeArr.map((item, index) => {
@@ -259,7 +292,8 @@ const Payment = () => {
             <p>요청 사항 선택</p>
             <IoIosArrowDown />
           </div>
-          {popMemo ? <Memo /> : null}
+          <Memo popMemo={popMemo} setPopMemo={setPopMemo} />
+          {/* {popMemo ? <Memo /> : null} */}
         </ContainerDiv>
       </LayoutDiv>
       {/* 결제 금액 */}
@@ -269,7 +303,7 @@ const Payment = () => {
           <div className="price">
             <div className="priceBox-a">
               <p>주문 금액</p>
-              <p>{showPrice}원</p>
+              <p style={{ color: "var(--color-gray-900)" }}>{showPrice}원</p>
             </div>
             <div className="priceBox-b">
               <p>총 결제 금액</p>
@@ -279,7 +313,7 @@ const Payment = () => {
         </ContainerDiv>
       </LayoutDiv>
       {/* 결제 방법 */}
-      <LayoutDiv>
+      {/* <LayoutDiv>
         <ContainerDiv>
           <h4 style={{ paddingBottom: 10 }}>결제 방법</h4>
           <div className="paymentOption">
@@ -289,7 +323,7 @@ const Payment = () => {
             <p>* 매장 사정에 따라 주문이 취소될 수 있습니다.</p>
           </div>
         </ContainerDiv>
-      </LayoutDiv>
+      </LayoutDiv> */}
       {/* 결제 */}
       <LayoutDiv>
         <ContainerDiv>

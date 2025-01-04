@@ -1,18 +1,11 @@
 import { useState } from "react";
 import { IoIosArrowBack } from "react-icons/io";
-import QnaList from "../../components/terms/QNAList";
-import { HeaderWrap } from "./Service";
+import QnaList from "../../components/terms/QnaList";
+import { HeaderWrap, MainWrap } from "./Service";
+import qnaData from "../../server/qnaData.json";
 
 const FAQ = () => {
-  const data = [
-    {
-      title: "Section 1",
-      content:
-        "This is the content of section 1.This is the content of section 1.This is the content of section 1.This is the content of section 1.This is the content of section 1.This is the content of section 1.",
-    },
-    { title: "Section 2", content: "This is the content of section 2." },
-    { title: "Section 3", content: "This is the content of section 3." },
-  ];
+  console.log(qnaData);
   const [qnaItem, setQnaItem] = useState(null);
 
   const toggleAccordion = index => {
@@ -27,7 +20,8 @@ const FAQ = () => {
         />
         <h2>자주 묻는 질문</h2>
       </HeaderWrap>
-      {data.map((item, index) => (
+
+      {qnaData.map((item, index) => (
         <QnaList
           key={index}
           index={index}
