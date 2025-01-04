@@ -142,9 +142,7 @@ const ConfirmForm = () => {
             <Link to="/join">
               <IoIosArrowBack
                 style={{
-                  fontSize: "20px",
-                  marginTop: "10px",
-                  marginLeft: "10px",
+                  fontSize: "24px",
                 }}
               />
             </Link>
@@ -161,21 +159,23 @@ const ConfirmForm = () => {
             <ConfirmEmailSend>
               <span
                 style={{
-                  color: "#212121",
-                  fontWeight: "600",
+                  color: "var(--color-gray-700)",
                 }}
               >
                 {email}
               </span>
               <span> 로</span>
-              <p style={{ color: "#9e9e9e" }}>인증코드를 전송하였습니다.</p>
+              <p style={{ color: "var(--color-gray-500)", fontWeight: 300 }}>
+                인증코드를 전송하였습니다.
+              </p>
             </ConfirmEmailSend>
             <EmailVerification>
               <p
                 style={{
-                  color: "#212121",
-                  fontSize: "12px",
-                  paddingBottom: "3px",
+                  color: "var(--color-gray-700)",
+                  fontSize: "14px",
+                  marginTop: "20px",
+                  padding: "0  0 5px 3px",
                 }}
               >
                 인증코드 입력
@@ -192,29 +192,31 @@ const ConfirmForm = () => {
               </AuthTimer>
             </EmailVerification>
           </ConfirmEmailArea>
-          {error && <p style={{ color: "#ff6600" }}>{error}</p>}
+          {error && (
+            <p
+              style={{
+                color: "var(--error-clolr)",
+                fontSize: "14px",
+                marginTop: "5px",
+              }}
+            >
+              {error}
+            </p>
+          )}
           <ConfirmResendEmail>
             <p>
               본인인증 이메일이 발송되었습니다! 확인 후 인증코드를 입력하세요.
+              이메일이 발송되지 않았나요?
+              <button
+                type="button"
+                onClick={handleResendEmail}
+                disabled={!Resend}
+              >
+                {Resend
+                  ? "이메일 재전송"
+                  : `재전송 대기 중 (${formatTime(resendTimer)})`}
+              </button>
             </p>
-            <div
-              style={{
-                display: "flex",
-              }}
-            >
-              <p>이메일이 발송되지 않았나요?</p>
-              <div>
-                <button
-                  type="button"
-                  onClick={handleResendEmail}
-                  disabled={!Resend}
-                >
-                  {Resend
-                    ? "이메일 재전송"
-                    : `재전송 대기 중 (${formatTime(resendTimer)})`}
-                </button>
-              </div>
-            </div>
           </ConfirmResendEmail>
           <ComfirmDone>
             <button type="button" onClick={handleVerifyCode}>

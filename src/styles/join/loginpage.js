@@ -5,7 +5,7 @@ export const LoginTopArea = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
-    font-size: 20px;
+    font-size: 24px;
     font-weight: 700;
     padding-top: 10px;
   }
@@ -19,6 +19,9 @@ export const ServiceTextArea = styled.div`
   font-size: 16px;
   font-family: 300;
   padding-bottom: 10px;
+  span {
+    color: var(--color-gray-700);
+  }
 
   .ca2sa {
     color: #88c200;
@@ -37,7 +40,7 @@ export const LoginWrap = styled.div`
     font-weight: 300;
     padding-left: 10px;
     border-radius: 8px;
-    border: 2px solid rgb(201, 201, 201);
+    border: 1px solid rgb(201, 201, 201);
     outline: none;
     transition: border-color 0.3s ease;
   }
@@ -49,15 +52,15 @@ export const LoginWrap = styled.div`
 export const EmailArea = styled.div`
   padding-bottom: 15px;
   p {
-    font-size: 12px;
-    font-weight: 500;
+    font-size: 14px;
+    margin: 5px 0;
   }
 `;
 
 export const PasswordArea = styled.div`
   p {
-    font-size: 12px;
-    font-weight: 500;
+    font-size: 14px;
+    margin: 5px 0;
   }
 `;
 

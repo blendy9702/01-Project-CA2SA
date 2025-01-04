@@ -138,7 +138,7 @@ const MenuDetail = () => {
     setOrder({ ...order, menuList: [...order.menuList, fixedFormData] });
   };
   return (
-    <div style={{ position: "relative", paddingBottom: 100 }}>
+    <div style={{ position: "relative", paddingBottom: 70 }}>
       <NavBar
         onClick={handleNavigateBack}
         icon={"back"}

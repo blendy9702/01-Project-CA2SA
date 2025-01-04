@@ -148,9 +148,7 @@ const JoinPage = () => {
             <Link to="/login">
               <IoIosArrowBack
                 style={{
-                  fontSize: "20px",
-                  marginTop: "10px",
-                  marginLeft: "10px",
+                  fontSize: "24px",
                 }}
               />
             </Link>
@@ -163,7 +161,7 @@ const JoinPage = () => {
         <JoinPageMainWrap>
           <JoinPageTextArea>
             <span>회원정보를 입력해주세요</span>
-            <JoinPageNickName>
+            <JoinPageNickName style={{ marginBottom: "20px" }}>
               <p>닉네임</p>
               <input
                 name="nickName"
@@ -171,9 +169,11 @@ const JoinPage = () => {
                 {...register("nickName")}
                 placeholder="닉네임을 입력해 주세요."
               />
-              <p style={{ color: "#ff6600" }}>{errors.nickName?.message}</p>
+              <p style={{ color: "var(--error-clolr)", marginTop: "5px" }}>
+                {errors.nickName?.message}
+              </p>
             </JoinPageNickName>
-            <JoinPageEmail>
+            <JoinPageEmail style={{ marginBottom: "20px" }}>
               <p>이메일</p>
               <input
                 name="email"
@@ -181,8 +181,24 @@ const JoinPage = () => {
                 {...register("email")}
                 placeholder="이메일을 입력해 주세요."
               />
-              <div style={{ color: "#ff6600" }}>{errors.email?.message}</div>
-              <div style={{ color: "#ff6600" }}>{emailError}</div>
+              <div
+                style={{
+                  color: "var(--error-clolr)",
+                  fontSize: "14px",
+                  marginTop: "5px",
+                }}
+              >
+                {errors.email?.message}
+              </div>
+              <div
+                style={{
+                  color: "var(--error-clolr)",
+                  fontSize: "14px",
+                  marginTop: "5px",
+                }}
+              >
+                {emailError}
+              </div>
               <button
                 type="button"
                 onClick={() => handleEmailValidation(email)}
@@ -199,15 +215,30 @@ const JoinPage = () => {
                 {...register("upw")}
                 placeholder="비밀번호를 입력해 주세요."
               />
-              <div style={{ color: "#ff6600" }}>{errors.upw?.message}</div>
+              <div
+                style={{
+                  color: "var(--error-clolr)",
+                  fontSize: "14px",
+                  marginTop: "5px",
+                }}
+              >
+                {errors.upw?.message}
+              </div>
               <input
                 name="passwordCheck"
                 type="password"
                 {...register("passwordCheck")}
                 placeholder="비밀번호를 재입력해 주세요."
+                style={{ marginTop: "20px" }}
               />
               {password !== passwordCheck && (
-                <div style={{ color: "#ff6600" }}>
+                <div
+                  style={{
+                    color: "var(--error-clolr)",
+                    fontSize: "14px",
+                    marginTop: "5px",
+                  }}
+                >
                   비밀번호가 일치하지 않습니다.
                 </div>
               )}
@@ -226,8 +257,8 @@ const JoinPage = () => {
               style={{
                 width: "100%",
                 height: "1px",
-                background: "#e0e0e0",
-                marginTop: "15px",
+                background: "var(--color-gray-100)",
+                margin: "20px 0",
               }}
             ></div>
             <EssentialRadioBox>
@@ -240,7 +271,6 @@ const JoinPage = () => {
                 [필수]
                 <Link
                   to="/terms/service"
-                  href="#"
                   style={{
                     textDecorationLine: "underline",
                   }}
@@ -250,7 +280,6 @@ const JoinPage = () => {
                 및
                 <Link
                   to="/terms/privacy"
-                  href="#"
                   style={{
                     textDecorationLine: "underline",
                   }}
@@ -287,7 +316,7 @@ const JoinPage = () => {
           </JoinPageCheckArea>
         </JoinPageMainWrap>
       </form>
-      <div style={{ width: "100%", height: "200px" }}></div>
+      <div></div>
     </JoinPageWrap>
   );
 };

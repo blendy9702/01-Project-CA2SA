@@ -136,7 +136,7 @@ const MenuList = () => {
         <div
           className="header"
           style={{
-            padding: "10px 0px",
+            padding: "10px 20px",
             borderBottom: "5px solid var(--color-gray-100)",
           }}
         >

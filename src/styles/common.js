@@ -28,7 +28,7 @@ export const SecondaryButton = styled.button`
 `;
 export const AlternativeButton = styled.button`
   background-color: #fff;
-  color: var(--color-gray-500);
+  color: var(--color-gray-700);
   padding: 10px;
   border: 1px solid var(--color-gray-500);
   border-radius: 8px;
@@ -45,7 +45,8 @@ export const AlternativeButton = styled.button`
 export const SearchInput = styled.input`
   background-color: var(--color-gray-100);
   color: var(--color-gray-500);
-  border: 1px solid var(--color-gray-500);
+  font-weight: 300;
+  border: 1px solid var(--color-gray-300);
   border-radius: 8px;
   padding: 10px 15px;
   outline: none;

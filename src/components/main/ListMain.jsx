@@ -43,8 +43,10 @@ export const FooterStyle = styled.footer`
   padding: 30px 20px 100px 20px;
   ul {
     display: flex;
+    flex-wrap: wrap;
     gap: 10px;
     margin: 15px 0;
+
     li {
       color: var(--color-gray-300);
     }
@@ -145,6 +147,14 @@ const ListMain = () => {
           spaceBetween={10}
           pagination={{
             clickable: true,
+          }}
+          breakpoints={{
+            480: {
+              slidesPerView: 3, // 뷰포트가 480px 이상일 때
+            },
+            0: {
+              slidesPerView: 2.5, // 뷰포트가 480px 미만일 때
+            },
           }}
           modules={[Pagination]}
           className="mySwiper"
