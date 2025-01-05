@@ -46,10 +46,7 @@ const SearchList = ({ cafe }) => {
   return (
     <CafeDataStyle onClick={() => viewProduct(cafe.cafeId)}>
       <span>
-        <img
-          src={`http://112.222.157.156:5214${cafe.cafePic}`}
-          alt={cafe.cafeName}
-        />
+        <img src={cafe.cafePic} alt={cafe.cafeName} />
       </span>
       <p className="cafeDesc">
         {cafe.cafeName}
