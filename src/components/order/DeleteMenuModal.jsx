@@ -10,13 +10,19 @@ const DeleteMenuModal = ({ item, index, showModal, setShowModal }) => {
   const { setOrder, order } = useContext(OrderContext);
   const navigate = useNavigate();
   const handleClickDeleteButton = () => {
+    console.log(item);
     setOrder(prevOrder => {
       const updatedMenu = [...prevOrder.menuList];
       if (updatedMenu[index].count > 1) {
         updatedMenu[index].count -= 1; // 수량 감소
       } else {
         setShowModal(false);
-        updatedMenu.splice(index, 1);
+        // filter를 사용하여 아이템 제거
+        const filteredMenu = updatedMenu.filter(
+          menuItem => menuItem.menuId === item.menuId,
+        );
+        console.log("남아있어야 하는 메뉴:", filteredMenu);
+        return { ...prevOrder, menuList: filteredMenu };
       }
       return { ...prevOrder, menuList: updatedMenu };
     });
