@@ -94,6 +94,8 @@ function Confirmation() {
         return "상품이 준비되었습니다.";
       case 3:
         return "상품이 수령되었습니다.";
+      case 4:
+        return "가게 사정으로 주문이 취소되었습니다.";
       case 5:
         return "주문이 취소되었습니다.";
       case 6:
