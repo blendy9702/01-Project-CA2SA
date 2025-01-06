@@ -19,7 +19,11 @@ const NavBar = ({ onClick, icon, title }) => {
         display: `${showNav ? "flex" : "none"}`,
       }}
     >
-      <button className="link-icon" onClick={onClick}>
+      <button
+        className="link-icon"
+        onClick={onClick}
+        style={{ cursor: "pointer" }}
+      >
         {icon === "close" ? <IoClose /> : <IoIosArrowBack />}
       </button>
       <h3 className="navbar-title">{title ? title : ""}</h3>
