@@ -44,7 +44,7 @@ export const FooterStyle = styled.footer`
   ul {
     display: flex;
     flex-wrap: wrap;
-    gap: 10px;
+    gap: 5px;
     margin: 15px 0;
 
     li {
@@ -57,7 +57,7 @@ export const FooterStyle = styled.footer`
   }
 `;
 const Agree = styled(Link)`
-  font-size: 16px;
+  font-size: 14px;
   color: var(--color-gray-500);
 `;
 

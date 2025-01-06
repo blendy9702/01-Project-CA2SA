@@ -31,10 +31,11 @@ export const ContainerDiv = styled.div`
   }
   h2 {
     font-size: 26px;
-    font-weight: 500;
+    font-weight: 700;
   }
   h4 {
-    padding-bottom: 10px;
+    font-weight: 500;
+    padding-bottom: 5px;
   }
   .comment {
     font-size: 16px;
@@ -221,12 +222,12 @@ export const ContainerDiv = styled.div`
     }
     p {
       font-size: 14px;
-      color: var(--color-gray-500);
+      color: var(--color-gray-700);
     }
   }
   .orderdInfoBox {
     border-bottom: 1px solid var(--color-gray-100);
-    margin-bottom: 10px;
+
     .infoDetail {
       display: flex;
       align-items: center;
@@ -234,7 +235,7 @@ export const ContainerDiv = styled.div`
       padding: 20px 0;
       .light {
         font-size: 14px;
-
+        font-weight: 300;
         color: var(--color-gray-700);
       }
       .title {
@@ -270,7 +271,10 @@ export const ContainerDiv = styled.div`
     display: flex;
     align-items: center;
     justify-content: end;
-    padding-bottom: 10px;
+    padding: 10px 0;
+    &:last-child {
+      padding: 0;
+    }
     button {
       display: flex;
       align-items: center;
@@ -589,6 +593,8 @@ export const OrderProgressDiv = styled.div`
     border-radius: 50%;
     background-color: ${props =>
       props.selectedProgress ? "var(--primary-color)" : "var(--color-white)"};
+    color: ${props =>
+      props.selectedProgress ? "#fff" : "var(--color-gray-900)"};
   }
   .progressTitle {
     font-size: 14px;

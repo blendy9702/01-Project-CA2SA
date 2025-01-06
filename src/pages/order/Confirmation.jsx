@@ -82,7 +82,7 @@ function Confirmation() {
         title={"결제 완료"}
       />
       {/* 주문 과정 */}
-      <LayoutDiv borderBottom={5} style={{ margin: "0 20px" }}>
+      <LayoutDiv borderBottom={5}>
         <ContainerDiv>
           <h4 style={{ color: "var(--primary-color)" }}>
             {recentOrder ? recentOrder.cafeName : "정보가 없습니다."}

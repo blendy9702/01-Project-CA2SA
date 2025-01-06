@@ -10,6 +10,9 @@ const CafeDataStyle = styled.div`
   height: 80px;
   align-items: center;
   border-bottom: 1px solid var(--color-gray-100);
+  &:last-child {
+    border-bottom: 0;
+  }
   cursor: pointer;
   img {
     width: 60px;
@@ -26,6 +29,7 @@ const CafeDataStyle = styled.div`
     flex-direction: column;
     span {
       font-size: 14px;
+      font-weight: 300;
       color: var(--color-gray-500);
       margin-top: 5px;
       > svg {
