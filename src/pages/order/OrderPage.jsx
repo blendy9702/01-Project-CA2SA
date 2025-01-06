@@ -74,12 +74,7 @@ const OrderPage = () => {
         title={cafeInfo?.cafeName || "🐈"}
       />
       <ThumImageDiv height={300}>
-        <img
-          src={
-            cafeInfo ? `http://112.222.157.156:5214${cafeInfo?.cafePic}` : ""
-          }
-          ref={imgRef}
-        ></img>
+        <img src={cafeInfo ? cafeInfo?.cafePic : ""} ref={imgRef}></img>
       </ThumImageDiv>
       <LayoutDiv>
         <ContentDiv>

@@ -1,6 +1,6 @@
 import styled from "@emotion/styled";
 
-export const BucketModalDiv = styled.div`
+export const ModalDiv = styled.div`
   position: fixed;
   width: 640px;
   height: 100%;
@@ -20,7 +20,7 @@ export const BucketModalDiv = styled.div`
       transform: translate(-50%);
       background-color: #fff;
       width: 400px;
-      /* height: 200px; */
+      height: 150px;
       margin: auto;
       padding: 30px;
       border-radius: 8px;
@@ -48,14 +48,16 @@ export const BucketModalDiv = styled.div`
         display: flex;
         justify-content: space-around;
         gap: 20px;
+        width: 100%;
         button {
           width: 200px;
+          height: 42px;
         }
       }
     }
   }
 `;
-export const CancleButton = styled.button`
+export const ModalButton = styled.button`
   background-color: #fff;
   color: var(--color-gray-500);
   padding: 10px 15px;

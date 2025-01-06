@@ -12,6 +12,8 @@ import { PrimaryButton } from "../../styles/common";
 import { ContainerDiv, LayoutDiv } from "../../styles/order/orderpage";
 
 import { OrderContext } from "../../contexts/OrderContext";
+import { AiOutlineMinus, AiOutlinePlus } from "react-icons/ai";
+import DeleteMenuModal from "../../components/order/DeleteMenuModal";
 
 // 예상 수령시간 관리용 배열
 const pickUPTimeArr = [0, 5, 10, 15, 20, 30, 40, 60];
@@ -36,16 +38,17 @@ const Payment = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const locationData = location.state;
+
   //useState
   const [isTime, setIsTime] = useState(0);
   const [cafeInfo, setCafeInfo] = useState({});
-  //요청사항 팝업
   const [popMemo, setPopMemo] = useState(false);
+  const [showModal, setShowModal] = useState(false);
   const userData = JSON.parse(sessionStorage.getItem("userData"));
   const userId = userData.resultData.userId;
 
   useEffect(() => {
-    console.log("order:", order);
+    // console.log("order:", order);
   }, [order]);
 
   useEffect(() => {
@@ -72,7 +75,7 @@ const Payment = () => {
     navigate("/");
   };
   const handleNavigateAddMenu = () => {
-    navigate(`/order/menu?cafeId=${locationData.cafeId}`);
+    navigate(`/order/menu?cafeId=${order.cafeId}`, { state: locationData });
   };
   const handleNavigateConfirm = () => {
     navigate(`/order/confirmation?userId=${userId}&page=1&size=30`);
@@ -134,6 +137,9 @@ const Payment = () => {
       const updatedMenu = [...prevOrder.menuList];
       if (updatedMenu[index].count > 1) {
         updatedMenu[index].count -= 1; // 수량 감소
+      } else {
+        setShowModal(true);
+        // updatedMenu.splice(index, 1);
       }
       return { ...prevOrder, menuList: updatedMenu };
     });
@@ -160,9 +166,9 @@ const Payment = () => {
         if (resultData === 1) {
           console.log("order을 비웁니다.");
           setOrder({
+            ...order,
             pickUpTime: "",
             memo: "",
-            userId: "",
             cafeId: "",
             menuList: [],
             // orderTime: "",
@@ -173,9 +179,9 @@ const Payment = () => {
         console.log(error);
         alert("통신 오류로 인해 주문을 초기화합니다");
         setOrder({
+          ...order,
           pickUpTime: "",
           memo: "",
-          userId: "",
           cafeId: "",
           menuList: [],
           // orderTime: "",
@@ -217,6 +223,7 @@ const Payment = () => {
                 return (
                   <div className="menu" key={index}>
                     <div className="itemInfo">
+                      <p>메뉴 아이디: {item.menuId}</p>
                       <p className="itemName">{item.menuName}</p>
                       <div className="itemOption">
                         {item.options.map((_item, _index) => {
@@ -225,6 +232,7 @@ const Payment = () => {
                           );
                         })}
                       </div>
+                      {/* 수량 변경 */}
                       <div className="count-price">
                         <p>{item.price.toLocaleString()} 원</p>
                         <div className="count">
@@ -232,7 +240,7 @@ const Payment = () => {
                             type="button"
                             onClick={() => handleClickMinus(index)}
                           >
-                            -
+                            <AiOutlineMinus />
                           </button>
                           <input
                             type="text"
@@ -245,9 +253,17 @@ const Payment = () => {
                             type="button"
                             onClick={() => handleClickPluls(index)}
                           >
-                            +
+                            <AiOutlinePlus />
                           </button>
                         </div>
+                        {showModal ? (
+                          <DeleteMenuModal
+                            showModal={showModal}
+                            setShowModal={setShowModal}
+                            item={item}
+                            index={index}
+                          />
+                        ) : null}
                       </div>
                     </div>
                   </div>
@@ -262,7 +278,7 @@ const Payment = () => {
       </LayoutDiv>
       {/* 예상 수령 시간 */}
       <LayoutDiv borderBottom={5}>
-        <ContainerDiv>
+        <ContainerDiv style={{ padding: "20px" }}>
           <h4 style={{ paddingBottom: 10 }}>예상 수령 시간</h4>
           <div className="pickUpTimeList">
             {pickUPTimeArr.map((item, index) => {
@@ -288,7 +304,7 @@ const Payment = () => {
               setPopMemo(!popMemo);
             }}
           >
-            <p>요청 사항 선택</p>
+            <p>{order.memo ? order.memo : "요청 사항 선택"}</p>
             <IoIosArrowDown />
           </div>
           <Memo popMemo={popMemo} setPopMemo={setPopMemo} />
@@ -302,7 +318,7 @@ const Payment = () => {
           <div className="price">
             <div className="priceBox-a">
               <p>주문 금액</p>
-              <p>{showPrice}원</p>
+              <p style={{ color: "var(--color-gray-900)" }}>{showPrice}원</p>
             </div>
             <div className="priceBox-b">
               <p>총 결제 금액</p>

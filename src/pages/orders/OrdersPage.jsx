@@ -1,6 +1,6 @@
 import axios from "axios";
 import moment from "moment/moment";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import DockBar from "../../components/DockBar";
 import NavBar from "../../components/order/NavBar";
@@ -11,13 +11,17 @@ import {
   PeriodButton,
 } from "../../styles/order/orderpage";
 import OrderedMenu from "../../components/orders/OrderedMenu";
+import { OrderContext } from "../../contexts/OrderContext";
 
 // 주문 조회 기간(일 기준)
 const perriodArr = [7, 30, 90, 180, 360];
 
 const OrdersPage = () => {
-  const userInfo = JSON.parse(sessionStorage.getItem("userData"));
-  const userId = userInfo.resultData.userId;
+  const { order } = useContext(OrderContext);
+  useEffect(() => {
+    // console.log(order);
+  }, [order]);
+  const userId = order.userId;
   // uesNavigate
   const navigate = useNavigate();
   const handleNavigateHome = () => {
@@ -48,13 +52,13 @@ const OrdersPage = () => {
           );
         });
         setFilterdData(filterdArr);
-        console.log(filterdArr);
+        // console.log(filterdArr);
       } catch (error) {
         console.log(error);
       }
     };
     getOrderList();
-    console.log(perriodArr[selectedPeriod]);
+    // console.log(perriodArr[selectedPeriod]);
   }, []);
 
   // 클릭 시 기간 변경

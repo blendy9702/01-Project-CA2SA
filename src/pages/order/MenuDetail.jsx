@@ -36,7 +36,9 @@ const MenuDetail = () => {
     // if (order.cafeId !== cafeInfo.cafeId) {
     //   alert("다른 카페입니다.");
     // }
-    navigate(`/order/payment?cafeId=${cafeInfo.cafeId}`, { state: cafeInfo });
+    navigate(`/order/payment?cafeId=${order.cafeId}`, {
+      state: locationData,
+    });
     setOrder({ ...order, cafeId: parseInt(cafeInfo.cafeId) });
   };
 
@@ -44,7 +46,7 @@ const MenuDetail = () => {
   const { order, setOrder, cartList, setCartList, addCartList } =
     useContext(OrderContext);
   useEffect(() => {
-    console.log("order:", order);
+    // console.log("order:", order);
   }, [order]);
 
   //useState
@@ -138,7 +140,7 @@ const MenuDetail = () => {
     setOrder({ ...order, menuList: [...order.menuList, fixedFormData] });
   };
   return (
-    <div style={{ position: "relative", paddingBottom: 100 }}>
+    <div style={{ position: "relative", paddingBottom: 70 }}>
       <NavBar
         onClick={handleNavigateBack}
         icon={"back"}
@@ -147,9 +149,7 @@ const MenuDetail = () => {
       <ThumImageDiv height={375}>
         <img
           src={
-            optionInfo?.menuPic
-              ? `http://112.222.157.156:5214${optionInfo.menuPic}`
-              : "/images/order/cat2.jpg"
+            optionInfo?.menuPic ? optionInfo.menuPic : "/images/order/cat2.jpg"
           }
           alt="메뉴 사진"
         />

@@ -7,6 +7,7 @@ import NavBar from "../../components/order/NavBar";
 import OrderProgress from "../../components/order/OrderProgress";
 import { ContainerDiv, LayoutDiv } from "../../styles/order/orderpage";
 import DockBar from "../../components/DockBar";
+import CancleModal from "../../components/order/CanCleModal";
 // progress
 const progressArr = [0, 1, 2, 3];
 
@@ -23,7 +24,7 @@ function Confirmation() {
     navigate("/");
   };
   const handleNavigateOrderDetails = () => {
-    navigate(`/orders/detail?orderId=${orderId}`);
+    navigate(`/orders/detail?userId=${userId}&orderId=${orderId}`);
   };
   // axios 불러오기
   useEffect(() => {
@@ -49,6 +50,7 @@ function Confirmation() {
   const [OrderedList, setOrderedList] = useState([]);
   const [recentOrder, setResentOrder] = useState({});
   const [nowProgress, setNowProgress] = useState(0);
+  const [showCancleModal, setShowCancleModal] = useState(false);
 
   const orderMenuList = recentOrder.orderMenuList || [];
   const orderId = recentOrder.orderId;
@@ -162,6 +164,21 @@ function Confirmation() {
               </i>
             </button>
           </div>
+          <div className="toLink">
+            <button type="button" onClick={() => setShowCancleModal(true)}>
+              주문 취소하기{" "}
+              <i>
+                <IoIosArrowForward />
+              </i>
+            </button>
+          </div>
+          {showCancleModal ? (
+            <CancleModal
+              showCancleModal={showCancleModal}
+              setShowCancleModal={setShowCancleModal}
+              orderId={orderId}
+            />
+          ) : null}
         </ContainerDiv>
       </LayoutDiv>
       <DockBar />

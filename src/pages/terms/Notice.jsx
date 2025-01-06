@@ -12,7 +12,6 @@ const ListStyle = styled.li`
   gap: 7px;
   flex-direction: column;
   justify-content: center;
-  margin: 0 20px;
   border-bottom: 1px solid var(--color-gray-100);
   cursor: pointer;
   transition: background-color 0.3s;

@@ -69,9 +69,10 @@ const Attendance = () => {
         // 클릭 이벤트 처리
         return (
           <div
-            onClick={() =>
-              matchingOrder.orderMenuList.length > 0 &&
-              navigate(`/orders/detail?orderId=${matchingOrder.orderId}`)
+            onClick={
+              () => navigate(`/orders`)
+              // matchingOrder.orderMenuList.length > 0 &&
+              // navigate(`/orders/detail?orderId=${matchingOrder.orderId}`)
             }
             style={{
               cursor:

@@ -16,7 +16,7 @@ import {
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 import { AiFillCamera, AiFillNotification } from "react-icons/ai";
 import { BsFillPatchQuestionFill } from "react-icons/bs";
-import { BiCalendar } from "react-icons/bi";
+import { BiCalendar, BiSolidUser } from "react-icons/bi";
 
 const UserPage = () => {
   const [updataNick, setUpdataNick] = useState(false);
@@ -99,13 +99,12 @@ const UserPage = () => {
   return (
     <div
       style={{
-        margin: "20px",
+        margin: "0 20px",
       }}
     >
       <form>
         <MyPageDiv>
-          <a
-            href="#"
+          <Link
             onClick={e => {
               e.preventDefault();
               handleGoBack();
@@ -116,7 +115,7 @@ const UserPage = () => {
                 fontSize: "20px",
               }}
             />
-          </a>
+          </Link>
           <span>마이페이지</span>
           <button type="button" onClick={updateNickname}>
             완료
@@ -125,8 +124,24 @@ const UserPage = () => {
         <ProfileArea>
           <ProfileImg>
             <div>
-              <div>
-                <img src="./public/images/order/umjun.jpg" alt="Profile" />
+              <div
+                style={{
+                  backgroundColor: "var(--color-white)",
+                  border: "1px solid var(--color-gray-100)",
+                  borderRadius: "50%",
+                  width: "100px",
+                  height: "100px",
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+              >
+                <BiSolidUser
+                  style={{
+                    fontSize: "30px",
+                    color: "var(--color-gray-500)",
+                  }}
+                />
               </div>
               <a href="#">
                 <AiFillCamera />
@@ -168,7 +183,7 @@ const UserPage = () => {
             style={{
               width: "100%",
               height: "1px",
-              background: "#e0e0e0",
+              background: "var(--color-gray-300)",
               marginTop: "25px",
             }}
           ></div>
@@ -178,61 +193,67 @@ const UserPage = () => {
                 <Link
                   to="/terms/notice"
                   style={{
-                    color: "#616161",
+                    color: "var(--color-gray-700)",
                     display: "flex",
                     justifyContent: "center",
                     alignItems: "center",
-                    gap: "5px",
+                    gap: "10px",
                   }}
                 >
                   <AiFillNotification
                     style={{
-                      color: "#9e9e9e",
+                      color: "var(--color-gray-300)",
                     }}
                   />
                   공지사항
                 </Link>
-                <IoIosArrowForward />
+                <IoIosArrowForward
+                  style={{ fontSize: "12px", color: "var(--color-gray-500)" }}
+                />
               </div>
               <div>
                 <Link
                   to="/terms/FAQ"
                   style={{
-                    color: "#616161",
+                    color: "var(--color-gray-700)",
                     display: "flex",
                     justifyContent: "center",
                     alignItems: "center",
-                    gap: "5px",
+                    gap: "10px",
                   }}
                 >
                   <BsFillPatchQuestionFill
                     style={{
-                      color: "#9e9e9e",
+                      color: "var(--color-gray-300)",
                     }}
                   />
                   자주 묻는 질문
                 </Link>
-                <IoIosArrowForward />
+                <IoIosArrowForward
+                  style={{ fontSize: "12px", color: "var(--color-gray-500)" }}
+                />
               </div>
               <div>
                 <Link
-                  to="/terms/service"
+                  to="/calendar"
                   style={{
-                    color: "#616161",
+                    color: "var(--color-gray-700)",
                     display: "flex",
                     justifyContent: "center",
                     alignItems: "center",
-                    gap: "5px",
+                    gap: "10px",
                   }}
                 >
                   <BiCalendar
                     style={{
-                      color: "#9e9e9e",
+                      color: "var(--color-gray-300)",
                     }}
                   />
                   카투사 출석부
                 </Link>
-                <IoIosArrowForward />
+                <IoIosArrowForward
+                  style={{ fontSize: "12px", color: "var(--color-gray-500)" }}
+                />
               </div>
             </InfoBox_1>
           </label>
@@ -240,7 +261,7 @@ const UserPage = () => {
             style={{
               width: "100%",
               height: "1px",
-              background: "#e0e0e0",
+              background: "var(--color-gray-300)",
               marginTop: "5px",
             }}
           ></div>
@@ -250,45 +271,53 @@ const UserPage = () => {
                 <Link
                   to="/terms/service"
                   style={{
-                    color: "#616161",
+                    color: "var(--color-gray-700)",
                   }}
                 >
                   서비스 이용약관
                 </Link>
-                <IoIosArrowForward />
+                <IoIosArrowForward
+                  style={{ fontSize: "12px", color: "var(--color-gray-500)" }}
+                />
               </div>
               <div>
                 <Link
                   to="/terms/privacy"
                   style={{
-                    color: "#616161",
+                    color: "var(--color-gray-700)",
                   }}
                 >
                   개인정보 처리 방침
                 </Link>
-                <IoIosArrowForward />
+                <IoIosArrowForward
+                  style={{ fontSize: "12px", color: "var(--color-gray-500)" }}
+                />
               </div>
               <div>
                 <Link
                   to="/terms/marketing"
                   style={{
-                    color: "#616161",
+                    color: "var(--color-gray-700)",
                   }}
                 >
                   마케팅 정보 수집 및 수신 동의
                 </Link>
-                <IoIosArrowForward />
+                <IoIosArrowForward
+                  style={{ fontSize: "12px", color: "var(--color-gray-500)" }}
+                />
               </div>
               <div>
                 <Link
                   to="/terms/payment"
                   style={{
-                    color: "#616161",
+                    color: "var(--color-gray-700)",
                   }}
                 >
                   결제대행 서비스 이용약관
                 </Link>
-                <IoIosArrowForward />
+                <IoIosArrowForward
+                  style={{ fontSize: "12px", color: "var(--color-gray-500)" }}
+                />
               </div>
             </InfoBox_2>
           </label>
@@ -296,7 +325,7 @@ const UserPage = () => {
             style={{
               width: "100%",
               height: "1px",
-              background: "#e0e0e0",
+              background: "var(--color-gray-300)",
               marginTop: "5px",
             }}
           ></div>

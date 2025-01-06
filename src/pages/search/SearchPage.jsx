@@ -14,21 +14,22 @@ export const HeaderWrap = styled.header`
   padding: 0 20px;
   display: flex;
   align-items: center;
-  svg {
+  > svg {
     font-size: 24px;
     color: var(--color-gray-900);
+    cursor: pointer;
+    margin-right: auto;
   }
 `;
 
 const SearchStyle = styled.label`
-  width: 80%;
+  width: 90%;
   height: 40px;
   position: relative;
   input {
     width: 100%;
     height: 100%;
-    margin-left: 20px;
-    background-color: var(--color-gray-100);
+    background-color: var(--color-white);
     border: 1px solid var(--color-gray-300);
     color: var(--color-gray-500);
     border-radius: 8px;
@@ -42,7 +43,7 @@ const SearchStyle = styled.label`
   }
   > svg {
     position: absolute;
-    right: -5px;
+    right: 15px;
     top: 50%;
     font-size: 20px;
     transform: translateY(-50%);
@@ -121,10 +122,7 @@ const SearchPage = () => {
   return (
     <div>
       <HeaderWrap>
-        <IoIosArrowBack
-          onClick={() => navigate(-1)}
-          style={{ cursor: "pointer" }}
-        />
+        <IoIosArrowBack onClick={() => navigate(-1)} />
         <SearchStyle htmlFor="">
           <input
             type="text"
@@ -133,24 +131,6 @@ const SearchPage = () => {
             onChange={e => setIsSearch(e.target.value)}
             onKeyDown={e => handleClickKeyDown(e)}
           />
-          <div>
-            {/* Enter를 눌렀을 때만 검색 결과 렌더링 */}
-            {searchTriggered ? (
-              cafeData.length > 0 ? (
-                <>
-                  <h2 style={{ marginTop: "30px" }}>검색결과</h2>
-                  {cafeData.map(cafe => (
-                    <SearchList key={cafe.cafeId} cafe={cafe} />
-                  ))}
-                </>
-              ) : (
-                <NoSearchRes>
-                  <img src="../public/images/NoSearch.png" alt="" />
-                  <p>검색 결과가 없습니다.</p>
-                </NoSearchRes>
-              )
-            ) : null}
-          </div>
           {isFocused ? (
             <IoCloseCircleSharp onClick={handleClear} />
           ) : (
@@ -158,6 +138,27 @@ const SearchPage = () => {
           )}
         </SearchStyle>
       </HeaderWrap>
+      <div style={{ padding: "0 20px" }}>
+        {/* Enter를 눌렀을 때만 검색 결과 렌더링 */}
+        {searchTriggered ? (
+          cafeData.length > 0 ? (
+            <>
+              <h2 style={{ marginTop: "30px", marginBottom: "20px" }}>
+                검색결과
+              </h2>
+              {cafeData.map(cafe => (
+                <SearchList key={cafe.cafeId} cafe={cafe} />
+              ))}
+            </>
+          ) : (
+            <NoSearchRes>
+              <img src="/images/NoSearch.png" alt="" />
+              <p>검색 결과가 없습니다.</p>
+            </NoSearchRes>
+          )
+        ) : null}
+      </div>
+
       <DockBar />
     </div>
   );

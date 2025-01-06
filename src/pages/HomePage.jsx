@@ -1,9 +1,10 @@
 import styled from "@emotion/styled";
 import Header from "../components/Header";
-import { useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import ListMain from "../components/main/ListMain";
 import MapMain from "../components/main/MapMain";
 import DockBar from "../components/DockBar";
+import { OrderContext } from "../contexts/OrderContext";
 
 const TabMenuBtn = styled.div`
   width: 50%;
@@ -24,8 +25,11 @@ const TabMenuBtn = styled.div`
 `;
 
 const HomePage = () => {
+  const { order } = useContext(OrderContext);
   const [activeIndex, setActiveIndex] = useState(0);
-
+  // useEffect(() => {
+  //   console.log(order);
+  // }, [order]);
   return (
     <div>
       <Header />

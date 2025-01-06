@@ -4,16 +4,14 @@ import { AlternativeButton, PrimaryButton } from "../../styles/common";
 import { OrderedMenuDiv } from "../../styles/orders/orderspage";
 import { OrderContext } from "../../contexts/OrderContext";
 
-const userData = JSON.parse(sessionStorage.getItem("userData"));
-const userId = userData ? userData.resultData.userId : "임시부여 ID";
-
 const OrderedMenu = ({ item }) => {
   // useContext
   const { order, setOrder } = useContext(OrderContext);
+  const userId = order.userId;
   // useNavigate
   const navigate = useNavigate();
   const handleNavigateOrderDetails = item => {
-    navigate(`/orders/detail?orderId=${item.orderId}`);
+    navigate(`/orders/detail?userId=${userId}&orderId=${item.orderId}`);
   };
   const progressArr = [0, 1, 2, 3];
   const menuInfo = item;
@@ -27,6 +25,10 @@ const OrderedMenu = ({ item }) => {
         return "준비완료";
       case 3:
         return "수령완료";
+      case 5:
+        return "주문취소";
+      case 6:
+        return "주문취소 확정";
       default:
         return "기타";
     }
