@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import { Map, MapMarker } from "react-kakao-maps-sdk";
 
 const CafeMap = ({ cafeInfo }) => {
+  const userData = JSON.parse(sessionStorage.getItem("userData"));
+  const userId = userData.resultData.userId;
   const [isMapLoaded, setIsMapLoaded] = useState(false);
   const [mapCenter, setMapCenter] = useState({ lat: 0, lng: 0 });
   const nowMap = { lat: cafeInfo.latitude, lng: cafeInfo.longitude };

@@ -51,7 +51,7 @@ const MarkerWrap = styled.div`
 const MapMarkrtItem = ({ cafe }) => {
   const showCafe = useNavigate();
   const viewProduct = cafeId => {
-    showCafe(`/order?cafeId=${cafeId}`); // 동적으로 상품 ID를 사용해 페이지 이동
+    showCafe(`/order?cafeId=${cafeId}`, { state: [{ cafeId: cafeId }] });
   };
 
   return (

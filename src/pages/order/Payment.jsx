@@ -12,6 +12,7 @@ import { PrimaryButton } from "../../styles/common";
 import { ContainerDiv, LayoutDiv } from "../../styles/order/orderpage";
 
 import { OrderContext } from "../../contexts/OrderContext";
+import { AiOutlineMinus, AiOutlinePlus } from "react-icons/ai";
 import DeleteMenuModal from "../../components/order/DeleteMenuModal";
 
 // 예상 수령시간 관리용 배열
@@ -222,7 +223,7 @@ const Payment = () => {
                 return (
                   <div className="menu" key={index}>
                     <div className="itemInfo">
-                      <p>메뉴 아이디: {item.menuId}</p>
+                      {/* <p>메뉴 아이디: {item.menuId}</p> */}
                       <p className="itemName">{item.menuName}</p>
                       <div className="itemOption">
                         {item.options.map((_item, _index) => {
@@ -239,7 +240,7 @@ const Payment = () => {
                             type="button"
                             onClick={() => handleClickMinus(index)}
                           >
-                            -
+                            <AiOutlineMinus />
                           </button>
                           <input
                             type="text"
@@ -252,7 +253,7 @@ const Payment = () => {
                             type="button"
                             onClick={() => handleClickPluls(index)}
                           >
-                            +
+                            <AiOutlinePlus />
                           </button>
                         </div>
                         {showModal ? (
@@ -277,7 +278,7 @@ const Payment = () => {
       </LayoutDiv>
       {/* 예상 수령 시간 */}
       <LayoutDiv borderBottom={5}>
-        <ContainerDiv>
+        <ContainerDiv style={{ padding: "20px" }}>
           <h4 style={{ paddingBottom: 10 }}>예상 수령 시간</h4>
           <div className="pickUpTimeList">
             {pickUPTimeArr.map((item, index) => {
@@ -317,7 +318,7 @@ const Payment = () => {
           <div className="price">
             <div className="priceBox-a">
               <p>주문 금액</p>
-              <p>{showPrice}원</p>
+              <p style={{ color: "var(--color-gray-900)" }}>{showPrice}원</p>
             </div>
             <div className="priceBox-b">
               <p>총 결제 금액</p>

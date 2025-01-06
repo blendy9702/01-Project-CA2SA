@@ -102,7 +102,7 @@ const LoginPage = ({ onLoginSuccess }) => {
             <img
               src="/images/ca2saLogo.png"
               style={{
-                height: "110px",
+                width: "115px",
               }}
             />
           </div>
@@ -120,7 +120,9 @@ const LoginPage = ({ onLoginSuccess }) => {
                 placeholder="이메일을 입력해주세요."
                 style={{ fontSize: "16px", fontWeight: "300" }}
               />
-              <p style={{ color: "red" }}>{errors.email?.message}</p>
+              <p style={{ color: "var(--error-clolr)", fontSize: "14px" }}>
+                {errors.email?.message}
+              </p>
             </EmailArea>
             <PasswordArea>
               <p>비밀번호</p>
@@ -130,12 +132,16 @@ const LoginPage = ({ onLoginSuccess }) => {
                 placeholder="비밀번호를 입력해주세요."
                 style={{ fontSize: "16px", fontWeight: "300" }}
               />
-              <p style={{ color: "#ff6600", fontSize: "14px" }}>
+              <p style={{ color: "var(--error-clolr)", fontSize: "14px" }}>
                 {errors.upw?.message}
               </p>
             </PasswordArea>
           </LoginWrap>
-          {loginError && <p style={{ color: "red" }}>{loginError}</p>}
+          {loginError && (
+            <p style={{ color: "var(--error-clolr)", fontSize: "14px" }}>
+              {loginError}
+            </p>
+          )}
           <div className="loginSignUpWrap">
             <LoginButton>
               <button type="submit" onClick={handleLogin}>

@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { IoIosArrowBack } from "react-icons/io";
-import QnaList from "../../components/terms/QNAList";
-import { HeaderWrap } from "./Service";
+import QnaList from "../../components/terms/QnaList";
+import { HeaderWrap, MainWrap } from "./Service";
 import qnaData from "../../server/qnaData.json";
 
 const FAQ = () => {
@@ -20,6 +20,7 @@ const FAQ = () => {
         />
         <h2>자주 묻는 질문</h2>
       </HeaderWrap>
+
       {qnaData.map((item, index) => (
         <QnaList
           key={index}

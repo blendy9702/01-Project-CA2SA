@@ -1,30 +1,48 @@
 # CA2SA
 
-## 1. 아이데이션 (주제선정)
+## 서비스 소개
 
-## 2. 린캔버스로 아이템의 장단점을 분석해보자.
+바쁜 사용자들이 간단하고 빠르게 커피를 주문하고, 원하는 **시간**에 픽업할 수 있는 편리한 테이크아웃 **웹앱**.
 
-## 3. 요구사항문서(PRD)를 작성해보자.
+---
 
-## 4. IA (Sitemap) / ERD
+## 팀원 소개
 
-## 5. UI Flow /
+| FE 주혜진          | FE 이수빈    | FE 이창호    |
+| ------------------ | ------------ | ------------ |
+| 프로필이미지       | 프로필이미지 | 프로필이미지 |
+| 팀장               | 팀원         | 팀원         |
+| 메인, 검색, 캘린더 | 담당         | 담당         |
 
-## 6. UI UX 글꼴, 주색상, 보조색상 등...
+## 개발 기간
 
-## 7. 일정관리
+**`2024/12/16 ~ 2025/01/08`**
 
-## 8. 테스트
+- 기획 : **12/16 - 12/24**
+- 디자인 : **12/16 - 12/30**
+- 기능 구현 : **12/20 - 01/08**
+- 스타일 : **12/30 - 01/08**
+- 리팩토링 및 최종협의 : **01/04 - 01/08**
 
-## 9. MVP
+## 4.
 
-## 10. 향후 진행할 작업에 대한 내용
+## 5.
 
-## 11. 시연 및 발표
+## 6.
 
-## 12. 팀 자체 피드백 발표
+## 7.
 
-## 13. 멘토 피드백
+## 8.
+
+## 9.
+
+## 10.
+
+## 11.
+
+## 12.
+
+## 13.
 
 ## 14. 브랜치 전략
 
@@ -36,10 +54,22 @@ release : develop 을 release 로 옮긴 후 테스트를 진행용
 hotfix : 버그를 수정용
 ```
 
+#### Commit Convention
+
+```
+feat: 새로운 기능 구현
+fix: 오류 수정
+docs: readme.md, json 파일 등 수정, 라이브러리 설치(문서 관련)
+refactor: 코드 리팩토링
+chore: 빌드 부분 혹은 패키지 매니저 수정 사항
+rename: 파일 혹은 폴더명 수정, 옮기기
+remove: 파일 삭제
+```
+
 ## 15. 폴더 구조
 
 ```
-Project-CA2SA
+01-Project-CA2SA
 ├─ .prettierrc
 ├─ eslint.config.js
 ├─ index.html
@@ -51,6 +81,9 @@ Project-CA2SA
 │     ├─ 404
 │     │  └─ 404.png
 │     ├─ ca2saLogo.png
+│     ├─ calendar
+│     │  ├─ coffee-beans-completed.png
+│     │  └─ coffee-beans-default.png
 │     ├─ event
 │     │  ├─ image-0.png
 │     │  ├─ image-1.png
@@ -75,15 +108,11 @@ Project-CA2SA
 │     │  ├─ cat.jpg
 │     │  ├─ cat2.jpg
 │     │  ├─ checkboxOff.png
-│     │  └─ CheckboxOn.png
+│     │  ├─ CheckboxOn.png
+│     │  └─ umjun.jpg
 │     └─ qna_banner.png
 ├─ README.md
-├─ server
-│  └─ DB.json
 ├─ src
-│  ├─ apis
-│  │  ├─ order.jsx
-│  │  └─ orderapi.jsx
 │  ├─ App.css
 │  ├─ App.jsx
 │  ├─ assets
@@ -100,17 +129,22 @@ Project-CA2SA
 │  │  │  └─ SlideItem.jsx
 │  │  ├─ MapMarkrtItem.jsx
 │  │  ├─ order
+│  │  │  ├─ BucketModal.jsx
+│  │  │  ├─ CafeMap.jsx
 │  │  │  ├─ Memo.jsx
 │  │  │  ├─ Menu.jsx
 │  │  │  ├─ NavBar.jsx
-│  │  │  ├─ OrderDetail.jsx
 │  │  │  ├─ OrderProgress.jsx
 │  │  │  ├─ PaymentOption.jsx
-│  │  │  └─ PickUpTime.jsx
+│  │  │  ├─ PickUpTime.jsx
+│  │  │  └─ SearchMenu.jsx
+│  │  ├─ orders
+│  │  │  └─ OrderedMenu.jsx
 │  │  ├─ search
 │  │  │  └─ SearchList.jsx
 │  │  └─ terms
 │  │     ├─ Event.jsx
+│  │     ├─ noticeContent.jsx
 │  │     ├─ QnaList.jsx
 │  │     └─ Questions.jsx
 │  ├─ contexts
@@ -120,6 +154,8 @@ Project-CA2SA
 │  ├─ index.css
 │  ├─ main.jsx
 │  ├─ pages
+│  │  ├─ calendar
+│  │  │  └─ Attendance .jsx
 │  │  ├─ ceoadmin
 │  │  │  ├─ AdminPage.jsx
 │  │  │  ├─ Dashboard.jsx
@@ -156,30 +192,36 @@ Project-CA2SA
 │  │  │  ├─ Confirmation.jsx
 │  │  │  ├─ MenuDetail.jsx
 │  │  │  ├─ MenuList.jsx
-│  │  │  ├─ OedersDetails.jsx
 │  │  │  ├─ OrderPage.jsx
 │  │  │  └─ Payment.jsx
 │  │  ├─ orders
 │  │  │  ├─ OedersDetails.jsx
 │  │  │  └─ OrdersPage.jsx
 │  │  ├─ search
-│  │  │  ├─ SearchList.jsx
 │  │  │  └─ SearchPage.jsx
 │  │  └─ terms
 │  │     ├─ FAQ.jsx
 │  │     ├─ Marketing.jsx
+│  │     ├─ Notice.jsx
 │  │     ├─ PaymentService.jsx
 │  │     ├─ Privacy.jsx
 │  │     └─ Service.jsx
+│  ├─ server
+│  │  ├─ notice.json
+│  │  └─ qnaData.json
 │  └─ styles
+│     ├─ attendance.css
 │     ├─ common.js
 │     ├─ join
 │     │  ├─ confirmform.js
 │     │  ├─ joinpage.js
 │     │  ├─ loginpage.js
 │     │  └─ userpage.js
-│     └─ order
-│        └─ orderpage.js
+│     ├─ order
+│     │  ├─ BucketModal.js
+│     │  └─ orderpage.js
+│     └─ orders
+│        └─ orderspage.js
 └─ vite.config.js
 
 ```

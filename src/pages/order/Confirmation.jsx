@@ -14,7 +14,9 @@ const progressArr = [0, 1, 2, 3];
 function Confirmation() {
   // useSearchParams
   const [searchParams, setSearchParams] = useSearchParams();
-  const userId = searchParams.get("userId");
+  const userData = JSON.parse(sessionStorage.getItem("userData"));
+  const userId = userData.resultData.userId;
+  // const userId = searchParams.get("userId");
   // useNavigation
   const navigate = useNavigate();
   const location = useLocation();

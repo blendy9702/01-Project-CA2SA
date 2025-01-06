@@ -2,8 +2,11 @@ import { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { OrderContext } from "../../contexts/OrderContext";
 import { ModalButton, ModalDiv } from "../../styles/order/BucketModal";
+import { PrimaryButton } from "../../styles/common";
 
 const DeleteMenuModal = ({ item, index, showModal, setShowModal }) => {
+  const userData = JSON.parse(sessionStorage.getItem("userData"));
+  const userId = userData.resultData.userId;
   const { setOrder, order } = useContext(OrderContext);
   const navigate = useNavigate();
   const handleClickDeleteButton = () => {
@@ -36,12 +39,12 @@ const DeleteMenuModal = ({ item, index, showModal, setShowModal }) => {
             >
               취소
             </ModalButton>
-            <ModalButton
+            <PrimaryButton
               type="button"
               onClick={() => handleClickDeleteButton()}
             >
-              삭제
-            </ModalButton>
+              확인
+            </PrimaryButton>
           </div>
         </div>
       </div>

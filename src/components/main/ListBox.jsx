@@ -7,13 +7,13 @@ const ListBoxItem = styled.div`
   display: inline-block;
   margin-bottom: 30px;
   div {
-    width: 150px;
+    width: 100%;
     height: 150px;
     overflow: hidden;
     border-radius: 16px;
     img {
       width: 100%;
-      height: 100%;
+      height: 138%;
       object-fit: cover;
     }
   }

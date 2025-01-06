@@ -20,6 +20,8 @@ const MenuList = () => {
   // useSearchParams
   const [searchParams, setSearchParams] = useSearchParams();
   const cafeId = parseInt(searchParams.get("cafeId"));
+  const userData = JSON.parse(sessionStorage.getItem("userData"));
+  const userId = userData.resultData.userId;
   // useNavigate
   const navigate = useNavigate();
   const location = useLocation();
@@ -132,7 +134,7 @@ const MenuList = () => {
         <div
           className="header"
           style={{
-            padding: "10px 0px",
+            padding: "10px 20px",
             borderBottom: "5px solid var(--color-gray-100)",
           }}
         >
