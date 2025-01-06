@@ -10,7 +10,7 @@ const OrderedMenu = ({ item }) => {
   // const userId = order.userId;
   const userData = JSON.parse(sessionStorage.getItem("userData"));
   const userId = userData.resultData.userId;
-  console.log(userId);
+  // console.log(userId);
   // useNavigate
   const navigate = useNavigate();
   const handleNavigateOrderDetails = item => {

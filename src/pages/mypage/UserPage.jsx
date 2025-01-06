@@ -244,10 +244,10 @@ const UserPage = () => {
                     }}
                   />
                   공지사항
+                  <IoIosArrowForward
+                    style={{ fontSize: "12px", color: "var(--color-gray-500)" }}
+                  />
                 </Link>
-                <IoIosArrowForward
-                  style={{ fontSize: "12px", color: "var(--color-gray-500)" }}
-                />
               </div>
               <div>
                 <Link
@@ -266,10 +266,10 @@ const UserPage = () => {
                     }}
                   />
                   자주 묻는 질문
+                  <IoIosArrowForward
+                    style={{ fontSize: "12px", color: "var(--color-gray-500)" }}
+                  />
                 </Link>
-                <IoIosArrowForward
-                  style={{ fontSize: "12px", color: "var(--color-gray-500)" }}
-                />
               </div>
               <div>
                 <Link
@@ -288,10 +288,10 @@ const UserPage = () => {
                     }}
                   />
                   카투사 출석부
+                  <IoIosArrowForward
+                    style={{ fontSize: "12px", color: "var(--color-gray-500)" }}
+                  />
                 </Link>
-                <IoIosArrowForward
-                  style={{ fontSize: "12px", color: "var(--color-gray-500)" }}
-                />
               </div>
             </InfoBox_1>
           </label>
@@ -313,10 +313,10 @@ const UserPage = () => {
                   }}
                 >
                   서비스 이용약관
+                  <IoIosArrowForward
+                    style={{ fontSize: "12px", color: "var(--color-gray-500)" }}
+                  />
                 </Link>
-                <IoIosArrowForward
-                  style={{ fontSize: "12px", color: "var(--color-gray-500)" }}
-                />
               </div>
               <div>
                 <Link
@@ -326,10 +326,10 @@ const UserPage = () => {
                   }}
                 >
                   개인정보 처리 방침
+                  <IoIosArrowForward
+                    style={{ fontSize: "12px", color: "var(--color-gray-500)" }}
+                  />
                 </Link>
-                <IoIosArrowForward
-                  style={{ fontSize: "12px", color: "var(--color-gray-500)" }}
-                />
               </div>
               <div>
                 <Link
@@ -339,10 +339,10 @@ const UserPage = () => {
                   }}
                 >
                   마케팅 정보 수집 및 수신 동의
+                  <IoIosArrowForward
+                    style={{ fontSize: "12px", color: "var(--color-gray-500)" }}
+                  />
                 </Link>
-                <IoIosArrowForward
-                  style={{ fontSize: "12px", color: "var(--color-gray-500)" }}
-                />
               </div>
               <div>
                 <Link
@@ -352,10 +352,10 @@ const UserPage = () => {
                   }}
                 >
                   결제대행 서비스 이용약관
+                  <IoIosArrowForward
+                    style={{ fontSize: "12px", color: "var(--color-gray-500)" }}
+                  />
                 </Link>
-                <IoIosArrowForward
-                  style={{ fontSize: "12px", color: "var(--color-gray-500)" }}
-                />
               </div>
             </InfoBox_2>
           </label>
