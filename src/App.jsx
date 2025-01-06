@@ -31,6 +31,7 @@ import Privacy from "./pages/terms/Privacy";
 import Service from "./pages/terms/Service";
 import Attendance from "./pages/calendar/Attendance ";
 import Notice from "./pages/terms/Notice";
+import Loading from "./components/Loading";
 function App() {
   const [loading, setLoading] = useState(true);
   const [isLogin, setIsLogin] = useState(null);
@@ -51,6 +52,7 @@ function App() {
       className="mainWrap"
       style={{ maxWidth: "640px", width: "100%", margin: "0 auto" }}
     >
+      <Loading />
       <Router>
         <OrderContextProvider>
           <UserPageProvider>

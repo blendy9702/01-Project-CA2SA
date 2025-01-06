@@ -79,38 +79,38 @@ remove: 파일 삭제
 │  ├─ favicon.ico
 │  └─ images
 │     ├─ 404
-│     │  └─ 404.png
-│     ├─ ca2saLogo.png
+│     │  └─ 404.webp
+│     ├─ ca2saLogo.webp
 │     ├─ calendar
-│     │  ├─ coffee-beans-completed.png
-│     │  └─ coffee-beans-default.png
+│     │  ├─ coffee-beans-completed.webp
+│     │  └─ coffee-beans-default.webp
 │     ├─ event
-│     │  ├─ image-0.png
-│     │  ├─ image-1.png
-│     │  ├─ image-2.png
-│     │  ├─ image-3.png
-│     │  ├─ image-4.png
-│     │  ├─ image-5.png
-│     │  └─ image-6.png
-│     ├─ event_banner.png
-│     ├─ footerca2saLogo.png
-│     ├─ Frame 307.png
-│     ├─ main_visual_image-0.png
-│     ├─ main_visual_image-1.png
-│     ├─ main_visual_image-2.png
-│     ├─ main_visual_image-3.png
-│     ├─ main_visual_image-4.png
-│     ├─ main_visual_image-5.png
-│     ├─ main_visual_image-6.png
-│     ├─ main_visual_image-7.png
-│     ├─ NoSearch.png
+│     │  ├─ image-0.webp
+│     │  ├─ image-1.webp
+│     │  ├─ image-2.webp
+│     │  ├─ image-3.webp
+│     │  ├─ image-4.webp
+│     │  ├─ image-5.webp
+│     │  └─ image-6.webp
+│     ├─ event_banner.webp
+│     ├─ footerca2saLogo.webp
+│     ├─ Frame 307.webp
+│     ├─ main_visual_image-0.webp
+│     ├─ main_visual_image-1.webp
+│     ├─ main_visual_image-2.webp
+│     ├─ main_visual_image-3.webp
+│     ├─ main_visual_image-4.webp
+│     ├─ main_visual_image-5.webp
+│     ├─ main_visual_image-6.webp
+│     ├─ main_visual_image-7.webp
+│     ├─ NoSearch.webp
 │     ├─ order
 │     │  ├─ cat.jpg
 │     │  ├─ cat2.jpg
-│     │  ├─ checkboxOff.png
-│     │  ├─ CheckboxOn.png
+│     │  ├─ checkboxOff.webp
+│     │  ├─ CheckboxOn.webp
 │     │  └─ umjun.jpg
-│     └─ qna_banner.png
+│     └─ qna_banner.webp
 ├─ README.md
 ├─ src
 │  ├─ App.css

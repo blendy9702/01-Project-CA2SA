@@ -98,7 +98,7 @@ const LoginPage = ({ onLoginSuccess }) => {
         <ServiceTextArea>
           <div>
             <img
-              src="/images/ca2saLogo.png"
+              src="/images/ca2saLogo.webp"
               style={{
                 width: "115px",
               }}
