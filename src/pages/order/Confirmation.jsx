@@ -14,7 +14,9 @@ const progressArr = [0, 1, 2, 3];
 function Confirmation() {
   // useSearchParams
   const [searchParams, setSearchParams] = useSearchParams();
-  const userId = searchParams.get("userId");
+  const userData = JSON.parse(sessionStorage.getItem("userData"));
+  const userId = userData.resultData.userId;
+  // const userId = searchParams.get("userId");
   // useNavigation
   const navigate = useNavigate();
   const location = useLocation();
@@ -82,7 +84,7 @@ function Confirmation() {
         title={"결제 완료"}
       />
       {/* 주문 과정 */}
-      <LayoutDiv borderBottom={5} style={{ margin: "0 20px" }}>
+      <LayoutDiv borderBottom={5}>
         <ContainerDiv>
           <h4 style={{ color: "var(--primary-color)" }}>
             {recentOrder ? recentOrder.cafeName : "정보가 없습니다."}

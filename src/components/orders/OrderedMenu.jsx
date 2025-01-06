@@ -7,7 +7,10 @@ import { OrderContext } from "../../contexts/OrderContext";
 const OrderedMenu = ({ item }) => {
   // useContext
   const { order, setOrder } = useContext(OrderContext);
-  const userId = order.userId;
+  // const userId = order.userId;
+  const userData = JSON.parse(sessionStorage.getItem("userData"));
+  const userId = userData.resultData.userId;
+  console.log(userId);
   // useNavigate
   const navigate = useNavigate();
   const handleNavigateOrderDetails = item => {
@@ -61,7 +64,7 @@ const OrderedMenu = ({ item }) => {
         return {
           count: item.count,
           options: item.options,
-          menuId: item.orderMenuId,
+          menuId: item.menuId,
           menuName: item.orderMenuName,
           price: item.price,
         };

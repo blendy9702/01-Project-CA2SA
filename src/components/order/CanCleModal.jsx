@@ -7,7 +7,9 @@ import axios from "axios";
 
 const CancleModal = ({ showCancleModal, setShowCancleModal, orderId }) => {
   const { setOrder, order } = useContext(OrderContext);
-  const userId = order.userId;
+  // const userId = order.userId;
+  const userData = JSON.parse(sessionStorage.getItem("userData"));
+  const userId = userData.resultData.userId;
   const navigate = useNavigate();
   const handleClickButton = async () => {
     try {
@@ -41,10 +43,10 @@ const CancleModal = ({ showCancleModal, setShowCancleModal, orderId }) => {
                 setShowCancleModal(false);
               }}
             >
-              닫기
+              취소
             </ModalButton>
             <PrimaryButton type="button" onClick={() => handleClickButton()}>
-              취소
+              확인
             </PrimaryButton>
           </div>
         </div>

@@ -21,7 +21,9 @@ const OrdersPage = () => {
   useEffect(() => {
     // console.log(order);
   }, [order]);
-  const userId = order.userId;
+  // const userId = order.userId;
+  const userData = JSON.parse(sessionStorage.getItem("userData"));
+  const userId = userData.resultData.userId;
   // uesNavigate
   const navigate = useNavigate();
   const handleNavigateHome = () => {

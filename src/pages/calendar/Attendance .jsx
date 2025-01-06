@@ -6,6 +6,8 @@ import { FaCoffee } from "react-icons/fa";
 import { BiSolidDownArrow } from "react-icons/bi";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { HeaderWrap } from "../terms/Service";
+import { IoIosArrowBack } from "react-icons/io";
 
 const Attendance = () => {
   const [date, setDate] = useState(new Date());
@@ -110,6 +112,13 @@ const Attendance = () => {
 
   return (
     <div>
+      <HeaderWrap>
+        <IoIosArrowBack
+          onClick={() => window.history.back()}
+          style={{ cursor: "pointer" }}
+        />
+        <h2>카투사 캘린더 </h2>
+      </HeaderWrap>
       <Calendar
         onChange={setDate}
         value={date}

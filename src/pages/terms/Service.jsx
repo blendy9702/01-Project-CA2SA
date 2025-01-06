@@ -16,6 +16,7 @@ export const HeaderWrap = styled.header`
     color: var(--color-gray-900);
   }
   h2 {
+    font-size: 20px;
     width: 100%;
     text-align: center;
   }
