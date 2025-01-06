@@ -557,13 +557,13 @@ export const CustomInputDiv = styled.div`
   }
   input:checked + label {
     padding-left: 25px;
-    background: url("/images/order/CheckboxOn.webp") no-repeat;
+    background: url("/images/order/CheckboxOn.png") no-repeat;
   }
   label {
     display: flex;
     align-items: center;
     padding-left: 25px;
-    background: url("/images/order/checkboxOff.webp") no-repeat;
+    background: url("/images/order/checkboxOff.png") no-repeat;
   }
 `;
 
