@@ -1,14 +1,13 @@
 import styled from "@emotion/styled";
 
 export const LoginTopArea = styled.div`
-  p {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 24px;
-    font-weight: 700;
-    padding-top: 10px;
-  }
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 60px;
+  font-size: 20px;
+  font-weight: 700;
 `;
 
 export const LoginMainWrap = styled.div``;
@@ -40,12 +39,14 @@ export const LoginWrap = styled.div`
     font-weight: 300;
     padding-left: 10px;
     border-radius: 8px;
-    border: 1px solid rgb(201, 201, 201);
+    border: 1px solid var(--color-gray-300);
+    color: var(--color-gray-500);
     outline: none;
-    transition: border-color 0.3s ease;
+    transition: 0.1s;
   }
   input:focus {
-    border-color: #88c200;
+    border-color: var(--primary-color);
+    color: var(--color-gray-700);
   }
 `;
 
@@ -53,14 +54,14 @@ export const EmailArea = styled.div`
   padding-bottom: 15px;
   p {
     font-size: 14px;
-    margin: 5px 0;
+    margin: 5px 3px;
   }
 `;
 
 export const PasswordArea = styled.div`
   p {
     font-size: 14px;
-    margin: 5px 0;
+    margin: 5px 3px;
   }
 `;
 
@@ -69,8 +70,8 @@ export const LoginButton = styled.div`
   justify-content: center;
   align-items: center;
   width: 100%;
-  padding-top: 50px;
-  padding-bottom: 15px;
+  padding-top: 30px;
+  padding-bottom: 10px;
 
   button {
     display: flex;

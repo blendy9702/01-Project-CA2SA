@@ -61,7 +61,7 @@ export const JoinPageEmail = styled.div`
     position: absolute;
     border-radius: 8px;
     font-size: 12px;
-    top: 33px;
+    top: 31px;
     right: 10px;
     padding: 5px 10px;
     outline: none;
@@ -89,11 +89,12 @@ export const JoinPageEmail = styled.div`
   }
 `;
 export const JoinPagePassword = styled.div`
+  height: 66px;
   input {
   }
 `;
 export const JoinPageCheckArea = styled.div`
-  padding-top: 70px;
+  padding-top: 100px;
 `;
 export const ServiceCheckBox = styled.div`
   padding-top: 15px;

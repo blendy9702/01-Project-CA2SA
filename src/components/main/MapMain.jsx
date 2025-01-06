@@ -17,8 +17,6 @@ const MapMarkerStyle = styled.div`
       : "var(--color-gray-900)"}; /* 활성화 상태에 따라 글자색 변경 */
   box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
   border-radius: 16px;
-  z-index: ${props =>
-    props.isActive ? "1" : "0"}; /* 활성화 상태에 따라 글자색 변경 */
 
   &:after {
     content: "";
@@ -58,8 +56,11 @@ const MarkerPos = styled.div`
 
 const MapStyle = styled.div`
   .mapMarker {
-    &:last-child {
-      z-index: 1;
+    div{
+    z-index: ${props =>
+      props.isActive ? "1" : "0"}; /* 활성화 상태에 따라 글자색 변경 */
+
+    }
     }
   }
 `;
@@ -177,7 +178,7 @@ const MapMain = () => {
         <MapStyle>
           {cafeData.map(cafe => (
             <CustomOverlayMap
-              className="mapMarker" // 커스텀 오버레이 컴포넌트
+              zIndex={openInfo?.cafeId === cafe.cafeId ? 100 : 0} // 활성 상태에 따라 zIndex 변경
               key={cafe.cafeId}
               position={{
                 lat: cafe.latitude, // 카페의 위도

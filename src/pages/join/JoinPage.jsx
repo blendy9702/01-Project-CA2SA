@@ -167,7 +167,7 @@ const JoinPage = () => {
                 {...register("nickName")}
                 placeholder="닉네임을 입력해 주세요."
               />
-              <p style={{ color: "var(--error-clolr)", marginTop: "5px" }}>
+              <p style={{ color: "var(--error-clolr)" }}>
                 {errors.nickName?.message}
               </p>
             </JoinPageNickName>
@@ -183,7 +183,7 @@ const JoinPage = () => {
                 style={{
                   color: "var(--error-clolr)",
                   fontSize: "14px",
-                  marginTop: "5px",
+                  marginTop: 2,
                 }}
               >
                 {errors.email?.message}
@@ -192,7 +192,6 @@ const JoinPage = () => {
                 style={{
                   color: "var(--error-clolr)",
                   fontSize: "14px",
-                  marginTop: "5px",
                 }}
               >
                 {emailError}
@@ -217,7 +216,7 @@ const JoinPage = () => {
                 style={{
                   color: "var(--error-clolr)",
                   fontSize: "14px",
-                  marginTop: "5px",
+                  marginTop: 2,
                 }}
               >
                 {errors.upw?.message}
@@ -227,14 +226,14 @@ const JoinPage = () => {
                 type="password"
                 {...register("passwordCheck")}
                 placeholder="비밀번호를 재입력해 주세요."
-                style={{ marginTop: "20px" }}
+                style={{ marginTop: "10px" }}
               />
               {password !== passwordCheck && (
                 <div
                   style={{
                     color: "var(--error-clolr)",
                     fontSize: "14px",
-                    marginTop: "5px",
+                    marginTop: 2,
                   }}
                 >
                   비밀번호가 일치하지 않습니다.

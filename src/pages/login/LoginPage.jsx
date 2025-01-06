@@ -86,7 +86,7 @@ const LoginPage = ({ onLoginSuccess }) => {
   return (
     <div
       style={{
-        margin: "20px",
+        margin: "0 20px",
       }}
     >
       <LoginTopArea>
