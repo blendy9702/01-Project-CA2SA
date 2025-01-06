@@ -7,6 +7,8 @@ import { PrimaryButton, SearchInput } from "../../styles/common";
 import { OrderMemoInput } from "../../styles/order/orderMemo";
 
 const Memo = ({ popMemo, setPopMemo }) => {
+  const userData = JSON.parse(sessionStorage.getItem("userData"));
+  const userId = userData.resultData.userId;
   const { setOrder, order } = useContext(OrderContext);
   // react-hook-form
   const {

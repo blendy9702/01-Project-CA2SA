@@ -1,6 +1,8 @@
 import { MenuDiv } from "../../styles/order/orderpage";
 
 const Menu = ({ item, index, onClick }) => {
+  const userData = JSON.parse(sessionStorage.getItem("userData"));
+  const userId = userData.resultData.userId;
   return (
     <MenuDiv onClick={onClick} className="menu">
       <div className="menu-info">

@@ -17,30 +17,33 @@ import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 import { AiFillCamera, AiFillNotification } from "react-icons/ai";
 import { BsFillPatchQuestionFill } from "react-icons/bs";
 import { BiCalendar, BiSolidUser } from "react-icons/bi";
+import moment from "moment";
 
 const UserPage = () => {
   const [updataNick, setUpdataNick] = useState(false);
+  const [payment, setPayment] = useState(0);
   const { myPage, setMyPage } = useContext(UserPageContext);
   const [userData, setUserData] = useState({});
   const navigate = useNavigate();
   const [upw, setUpw] = useState();
-
+  const today = moment().format("YYYY-MM-DD");
+  const first_day_of_month = moment().startOf("month").format("YYYY-MM-DD");
   const updateNickname = async () => {
     try {
       const res = await axios.put("/api/user/info", {
         userId: userData.userId,
         nickName: userData.nickName,
       });
-      console.log("서버 응답 데이터:", res.data);
 
       if (res.data.resultMessage === "1") {
         alert("닉네임이 변경되었습니다.");
+
         // 세션 스토리지 업데이트
         sessionStorage.setItem(
           "userData",
           JSON.stringify({
             ...userData,
-            nickName: userData.nickName,
+            nickName: res.data.nickName,
           }),
         );
       } else {
@@ -48,7 +51,6 @@ const UserPage = () => {
       }
     } catch (error) {
       console.log("닉네임 변경 오류 : ", error);
-      console.error("닉네임 변경 오류:", error.response?.data || error.message);
       alert("닉네임 변경 중 문제가 발생했습니다. 다시 시도해주세요.");
     }
   };
@@ -74,6 +76,36 @@ const UserPage = () => {
       alert("회원탈퇴 중 문제가 발생했습니다. 다시 시도해주세요.");
     }
   };
+
+  const usedMoney = async () => {
+    try {
+      const res = await axios.get(
+        `/api/user/used?first_day_of_month=${first_day_of_month}&user_id=48&today=${today}`,
+        {
+          params: {
+            today: today,
+            first_day_of_month: first_day_of_month,
+            user_id: userData.userId,
+          },
+        },
+      );
+
+      console.log(res);
+      console.log("너 맞니? : ", userData.userId);
+
+      if (res.data && res.data.totalUsedAmount !== false) {
+        setPayment(prev => ({
+          ...prev,
+          totalUsedAmount: res.data.totalUsedAmount,
+        }));
+        return res.data.totalUsedAmount;
+      } else {
+        console.error("Total used amount is missing");
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
   // 이전 페이지로 가기
   const handleGoBack = () => {
     navigate(-1);
@@ -83,7 +115,6 @@ const UserPage = () => {
     // 세션 스토리지와 컨텍스트 초기화
     sessionStorage.clear();
     setMyPage({});
-    alert("로그아웃합니다.");
     navigate("/login");
   };
 
@@ -93,6 +124,7 @@ const UserPage = () => {
       const parsedData = JSON.parse(storedData);
       setUserData(parsedData.resultData || {});
     }
+    usedMoney();
   }, []);
 
   return (
@@ -147,31 +179,34 @@ const UserPage = () => {
               </a>
             </div>
           </ProfileImg>
+          <div>
+            <p>{userData.nickName}님이 이번달 카투사에</p>
+            <p>투자하신 총 금액은?</p>
+            <div>
+              <span>
+                {payment.totalUsedAmount
+                  ? `${payment.totalUsedAmount}원`
+                  : "0원"}
+              </span>
+              <Link to="/orders" className="jumpLink">
+                더보기
+              </Link>
+            </div>
+          </div>
           <ProfileInfoArea>
             <p>닉네임</p>
             <InputFocus
               type="text"
-              value={userData.nickName}
+              value={userData.nickName || ""}
               onChange={e =>
                 setUserData(prev => ({ ...prev, nickName: e.target.value }))
               }
               placeholder="닉네임을 입력하세요"
-              readOnly={!updataNick ? true : false}
-              updataNick={updataNick}
             />
-            <NicknameButton
-              type="button"
-              onClick={() => {
-                setUpdataNick(true);
-              }}
-              updataNick={updataNick}
-            >
-              수정하기
-            </NicknameButton>
             <p>이메일</p>
             <input
               type="text"
-              value={userData.email}
+              value={userData.email || ""}
               readOnly
               className="noneFocus"
             />

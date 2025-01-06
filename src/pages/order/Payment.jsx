@@ -223,7 +223,7 @@ const Payment = () => {
                 return (
                   <div className="menu" key={index}>
                     <div className="itemInfo">
-                      <p>메뉴 아이디: {item.menuId}</p>
+                      {/* <p>메뉴 아이디: {item.menuId}</p> */}
                       <p className="itemName">{item.menuName}</p>
                       <div className="itemOption">
                         {item.options.map((_item, _index) => {

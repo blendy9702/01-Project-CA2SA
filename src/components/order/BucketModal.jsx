@@ -5,6 +5,8 @@ import { PrimaryButton } from "../../styles/common";
 import { ModalDiv, ModalButton } from "../../styles/order/BucketModal";
 
 const BucketModal = ({ showPopUp, setShowPopup, cafeInfo }) => {
+  const userData = JSON.parse(sessionStorage.getItem("userData"));
+  const userId = userData.resultData.userId;
   const { setOrder, order } = useContext(OrderContext);
   const navigate = useNavigate();
   const handleClickButton = () => {
