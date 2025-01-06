@@ -21,37 +21,7 @@ export const MyPageDiv = styled.div`
   }
 `;
 
-export const ProfileImg = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin: 50px;
-  div {
-    position: relative;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100px;
-    width: 100px;
-    overflow: hidden;
-    img {
-      object-fit: cover;
-      border-radius: 50%;
-      width: 100%;
-      height: 100%;
-    }
-  }
-`;
-
 export const ProfileArea = styled.div`
-<<<<<<< HEAD
-  position: relative;
-  overflow: visible;
-  p {
-    display: flex;
-  }
-=======
->>>>>>> b94fd85bb30a960c5954cf11b3a9c4476caf9ec3
   a {
     position: absolute;
     right: 0;
@@ -60,11 +30,6 @@ export const ProfileArea = styled.div`
     height: 30px;
     background-color: var(--color-gray-900);
     border-radius: 50%;
-<<<<<<< HEAD
-    color: white;
-    text-decoration: none;
-    z-index: 999;
-=======
     color: #fff;
     display: flex;
     align-items: center;
@@ -87,7 +52,6 @@ export const ProfileImg = styled.div`
     > svg {
       font-size: 14px;
     }
->>>>>>> b94fd85bb30a960c5954cf11b3a9c4476caf9ec3
   }
 `;
 

@@ -54,16 +54,10 @@ const UserPage = () => {
   };
 
   const userDelete = async () => {
-    const deletePassword = prompt("회원탈퇴를 위해 비밀번호를 입력하세요.");
-
-    if (!deletePassword) {
-      alert("비밀번호를 입력하세요 :(");
-      return;
-    }
-    console.log("이게 뭔데? : ", deletePassword);
+    const userPassword = prompt("회원탈퇴를 위해 비밀번호를 입력하세요.");
     try {
       const res = await axios.delete("/api/user", {
-        Data: { userId: userData.userId, upw: deletePassword },
+        data: { userId: userData.userId, upw: userPassword },
       });
 
       if (
