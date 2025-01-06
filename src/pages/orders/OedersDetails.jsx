@@ -20,7 +20,9 @@ import DockBar from "../../components/DockBar";
 function OedersDetails() {
   const [searchParams, setSearchParams] = useSearchParams();
   const orderId = parseInt(searchParams.get("orderId"));
-  const userId = searchParams.get("userId");
+  // const userId = searchParams.get("userId");
+  const userData = JSON.parse(sessionStorage.getItem("userData"));
+  const userId = userData.resultData.userId;
   // useNavigate
   const navigate = useNavigate();
   const handleClose = () => {

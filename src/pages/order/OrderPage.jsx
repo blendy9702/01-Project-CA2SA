@@ -14,6 +14,8 @@ import {
 import CafeMap from "../../components/order/CafeMap";
 
 const OrderPage = () => {
+  const userData = JSON.parse(sessionStorage.getItem("userData"));
+  const userId = userData.resultData.userId;
   // useState
   const [cafeInfo, setCafeInfo] = useState({});
 
