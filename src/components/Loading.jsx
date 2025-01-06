@@ -1,19 +1,21 @@
-import { FaSpinner } from "react-icons/fa";
-import { SyncLoader } from "react-spinners";
+import { BiSolidCoffeeBean } from "react-icons/bi";
+import "../styles/Loading.css"; // css import
 const Loading = () => {
   return (
-    <div>
-      <SyncLoader
-        color="#88C200"
-        cssOverride={{}}
-        loading
-        margin={5}
-        speedMultiplier={1}
-      >
-        <div className="spinner-container">
-          <FaSpinner className="spinner-icon" />
-        </div>
-      </SyncLoader>
+    <div
+      style={{
+        position: "fixed",
+        top: "50%",
+        left: "50%",
+        transform: "translate(-50%, -50%)",
+      }}
+    >
+      <div className="loadingIcon">
+        <BiSolidCoffeeBean />
+        <BiSolidCoffeeBean />
+        <BiSolidCoffeeBean />
+      </div>
+      <p>로딩 중입니다</p>
     </div>
   );
 };
