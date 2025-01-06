@@ -59,8 +59,6 @@ const LoginPage = ({ onLoginSuccess }) => {
         email: data.email,
         upw: data.upw,
       });
-      // 로그인
-      console.log("Response Data: ", response.data);
       // context
       setOrder({ ...order, userId: response.data.resultData.userId });
       if (response.data && response.data.resultMessage === "로그인 성공") {

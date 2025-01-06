@@ -78,7 +78,6 @@ const JoinPage = () => {
       const res = await axios.get("/api/user/check-email", {
         params: { email },
       });
-      console.log("서버 응답 데이터:", res.data);
       if (res.data?.resultData === 0) {
         setIsEmailValid(false);
         setEmailError("이미 사용 중인 이메일입니다.");
@@ -99,7 +98,6 @@ const JoinPage = () => {
   const handleSubmitForm = async data => {
     try {
       // 인증코드 전송 API
-      console.log("보내는 데이터:", { email: data.email });
       const email = data.email;
       await axios.post("/api/email-auth/send-code", {
         email,
