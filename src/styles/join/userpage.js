@@ -55,6 +55,35 @@ export const ProfileImg = styled.div`
   }
 `;
 
+export const PaymentArea = styled.div`
+  margin: 30px 0;
+  p {
+    color: var(--color-gray-700);
+    padding: 0px 30%;
+  }
+`;
+
+export const PaymentDiv = styled.div`
+  padding: 10px 30%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  span {
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--color-gray-900);
+  }
+  button {
+    color: var(--primary-color);
+    font-size: 12px;
+    font-weight: 500;
+    border: 0px solid #fff;
+    border-radius: 8px;
+    padding: 8px;
+    cursor: pointer;
+  }
+`;
+
 export const ProfileInfoArea = styled.div`
   position: relative;
   p {

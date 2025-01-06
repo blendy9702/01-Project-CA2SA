@@ -14,15 +14,14 @@ import {
 import { FiSearch } from "react-icons/fi";
 import BucketModal from "../../components/order/BucketModal";
 
-const userData = JSON.parse(sessionStorage.getItem("userData"));
-const userId = userData ? userData.resultData.userId : "임시부여 ID";
-
 const MenuList = () => {
   // 앞에서 보낸 navigate의 state 받아오기
   const { order, setOrder } = useContext(OrderContext);
   // useSearchParams
   const [searchParams, setSearchParams] = useSearchParams();
   const cafeId = parseInt(searchParams.get("cafeId"));
+  const userData = JSON.parse(sessionStorage.getItem("userData"));
+  const userId = userData.resultData.userId;
   // useNavigate
   const navigate = useNavigate();
   const location = useLocation();
@@ -39,7 +38,7 @@ const MenuList = () => {
   const [showPopup, setShowPopup] = useState(false);
 
   const handleNavigateBack = () => {
-    navigate(-1);
+    navigate(`/order?cafeId=${cafeId}`, { state: locationData });
   };
   const handleNavigateMenuOption = item => {
     order.cafeId === cafeId || order.cafeId === ""
@@ -73,7 +72,6 @@ const MenuList = () => {
             return acc.concat(curr);
           }, []);
           setAllMenu(combinedMenuArr);
-          setOrder({ ...order, userId: userId });
         }
       } catch (error) {
         console.log("메뉴 리스트 통신 결과:", error);
@@ -111,7 +109,7 @@ const MenuList = () => {
     .toLocaleString();
 
   useEffect(() => {
-    console.log("order:", order);
+    // console.log("order:", order);
   }, [order]);
 
   // 검색 결과 필터링하기
@@ -214,7 +212,7 @@ const MenuList = () => {
               ) : (
                 <div className="notFound">
                   <div className="thum">
-                    <img src="/images/NoSearch.png" alt="" />
+                    <img src="/images/NoSearch.webp" alt="" />
                   </div>
                   <p>검색 결과가 없습니다.</p>
                 </div>

@@ -4,13 +4,13 @@ import { Link } from "react-router-dom";
 
 const Event = () => {
   const eventData = [
-    "/images/event/image-0.png",
-    "/images/event/image-1.png",
-    "/images/event/image-2.png",
-    "/images/event/image-3.png",
-    "/images/event/image-4.png",
-    "/images/event/image-5.png",
-    "/images/event/image-6.png",
+    "/images/event/image-0.webp",
+    "/images/event/image-1.webp",
+    "/images/event/image-2.webp",
+    "/images/event/image-3.webp",
+    "/images/event/image-4.webp",
+    "/images/event/image-5.webp",
+    "/images/event/image-6.webp",
   ];
   return (
     <div>

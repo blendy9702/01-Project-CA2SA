@@ -1,27 +1,27 @@
 import React, { useContext } from "react";
-import { PrimaryButton } from "../../styles/common";
-import { BucketModalDiv, CancleButton } from "../../styles/order/BucketModal";
-import { CateButton } from "../../styles/order/orderpage";
-import { OrderContext } from "../../contexts/OrderContext";
-import MenuList from "../../pages/order/MenuList";
 import { useNavigate } from "react-router-dom";
+import { OrderContext } from "../../contexts/OrderContext";
+import { PrimaryButton } from "../../styles/common";
+import { ModalDiv, ModalButton } from "../../styles/order/BucketModal";
 
 const BucketModal = ({ showPopUp, setShowPopup, cafeInfo }) => {
+  const userData = JSON.parse(sessionStorage.getItem("userData"));
+  const userId = userData.resultData.userId;
   const { setOrder, order } = useContext(OrderContext);
   const navigate = useNavigate();
   const handleClickButton = () => {
     setShowPopup(false);
     setOrder({
+      ...order,
       pickUpTime: "",
       memo: "",
-      userId: "",
       cafeId: parseInt(cafeInfo.cafeId),
       menuList: [],
       // orderTime: "",
     });
   };
   return (
-    <BucketModalDiv>
+    <ModalDiv>
       <div className="inner">
         <div className="container">
           <div className="content">
@@ -35,7 +35,7 @@ const BucketModal = ({ showPopUp, setShowPopup, cafeInfo }) => {
             </p>
           </div>
           <div className="button-box">
-            <CancleButton
+            <ModalButton
               type="button"
               onClick={() => {
                 navigate(`/order/menu?cafeId=${order.cafeId}`);
@@ -43,14 +43,14 @@ const BucketModal = ({ showPopUp, setShowPopup, cafeInfo }) => {
               }}
             >
               취소
-            </CancleButton>
+            </ModalButton>
             <PrimaryButton type="button" onClick={() => handleClickButton()}>
               담기
             </PrimaryButton>
           </div>
         </div>
       </div>
-    </BucketModalDiv>
+    </ModalDiv>
   );
 };
 

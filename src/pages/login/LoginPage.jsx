@@ -15,6 +15,7 @@ import {
   SignUpButton,
 } from "../../styles/join/loginpage";
 import { UserPageContext } from "../../contexts/UserPageContext";
+import { OrderContext } from "../../contexts/OrderContext";
 
 const loginSchema = yup.object({
   email: yup
@@ -29,6 +30,7 @@ const loginSchema = yup.object({
 });
 
 const LoginPage = ({ onLoginSuccess }) => {
+  const { setOrder, order } = useContext(OrderContext);
   const handleLogin = () => {
     const userData = {
       userId: "",
@@ -57,8 +59,8 @@ const LoginPage = ({ onLoginSuccess }) => {
         email: data.email,
         upw: data.upw,
       });
-      // 로그인
-      console.log("Response Data: ", response.data);
+      // context
+      setOrder({ ...order, userId: response.data.resultData.userId });
       if (response.data && response.data.resultMessage === "로그인 성공") {
         setMyPage(response.data.resultData);
         setLoginError("");
@@ -84,7 +86,7 @@ const LoginPage = ({ onLoginSuccess }) => {
   return (
     <div
       style={{
-        margin: "20px",
+        margin: "0 20px",
       }}
     >
       <LoginTopArea>
@@ -96,7 +98,7 @@ const LoginPage = ({ onLoginSuccess }) => {
         <ServiceTextArea>
           <div>
             <img
-              src="/images/ca2saLogo.png"
+              src="/images/ca2saLogo.webp"
               style={{
                 width: "115px",
               }}

@@ -14,6 +14,8 @@ import {
 import CafeMap from "../../components/order/CafeMap";
 
 const OrderPage = () => {
+  const userData = JSON.parse(sessionStorage.getItem("userData"));
+  const userId = userData.resultData.userId;
   // useState
   const [cafeInfo, setCafeInfo] = useState({});
 
@@ -67,19 +69,14 @@ const OrderPage = () => {
   }, [cafeInfo]);
 
   return (
-    <div style={{ position: "relative", paddingBottom: 30, width: "100%" }}>
+    <div style={{ position: "relative", paddingBottom: 50, width: "100%" }}>
       <NavBar
         onClick={handleNavigateMain}
         icon={"close"}
         title={cafeInfo?.cafeName || "🐈"}
       />
       <ThumImageDiv height={300}>
-        <img
-          src={
-            cafeInfo ? `http://112.222.157.156:5214${cafeInfo?.cafePic}` : ""
-          }
-          ref={imgRef}
-        ></img>
+        <img src={cafeInfo ? cafeInfo?.cafePic : ""} ref={imgRef}></img>
       </ThumImageDiv>
       <LayoutDiv>
         <ContentDiv>
@@ -124,10 +121,10 @@ const OrderPage = () => {
             <div className="map">
               <CafeMap cafeInfo={cafeInfo} />
             </div>
-            <div className="business-number">
+            {/* <div className="business-number">
               <p>사업자 정보 조회</p>
               <IoIosArrowForward className="icon" />
-            </div>
+            </div> */}
           </div>
         </ContentDiv>
         <OrderButton

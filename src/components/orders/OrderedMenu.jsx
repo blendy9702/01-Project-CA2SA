@@ -4,16 +4,19 @@ import { AlternativeButton, PrimaryButton } from "../../styles/common";
 import { OrderedMenuDiv } from "../../styles/orders/orderspage";
 import { OrderContext } from "../../contexts/OrderContext";
 
-const userData = JSON.parse(sessionStorage.getItem("userData"));
-const userId = userData ? userData.resultData.userId : "임시부여 ID";
-
 const OrderedMenu = ({ item }) => {
   // useContext
   const { order, setOrder } = useContext(OrderContext);
+  // const userId = order.userId;
+  const userData = JSON.parse(sessionStorage.getItem("userData"));
+  const userId = userData.resultData.userId;
+  // console.log(userId);
   // useNavigate
   const navigate = useNavigate();
   const handleNavigateOrderDetails = item => {
-    navigate(`/orders/detail?orderId=${item.orderId}`);
+    navigate(`/order/confirmation?userId=${userId}&page=1&size=30`, {
+      state: item,
+    });
   };
   const progressArr = [0, 1, 2, 3];
   const menuInfo = item;
@@ -27,6 +30,10 @@ const OrderedMenu = ({ item }) => {
         return "준비완료";
       case 3:
         return "수령완료";
+      case 5:
+        return "주문취소";
+      case 6:
+        return "주문취소 확정";
       default:
         return "기타";
     }
@@ -45,6 +52,7 @@ const OrderedMenu = ({ item }) => {
   }, 0);
   //상세보기
   const handleClickShowMore = () => {
+    console.log("클릭 아이템", item);
     handleNavigateOrderDetails(item);
   };
   // 재주문
@@ -59,7 +67,7 @@ const OrderedMenu = ({ item }) => {
         return {
           count: item.count,
           options: item.options,
-          menuId: item.orderMenuId,
+          menuId: item.menuId,
           menuName: item.orderMenuName,
           price: item.price,
         };

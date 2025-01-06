@@ -27,7 +27,6 @@ const ConfirmForm = () => {
   const [resendTimer, setResendTimer] = useState(0);
   const [Resend, setResend] = useState(true);
   const location = useLocation();
-  console.log("넘어오는 데이터들 : ", location.state);
   const navigate = useNavigate();
   // context
 
@@ -46,8 +45,6 @@ const ConfirmForm = () => {
         code: code,
       });
 
-      console.log("서버 응답:", res.data);
-
       if (res.data.resultData) {
         const regData = {
           nickName: location.state.nickName,
@@ -55,12 +52,9 @@ const ConfirmForm = () => {
           upw: location.state.upw,
           agree: location.state.agree,
         };
-        console.log("전송되는 데이터:", regData);
 
         // 회원가입 API 호출
         const regSignUp = await axios.post("/api/user/sign-up", regData);
-        console.log("뭐가 올까요?", regSignUp);
-        console.log("회원가입 응답 데이터:", regSignUp.data);
 
         if (regSignUp.data.resultData === 1) {
           setSuccess(true);
@@ -86,7 +80,6 @@ const ConfirmForm = () => {
       const res = await axios.post("/api/email-auth/send-code", {
         email: email,
       });
-      console.log("서버 응답 데이터:", res.data);
       if (res.data.resultData === true) {
         alert("인증 이메일이 재전송되었습니다!");
         setResend(false);

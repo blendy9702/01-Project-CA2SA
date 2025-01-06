@@ -16,6 +16,9 @@ const MenuDetail = () => {
   // useParams
   const [searchParams, setSearchParams] = useSearchParams();
   const menuId = searchParams.get("menuId");
+  const userData = JSON.parse(sessionStorage.getItem("userData"));
+  const userId = userData.resultData.userId;
+  console.log(userId);
   //useNavigate
   const navigate = useNavigate();
   const location = useLocation();
@@ -36,23 +39,27 @@ const MenuDetail = () => {
     // if (order.cafeId !== cafeInfo.cafeId) {
     //   alert("다른 카페입니다.");
     // }
-    navigate(`/order/payment?cafeId=${cafeInfo.cafeId}`, { state: cafeInfo });
+    navigate(`/order/payment?cafeId=${order.cafeId}`, {
+      state: locationData,
+    });
     setOrder({ ...order, cafeId: parseInt(cafeInfo.cafeId) });
   };
 
   // OrderContext
   const { order, setOrder, cartList, setCartList, addCartList } =
     useContext(OrderContext);
-  useEffect(() => {
-    console.log("order:", order);
-  }, [order]);
 
   //useState
   const [optionInfo, setOptionInfo] = useState({});
   const [optionList, setOptionList] = useState([]);
   const [cafeInfo, setCafeInfo] = useState({});
   const [totalPrice, setTotalPrice] = useState(0);
-
+  const [check, setCheck] = useState([]);
+  // 체크된 옵션을 [{menuOptionId:""}]로 바꾸기 위한 useState;
+  const [options, setOptions] = useState([]);
+  useEffect(() => {
+    console.log("체크 배열", check);
+  }, [check]);
   // axios
   useEffect(() => {
     setCafeInfo(locationData);
@@ -67,11 +74,26 @@ const MenuDetail = () => {
         // console.log(`상세 옵션 통신 결과(optionInfo):`, resultData);
         // 옵션만 뽑아서 배열
         const optionInfoArr = [...resultData.detailList];
-        // console.log(optionInfoArr);
+        console.log(optionInfoArr);
         setOptionList(optionInfoArr);
+        setCheck(
+          optionInfoArr.map((item, index) => {
+            return index === 0 ? true : false;
+          }),
+        );
         setTotalPrice(resultData.price);
+        setOptions([
+          ...options,
+          {
+            menuOptionId: optionInfoArr[0].menuOptionId,
+            menuOptionName: optionInfoArr[0].optionName,
+          },
+        ]);
+        setOrder({ ...order, userId: userId });
       } catch (error) {
         console.log(`menuId: ${menuId}의 상세 옵션 통신 결과:`, error);
+        const errorArr = [{ optionName: "통신에러: 옵션이 없는 메뉴입니다." }];
+        setOptionList(errorArr);
       }
     };
     getMenuOption(menuId);
@@ -104,14 +126,31 @@ const MenuDetail = () => {
     setValue("price", totalPrice);
   }, [totalPrice, setValue]);
 
-  // 체크된 옵션을 [{menuOptionId:""}]로 바꾸기 위한 useState;
-  const [options, setOptions] = useState([]);
   //옵션 추가, 가격 추가
-  const handleChange = (e, item) => {
+
+  useEffect(() => {
+    console.log("options:", options);
+  }, [options]);
+
+  // 장바구니에 추가하기
+  const handleSubmitForm = data => {
+    // console.log("formData:", data);
+    const fixedFormData = { ...data, options: options };
+    // addCartList(fixedFormData);
+    setOrder({ ...order, menuList: [...order.menuList, fixedFormData] });
+  };
+  // 체크 클릭했을 때
+  const handleChangeCheck = (e, item, index) => {
+    console.log("클릭 옵션의 체크 상태", check[index]);
     const option = {
       menuOptionName: item.optionName,
       menuOptionId: parseInt(e.target.value),
     };
+    setCheck(prevCheck => {
+      const newCheck = [...prevCheck];
+      newCheck[index] = !prevCheck[index];
+      return newCheck;
+    });
     setOptions(
       prevOptions =>
         e.target.checked
@@ -124,19 +163,17 @@ const MenuDetail = () => {
     } else {
       setTotalPrice(prevPrice => prevPrice - item.addPrice);
     }
+    // 이 후 카테고리 선택지가 늘어나면, 버튼을 누를 때 index에 따라서?
+    if (e.target.checked === true) {
+      setValue(`options[0]`, {
+        menuOptionId: e.target.value,
+      });
+    }
   };
+  useEffect(() => {
+    console.log("order:", order);
+  }, [order]);
 
-  // useEffect(() => {
-  //   console.log("options:", options);
-  // }, [options]);
-
-  // 장바구니에 추가하기
-  const handleSubmitForm = data => {
-    // console.log("formData:", data);
-    const fixedFormData = { ...data, options: options };
-    // addCartList(fixedFormData);
-    setOrder({ ...order, menuList: [...order.menuList, fixedFormData] });
-  };
   return (
     <div style={{ position: "relative", paddingBottom: 70 }}>
       <NavBar
@@ -147,9 +184,7 @@ const MenuDetail = () => {
       <ThumImageDiv height={375}>
         <img
           src={
-            optionInfo?.menuPic
-              ? `http://112.222.157.156:5214${optionInfo.menuPic}`
-              : "/images/order/cat2.jpg"
+            optionInfo?.menuPic ? optionInfo.menuPic : "/images/order/cat2.jpg"
           }
           alt="메뉴 사진"
         />
@@ -180,15 +215,8 @@ const MenuDetail = () => {
                     id={item.menuOptionId}
                     value={item.menuOptionId}
                     {...register("options")}
-                    onChange={e => {
-                      // 이 후 카테고리 선택지가 늘어나면, 버튼을 누를 때 index에 따라서?
-                      if (e.target.checked === true) {
-                        setValue(`options[0]`, {
-                          menuOptionId: e.target.value,
-                        });
-                      }
-                      handleChange(e, item);
-                    }}
+                    onChange={e => handleChangeCheck(e, item, index)}
+                    checked={check[index] ? true : false}
                   />
                   <label htmlFor={item.menuOptionId}>{item.optionName}</label>
                   <span className="optionPrice">+{item.addPrice}원</span>

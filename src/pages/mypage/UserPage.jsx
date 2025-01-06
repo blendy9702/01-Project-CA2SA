@@ -9,6 +9,8 @@ import {
   InputFocus,
   MyPageDiv,
   NicknameButton,
+  PaymentArea,
+  PaymentDiv,
   ProfileArea,
   ProfileImg,
   ProfileInfoArea,
@@ -17,22 +19,23 @@ import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 import { AiFillCamera, AiFillNotification } from "react-icons/ai";
 import { BsFillPatchQuestionFill } from "react-icons/bs";
 import { BiCalendar, BiSolidUser } from "react-icons/bi";
-
+import moment from "moment";
 const UserPage = () => {
+  const [loading, setLoading] = useState(true);
   const [updataNick, setUpdataNick] = useState(false);
+  const [payment, setPayment] = useState(0);
   const { myPage, setMyPage } = useContext(UserPageContext);
   const [userData, setUserData] = useState({});
   const navigate = useNavigate();
   const [upw, setUpw] = useState();
-
+  const today = moment().format("YYYY-MM-DD");
+  const first_day_of_month = moment().startOf("month").format("YYYY-MM-DD");
   const updateNickname = async () => {
     try {
       const res = await axios.put("/api/user/info", {
         userId: userData.userId,
         nickName: userData.nickName,
       });
-      console.log("서버 응답 데이터:", res.data);
-
       if (res.data.resultMessage === "1") {
         alert("닉네임이 변경되었습니다.");
         // 세션 스토리지 업데이트
@@ -40,7 +43,7 @@ const UserPage = () => {
           "userData",
           JSON.stringify({
             ...userData,
-            nickName: userData.nickName,
+            nickName: res.data.nickName,
           }),
         );
       } else {
@@ -48,18 +51,15 @@ const UserPage = () => {
       }
     } catch (error) {
       console.log("닉네임 변경 오류 : ", error);
-      console.error("닉네임 변경 오류:", error.response?.data || error.message);
       alert("닉네임 변경 중 문제가 발생했습니다. 다시 시도해주세요.");
     }
   };
-
   const userDelete = async () => {
     const userPassword = prompt("회원탈퇴를 위해 비밀번호를 입력하세요.");
     try {
       const res = await axios.delete("/api/user", {
         data: { userId: userData.userId, upw: userPassword },
       });
-
       if (
         res.data.resultMessage === "회원정보 삭제 완료" &&
         res.data.resultData === 1
@@ -74,27 +74,57 @@ const UserPage = () => {
       alert("회원탈퇴 중 문제가 발생했습니다. 다시 시도해주세요.");
     }
   };
+  const usedMoney = async () => {
+    try {
+      const res = await axios.get(`/api/user/used?`, {
+        params: {
+          today: today,
+          first_day_of_month: first_day_of_month,
+          user_id: userData.userId,
+        },
+      });
+      if (res.data && res.data.resultData.totalUsedAmount !== null) {
+        setPayment(prev => ({
+          ...prev,
+          totalUsedAmount: res.data.resultData.totalUsedAmount,
+        }));
+        return res.data.resultData.totalUsedAmount;
+      } else {
+        console.error("Total used amount is missing");
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
   // 이전 페이지로 가기
   const handleGoBack = () => {
     navigate(-1);
   };
-
   const handleLogout = () => {
     // 세션 스토리지와 컨텍스트 초기화
     sessionStorage.clear();
     setMyPage({});
-    alert("로그아웃합니다.");
     navigate("/login");
   };
-
+  const handleToOrders = () => {
+    navigate("/orders");
+  };
   useEffect(() => {
     const storedData = sessionStorage.getItem("userData");
     if (storedData) {
       const parsedData = JSON.parse(storedData);
       setUserData(parsedData.resultData || {});
     }
+    setLoading(false);
   }, []);
-
+  useEffect(() => {
+    if (!loading && userData.userId) {
+      usedMoney();
+    }
+  }, [loading, userData]);
+  if (loading) {
+    return;
+  }
   return (
     <div
       style={{
@@ -147,31 +177,40 @@ const UserPage = () => {
               </a>
             </div>
           </ProfileImg>
+          <PaymentArea>
+            <p>{userData.nickName}님이 이번달 카투사에</p>
+            <p>투자하신 총 금액은?</p>
+            <PaymentDiv>
+              <span>
+                {payment.totalUsedAmount
+                  ? `${payment.totalUsedAmount.toLocaleString()}원`
+                  : "0원"}
+              </span>
+              <button onClick={handleToOrders}>더보기</button>
+            </PaymentDiv>
+            <div
+              style={{
+                width: "100%",
+                height: "1px",
+                background: "var(--color-gray-300)",
+                marginTop: "25px",
+              }}
+            ></div>
+          </PaymentArea>
           <ProfileInfoArea>
             <p>닉네임</p>
             <InputFocus
               type="text"
-              value={userData.nickName}
+              value={userData.nickName || ""}
               onChange={e =>
                 setUserData(prev => ({ ...prev, nickName: e.target.value }))
               }
               placeholder="닉네임을 입력하세요"
-              readOnly={!updataNick ? true : false}
-              updataNick={updataNick}
             />
-            <NicknameButton
-              type="button"
-              onClick={() => {
-                setUpdataNick(true);
-              }}
-              updataNick={updataNick}
-            >
-              수정하기
-            </NicknameButton>
             <p>이메일</p>
             <input
               type="text"
-              value={userData.email}
+              value={userData.email || ""}
               readOnly
               className="noneFocus"
             />
@@ -205,10 +244,10 @@ const UserPage = () => {
                     }}
                   />
                   공지사항
+                  <IoIosArrowForward
+                    style={{ fontSize: "12px", color: "var(--color-gray-500)" }}
+                  />
                 </Link>
-                <IoIosArrowForward
-                  style={{ fontSize: "12px", color: "var(--color-gray-500)" }}
-                />
               </div>
               <div>
                 <Link
@@ -227,10 +266,10 @@ const UserPage = () => {
                     }}
                   />
                   자주 묻는 질문
+                  <IoIosArrowForward
+                    style={{ fontSize: "12px", color: "var(--color-gray-500)" }}
+                  />
                 </Link>
-                <IoIosArrowForward
-                  style={{ fontSize: "12px", color: "var(--color-gray-500)" }}
-                />
               </div>
               <div>
                 <Link
@@ -249,10 +288,10 @@ const UserPage = () => {
                     }}
                   />
                   카투사 출석부
+                  <IoIosArrowForward
+                    style={{ fontSize: "12px", color: "var(--color-gray-500)" }}
+                  />
                 </Link>
-                <IoIosArrowForward
-                  style={{ fontSize: "12px", color: "var(--color-gray-500)" }}
-                />
               </div>
             </InfoBox_1>
           </label>
@@ -274,10 +313,10 @@ const UserPage = () => {
                   }}
                 >
                   서비스 이용약관
+                  <IoIosArrowForward
+                    style={{ fontSize: "12px", color: "var(--color-gray-500)" }}
+                  />
                 </Link>
-                <IoIosArrowForward
-                  style={{ fontSize: "12px", color: "var(--color-gray-500)" }}
-                />
               </div>
               <div>
                 <Link
@@ -287,10 +326,10 @@ const UserPage = () => {
                   }}
                 >
                   개인정보 처리 방침
+                  <IoIosArrowForward
+                    style={{ fontSize: "12px", color: "var(--color-gray-500)" }}
+                  />
                 </Link>
-                <IoIosArrowForward
-                  style={{ fontSize: "12px", color: "var(--color-gray-500)" }}
-                />
               </div>
               <div>
                 <Link
@@ -300,10 +339,10 @@ const UserPage = () => {
                   }}
                 >
                   마케팅 정보 수집 및 수신 동의
+                  <IoIosArrowForward
+                    style={{ fontSize: "12px", color: "var(--color-gray-500)" }}
+                  />
                 </Link>
-                <IoIosArrowForward
-                  style={{ fontSize: "12px", color: "var(--color-gray-500)" }}
-                />
               </div>
               <div>
                 <Link
@@ -313,10 +352,10 @@ const UserPage = () => {
                   }}
                 >
                   결제대행 서비스 이용약관
+                  <IoIosArrowForward
+                    style={{ fontSize: "12px", color: "var(--color-gray-500)" }}
+                  />
                 </Link>
-                <IoIosArrowForward
-                  style={{ fontSize: "12px", color: "var(--color-gray-500)" }}
-                />
               </div>
             </InfoBox_2>
           </label>
@@ -351,5 +390,4 @@ const UserPage = () => {
     </div>
   );
 };
-
 export default UserPage;

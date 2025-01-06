@@ -37,6 +37,9 @@ const loginSchema = yup.object({
     .min(4, "비밀번호는 최소 4자리입니다.")
     .max(12, "비밀번호는 최대 12자리입니다. ")
     .required("비밀번호는 필수 입니다."),
+  passwordCheck: yup
+    .string()
+    .oneOf([yup.ref("upw"), null], "패스워드가 일치하지 않습니다."),
 });
 
 const JoinPage = () => {
@@ -47,7 +50,7 @@ const JoinPage = () => {
     formState: { errors, isValid },
   } = useForm({
     resolver: yupResolver(loginSchema),
-    defaultValues: { nickName: "", email: "", upw: "", agree: 1 },
+    defaultValues: { nickName: "", email: "", upw: "" },
     mode: "onChange",
   });
 
@@ -64,13 +67,10 @@ const JoinPage = () => {
     nickName: "",
     email: "",
     upw: "",
-    agree: 1,
   });
 
   // 패스워드 일치 확인
   const email = watch("email");
-  const password = watch("upw");
-  const passwordCheck = watch("passwordCheck");
 
   // 이메일 중복 확인
   const handleEmailValidation = async email => {
@@ -78,7 +78,6 @@ const JoinPage = () => {
       const res = await axios.get("/api/user/check-email", {
         params: { email },
       });
-      console.log("서버 응답 데이터:", res.data);
       if (res.data?.resultData === 0) {
         setIsEmailValid(false);
         setEmailError("이미 사용 중인 이메일입니다.");
@@ -99,7 +98,6 @@ const JoinPage = () => {
   const handleSubmitForm = async data => {
     try {
       // 인증코드 전송 API
-      console.log("보내는 데이터:", { email: data.email });
       const email = data.email;
       await axios.post("/api/email-auth/send-code", {
         email,
@@ -134,11 +132,8 @@ const JoinPage = () => {
   };
 
   useEffect(() => {
-    const passwordsMatch = password === passwordCheck;
-    setFormValid(
-      isValid && radioState.essential && passwordsMatch && isEmailChecked,
-    );
-  }, [isValid, radioState.essential, password, passwordCheck, isEmailChecked]);
+    setFormValid(isValid && radioState.essential && isEmailChecked);
+  }, [isValid, radioState.essential, isEmailChecked]);
 
   return (
     <JoinPageWrap>
@@ -169,7 +164,7 @@ const JoinPage = () => {
                 {...register("nickName")}
                 placeholder="닉네임을 입력해 주세요."
               />
-              <p style={{ color: "var(--error-clolr)", marginTop: "5px" }}>
+              <p style={{ color: "var(--error-clolr)" }}>
                 {errors.nickName?.message}
               </p>
             </JoinPageNickName>
@@ -185,7 +180,7 @@ const JoinPage = () => {
                 style={{
                   color: "var(--error-clolr)",
                   fontSize: "14px",
-                  marginTop: "5px",
+                  marginTop: 2,
                 }}
               >
                 {errors.email?.message}
@@ -194,7 +189,6 @@ const JoinPage = () => {
                 style={{
                   color: "var(--error-clolr)",
                   fontSize: "14px",
-                  marginTop: "5px",
                 }}
               >
                 {emailError}
@@ -219,7 +213,7 @@ const JoinPage = () => {
                 style={{
                   color: "var(--error-clolr)",
                   fontSize: "14px",
-                  marginTop: "5px",
+                  marginTop: 2,
                 }}
               >
                 {errors.upw?.message}
@@ -229,19 +223,17 @@ const JoinPage = () => {
                 type="password"
                 {...register("passwordCheck")}
                 placeholder="비밀번호를 재입력해 주세요."
-                style={{ marginTop: "20px" }}
+                style={{ marginTop: "10px" }}
               />
-              {password !== passwordCheck && (
-                <div
-                  style={{
-                    color: "var(--error-clolr)",
-                    fontSize: "14px",
-                    marginTop: "5px",
-                  }}
-                >
-                  비밀번호가 일치하지 않습니다.
-                </div>
-              )}
+              <div
+                style={{
+                  color: "var(--error-clolr)",
+                  fontSize: "14px",
+                  marginTop: "5px",
+                }}
+              >
+                {errors.passwordCheck?.message}
+              </div>
             </JoinPagePassword>
           </JoinPageTextArea>
           <JoinPageCheckArea>

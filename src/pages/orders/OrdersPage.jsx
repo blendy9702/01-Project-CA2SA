@@ -1,7 +1,7 @@
 import axios from "axios";
 import moment from "moment/moment";
-import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useContext, useEffect, useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 import DockBar from "../../components/DockBar";
 import NavBar from "../../components/order/NavBar";
 import {
@@ -11,13 +11,22 @@ import {
   PeriodButton,
 } from "../../styles/order/orderpage";
 import OrderedMenu from "../../components/orders/OrderedMenu";
+import { OrderContext } from "../../contexts/OrderContext";
 
 // 주문 조회 기간(일 기준)
 const perriodArr = [7, 30, 90, 180, 360];
 
 const OrdersPage = () => {
-  const userInfo = JSON.parse(sessionStorage.getItem("userData"));
-  const userId = userInfo.resultData.userId;
+  const location = useLocation();
+  const locationData = location.state;
+  console.log("이전 페이지에서 보낸 데이터:", locationData);
+  const { order } = useContext(OrderContext);
+  useEffect(() => {
+    // console.log(order);
+  }, [order]);
+  // const userId = order.userId;
+  const userData = JSON.parse(sessionStorage.getItem("userData"));
+  const userId = userData.resultData.userId;
   // uesNavigate
   const navigate = useNavigate();
   const handleNavigateHome = () => {
@@ -28,6 +37,7 @@ const OrdersPage = () => {
   const [orderList, setOrderList] = useState([]);
   const [selectedPeriod, setSelectedPeriod] = useState(0);
   const [filterdData, setFilterdData] = useState([]);
+  const [dayFilterData, setDayFilterData] = useState([]);
 
   // 주문 조회
   useEffect(() => {
@@ -47,14 +57,20 @@ const OrdersPage = () => {
             `[]`,
           );
         });
+        const dayFilteredArr = resultData.filter(
+          item =>
+            moment(item.createdAt).format("YYYY-MM-DD") ===
+            moment(locationData).format("YYYY-MM-DD"),
+        );
+        setDayFilterData(dayFilteredArr);
         setFilterdData(filterdArr);
-        console.log(filterdArr);
+        // console.log(filterdArr);
       } catch (error) {
         console.log(error);
       }
     };
     getOrderList();
-    console.log(perriodArr[selectedPeriod]);
+    // console.log(perriodArr[selectedPeriod]);
   }, []);
 
   // 클릭 시 기간 변경
@@ -89,34 +105,49 @@ const OrdersPage = () => {
     setFilterdData(filterdArr);
   }, [selectedPeriod]);
 
+  useEffect(() => {
+    console.log("일자 필터 데이터:", dayFilterData);
+  }, [dayFilterData]);
+
   return (
     <div style={{ paddingBottom: 80 }}>
       <NavBar onClick={handleNavigateHome} title={"주문 내역"} icon={"back"} />
       <LayoutDiv>
-        {/* 기간 설정 */}
-        <ContainerDiv>
-          <CateListDiv>
-            {perriodArr.map((item, index) => {
-              return (
-                <PeriodButton
-                  key={index}
-                  type="button"
-                  onClick={() => handleClickPeriod(index)}
-                  isSelected={selectedPeriod === index}
-                >
-                  {makePeriodName(item)}
-                </PeriodButton>
-              );
-            })}
-          </CateListDiv>
-        </ContainerDiv>
+        {locationData ? null : (
+          // 기간 설정
+          <ContainerDiv>
+            <CateListDiv>
+              {perriodArr.map((item, index) => {
+                return (
+                  <PeriodButton
+                    key={index}
+                    type="button"
+                    onClick={() => handleClickPeriod(index)}
+                    isSelected={selectedPeriod === index}
+                  >
+                    {makePeriodName(item)}
+                  </PeriodButton>
+                );
+              })}
+            </CateListDiv>
+          </ContainerDiv>
+        )}
         {/* 기간 별 조회 결과 */}
         <ContainerDiv>
-          {filterdData
+          {locationData
+            ? dayFilterData.map((item, index) => {
+                return <OrderedMenu key={index} item={item} />;
+              })
+            : filterdData
+              ? filterdData.map((item, index) => {
+                  return <OrderedMenu key={index} item={item} />;
+                })
+              : "정보를 불러오는 중입니다."}
+          {/* {filterdData
             ? filterdData.map((item, index) => {
                 return <OrderedMenu key={index} item={item} />;
               })
-            : "정보를 불러오는 중입니다."}
+            : "정보를 불러오는 중입니다."} */}
         </ContainerDiv>
       </LayoutDiv>
       <DockBar />

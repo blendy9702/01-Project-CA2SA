@@ -31,7 +31,7 @@ function Header() {
     <div>
       <HeaderWrap>
         <h1>
-          <img src="images/ca2saLogo.png" alt="logo" />
+          <img src="images/ca2saLogo.webp" alt="logo" />
         </h1>
         <FiSearch onClick={handleClickSearch} />
       </HeaderWrap>
