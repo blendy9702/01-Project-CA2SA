@@ -17,6 +17,8 @@ const MapMarkerStyle = styled.div`
       : "var(--color-gray-900)"}; /* 활성화 상태에 따라 글자색 변경 */
   box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
   border-radius: 16px;
+  z-index: ${props =>
+    props.isActive ? "1" : "0"}; /* 활성화 상태에 따라 글자색 변경 */
 
   &:after {
     content: "";
@@ -54,7 +56,13 @@ const MarkerPos = styled.div`
   cursor: pointer;
 `;
 
-const MapStyle = styled.div``;
+const MapStyle = styled.div`
+  .mapMarker {
+    &:last-child {
+      z-index: 1;
+    }
+  }
+`;
 const MapMain = () => {
   const [cafeData, setCafeData] = useState([]);
   const [openInfo, setOpenInfo] = useState(null);
