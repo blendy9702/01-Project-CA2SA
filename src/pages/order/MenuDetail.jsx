@@ -92,6 +92,8 @@ const MenuDetail = () => {
         setOrder({ ...order, userId: userId });
       } catch (error) {
         console.log(`menuId: ${menuId}의 상세 옵션 통신 결과:`, error);
+        const errorArr = [{ optionName: "통신에러: 옵션이 없는 메뉴입니다." }];
+        setOptionList(errorArr);
       }
     };
     getMenuOption(menuId);
