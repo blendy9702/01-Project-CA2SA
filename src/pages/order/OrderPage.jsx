@@ -69,7 +69,7 @@ const OrderPage = () => {
   }, [cafeInfo]);
 
   return (
-    <div style={{ position: "relative", paddingBottom: 30, width: "100%" }}>
+    <div style={{ position: "relative", paddingBottom: 50, width: "100%" }}>
       <NavBar
         onClick={handleNavigateMain}
         icon={"close"}
@@ -121,10 +121,10 @@ const OrderPage = () => {
             <div className="map">
               <CafeMap cafeInfo={cafeInfo} />
             </div>
-            <div className="business-number">
+            {/* <div className="business-number">
               <p>사업자 정보 조회</p>
               <IoIosArrowForward className="icon" />
-            </div>
+            </div> */}
           </div>
         </ContentDiv>
         <OrderButton

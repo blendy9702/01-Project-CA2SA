@@ -38,7 +38,7 @@ const MenuList = () => {
   const [showPopup, setShowPopup] = useState(false);
 
   const handleNavigateBack = () => {
-    navigate(-1);
+    navigate(`/order?cafeId=${cafeId}`, { state: locationData });
   };
   const handleNavigateMenuOption = item => {
     order.cafeId === cafeId || order.cafeId === ""
@@ -212,7 +212,7 @@ const MenuList = () => {
               ) : (
                 <div className="notFound">
                   <div className="thum">
-                    <img src="/images/NoSearch.png" alt="" />
+                    <img src="/images/NoSearch.webp" alt="" />
                   </div>
                   <p>검색 결과가 없습니다.</p>
                 </div>

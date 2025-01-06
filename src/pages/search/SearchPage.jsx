@@ -215,7 +215,7 @@ const SearchPage = () => {
               {searchResults.menuResults.length === 0 &&
                 searchResults.cafeResults.length === 0 && (
                   <NoSearchRes>
-                    <img src="/images/NoSearch.png" alt="" />
+                    <img src="/images/NoSearch.webp" alt="" />
                     <p>검색 결과가 없습니다.</p>
                   </NoSearchRes>
                 )}

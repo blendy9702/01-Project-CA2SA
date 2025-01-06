@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Calendar from "react-calendar";
 import DockBar from "../../components/DockBar";
 import "../../styles/attendance.css"; // css import
@@ -8,15 +8,20 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { HeaderWrap } from "../terms/Service";
 import { IoIosArrowBack } from "react-icons/io";
+import moment from "moment";
 
 const Attendance = () => {
   const [date, setDate] = useState(new Date());
   const [orderData, setOrderData] = useState([]); // 주문 데이터
+  const [selectedDate, setSelectedDate] = useState(null); //날짜 확인용
   const userInfo = JSON.parse(sessionStorage.getItem("userData"));
   const userId = userInfo?.resultData?.userId;
 
   const navigate = useNavigate();
-
+  const tileRef = useRef(null);
+  useEffect(() => {
+    console.log(tileRef.current);
+  }, []);
   useEffect(() => {
     const OrderData = async () => {
       try {
@@ -34,11 +39,22 @@ const Attendance = () => {
     OrderData(); // 데이터 가져오기
   }, []);
 
+  // 해당 날짜 확인
+  const handleDayClick = value => {
+    const selectedDay = moment(value).format("YYYY-MM-DD");
+    setSelectedDate(selectedDay); // 선택한 날짜를 상태로 저장
+    console.log("Selected date:", selectedDay);
+    navigate(`/orders`, { state: selectedDay });
+  };
+
   const fixTimezoneOffset = date => {
     const newDate = new Date(date);
     newDate.setUTCHours(newDate.getUTCHours() + 9); // 한국 시간대에 맞게 9시간 더하기
     return newDate;
   };
+  useEffect(() => {
+    // console.log("오더데이터", orderData);
+  }, [orderData]);
 
   const getTileContent = ({ date, view }) => {
     if (view === "month") {
@@ -71,11 +87,14 @@ const Attendance = () => {
         // 클릭 이벤트 처리
         return (
           <div
-            onClick={
-              () => navigate(`/orders`)
-              // matchingOrder.orderMenuList.length > 0 &&
-              // navigate(`/orders/detail?orderId=${matchingOrder.orderId}`)
-            }
+            ref={tileRef}
+            // onClick={
+            //   () => {
+            //     navigate(`/orders`);
+            //   }
+            // matchingOrder.orderMenuList.length > 0 &&
+            // navigate(`/orders/detail?orderId=${matchingOrder.orderId}`)
+            // }
             style={{
               cursor:
                 matchingOrder.orderMenuList.length > 0 ? "pointer" : "default",
@@ -131,6 +150,7 @@ const Attendance = () => {
         formatDay={(locale, date) => date.getDate()}
         navigationLabel={customNavigationLabel} // 네비게이션 라벨을 커스텀
         tileContent={getTileContent}
+        onClickDay={handleDayClick}
       ></Calendar>
 
       <DockBar />

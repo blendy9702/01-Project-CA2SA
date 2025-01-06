@@ -63,6 +63,7 @@ const Agree = styled(Link)`
 
 const ListMain = () => {
   const [cafeData, setCafeData] = useState([]); // API 데이터를 저장할 state
+  const [menuData, setMenuData] = useState([]); // API 데이터를 저장할 state
   const [state, setState] = useState({
     center: {
       lat: 35.868408,
@@ -73,13 +74,13 @@ const ListMain = () => {
   });
 
   const slideData = [
-    "images/main_visual_image-2.png",
-    "images/main_visual_image-1.png",
-    "images/main_visual_image-3.png",
-    "images/main_visual_image-4.png",
-    "images/main_visual_image-5.png",
-    "images/main_visual_image-6.png",
-    "images/main_visual_image-7.png",
+    "images/main_visual_image-2.webp",
+    "images/main_visual_image-1.webp",
+    "images/main_visual_image-3.webp",
+    "images/main_visual_image-4.webp",
+    "images/main_visual_image-5.webp",
+    "images/main_visual_image-6.webp",
+    "images/main_visual_image-7.webp",
   ];
 
   const cafeInfo = async () => {
@@ -94,8 +95,21 @@ const ListMain = () => {
       console.log(error);
     }
   };
+  const menuInfo = async () => {
+    try {
+      const res = await axios.get(
+        `api/cafe?search_menu_name=딸기&max_distance=1000&user_latitude=${state.center.lat}&user_longitude=${state.center.lng}`,
+      );
+      console.log("Response Data:", res.data);
+      setMenuData(res.data.resultData);
+      console.log(setMenuData);
+    } catch (error) {
+      console.log(error);
+    }
+  };
   useEffect(() => {
     cafeInfo();
+    menuInfo();
   }, []);
 
   useEffect(() => {
@@ -169,17 +183,51 @@ const ListMain = () => {
             ))}
         </Swiper>
       </div>
+      <div>
+        <TitleFlex>
+          <h2>
+            요즘은 <span style={{ color: "var(--primary-color)" }}>라떼</span>가
+            인기!
+          </h2>
+        </TitleFlex>
+        <Swiper
+          slidesPerView={3}
+          spaceBetween={10}
+          pagination={{
+            clickable: true,
+          }}
+          breakpoints={{
+            480: {
+              slidesPerView: 3, // 뷰포트가 480px 이상일 때
+            },
+            0: {
+              slidesPerView: 2.5, // 뷰포트가 480px 미만일 때
+            },
+          }}
+          modules={[Pagination]}
+          className="mySwiper"
+        >
+          {menuData
+            .slice() // 원본 배열을 복사하여 정렬 시 원본 배열 변경 방지
+            .sort((a, b) => a.distance - b.distance) // distance를 기준으로 오름차순 정렬
+            .map(cafe => (
+              <SwiperSlide key={cafe.cafeId}>
+                <ListBox cafe={cafe} />
+              </SwiperSlide>
+            ))}
+        </Swiper>
+      </div>
 
       <BannerWrap to="/terms/FAQ" style={{ marginTop: "30px" }}>
-        <img src="images/qna_banner.png" alt="QNABanner" />
+        <img src="images/qna_banner.webp" alt="QNABanner" />
       </BannerWrap>
       <BannerWrap to="/terms/event" style={{ margin: "20px 0 30px 0" }}>
-        <img src="images/Frame 307.png" alt="eventBanner" />
+        <img src="images/Frame 307.webp" alt="eventBanner" />
       </BannerWrap>
       <FooterStyle>
         <h1 style={{ width: "80px" }}>
           <img
-            src="images/footerca2saLogo.png"
+            src="images/footerca2saLogo.webp"
             alt=""
             style={{ width: "100%", height: "100%", objectFit: "cover" }}
           />
