@@ -21,16 +21,25 @@ import { BsFillPatchQuestionFill } from "react-icons/bs";
 import { BiCalendar, BiSolidUser } from "react-icons/bi";
 import moment from "moment";
 
+const userSessionData = JSON.parse(sessionStorage.getItem("userData"));
+const userSessionId = userSessionData?.resultData
+  ? userSessionData.resultData.userId
+  : "임시부여 아이디";
 const UserPage = () => {
   const [loading, setLoading] = useState(true);
   const [updataNick, setUpdataNick] = useState(false);
   const [payment, setPayment] = useState(0);
   const { myPage, setMyPage } = useContext(UserPageContext);
   const [userData, setUserData] = useState({});
-  const navigate = useNavigate();
   const [upw, setUpw] = useState();
+  const navigate = useNavigate();
+
   const today = moment().format("YYYY-MM-DD");
   const first_day_of_month = moment().startOf("month").format("YYYY-MM-DD");
+
+  console.log("달의 첫날:", first_day_of_month);
+  console.log("오늘:", today);
+
 
   const updateNickname = async () => {
     try {
@@ -80,6 +89,20 @@ const UserPage = () => {
       alert("회원탈퇴 중 문제가 발생했습니다. 다시 시도해주세요.");
     }
   };
+
+  // 소비한 돈
+  useEffect(() => {
+    try {
+      const getMoney = async () => {
+        const res = await axios.get(
+          `/api/user/used?first_day_of_month=${first_day_of_month}&user_id=${userSessionId}&today=${today}`,
+        );
+        console.log("소비금액", res.data);
+        const resultData = res.data.resultData;
+        setPayment(resultData.totalUsedAmount);
+      };
+      getMoney();
+
   const usedMoney = async () => {
     try {
       const res = await axios.get(`/api/user/used?`, {
@@ -99,10 +122,39 @@ const UserPage = () => {
       } else {
         console.error("Total used amount is missing");
       }
+
     } catch (error) {
       console.log(error);
     }
-  };
+
+    // const usedMoney = async () => {
+    //   try {
+    //     const res = await axios.get(
+    //       `/api/user/used?first_day_of_month=${first_day_of_month}&user_id=${userData.userId}}&today=${today}`,
+    //       {
+    //         today: today,
+    //         first_day_of_month: first_day_of_month,
+    //         user_id: userData.userId,
+    //       },
+    //     );
+    //     console.log(res);
+    //     console.log("너 맞니? : ", userData.userId);
+    //     if (res.data && res.data.totalUsedAmount !== false) {
+    //       setPayment(prev => ({
+    //         ...prev,
+    //         totalUsedAmount: res.data.totalUsedAmount,
+    //       }));
+    //       return res.data.totalUsedAmount;
+    //     } else {
+    //       console.error("Total used amount is missing");
+    //     }
+    //   } catch (error) {
+    //     console.log(error);
+    //   }
+    // };
+    // usedMoney();
+  }, []);
+
   // 이전 페이지로 가기
   const handleGoBack = () => {
     navigate(-1);
@@ -125,6 +177,17 @@ const UserPage = () => {
       const parsedData = JSON.parse(storedData);
       setUserData(parsedData.resultData || {});
     }
+
+  }, []);
+
+  // userData
+  useEffect(() => {
+    console.log("유저 데이터", userData);
+  }, [userData]);
+  useEffect(() => {
+    console.log(payment);
+  }, [payment]);
+
     setLoading(false);
   }, []);
 
@@ -137,6 +200,7 @@ const UserPage = () => {
   if (loading) {
     return;
   }
+
 
   return (
     <div
@@ -193,6 +257,15 @@ const UserPage = () => {
           <PaymentArea>
             <p>{userData.nickName}님이 이번달 카투사에</p>
             <p>투자하신 총 금액은?</p>
+
+            <div>
+              <span>{payment ? `${payment}원` : "0원"}</span>
+              <Link to="/orders" className="jumpLink">
+                더보기
+              </Link>
+            </div>
+          </div>
+
             <PaymentDiv>
               <span>
                 {payment.totalUsedAmount
@@ -210,6 +283,7 @@ const UserPage = () => {
               }}
             ></div>
           </PaymentArea>
+
           <ProfileInfoArea>
             <p>닉네임</p>
             <InputFocus

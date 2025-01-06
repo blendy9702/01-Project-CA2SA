@@ -21,9 +21,10 @@ function Confirmation() {
   const navigate = useNavigate();
   const location = useLocation();
   const locationData = location.state;
+  console.log("이전 페이지의 데이터", locationData);
 
   const handleNavigateClose = () => {
-    navigate("/");
+    navigate("/orders");
   };
   const handleNavigateOrderDetails = () => {
     navigate(`/orders/detail?userId=${userId}&orderId=${orderId}`);
@@ -37,10 +38,14 @@ function Confirmation() {
         );
         console.log("주문 확인 결과:", res.data);
         const resultData = res.data.resultData;
-        const nowOrder = resultData[0];
+        const nowOrder = locationData
+          ? resultData.filter(item => item.orderId === locationData.orderId)[0]
+          : resultData[0];
+        const progress = nowOrder.orderProgress;
+        console.log({ nowOrder: nowOrder, Progress: progress });
         setOrderedList(resultData);
         setResentOrder(nowOrder);
-        setNowProgress(nowOrder.orderProgress);
+        setNowProgress(progress);
       } catch (error) {
         console.log(error);
       }
@@ -57,25 +62,46 @@ function Confirmation() {
   const orderMenuList = recentOrder.orderMenuList || [];
   const orderId = recentOrder.orderId;
   // axios
-  useEffect(() => {
-    const getOrder = async data => {
-      try {
-        const res = await axios.get(
-          `/api/order?signed_user_id=${userId}&page=1&size=30`,
-        );
-        console.log("res.data", res.data);
-        const resultData = res.data.resultData;
-        setResentOrder(resultData[0]);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    // getOrder(userId);
-  }, []);
+  // useEffect(() => {
+  //   const getOrder = async data => {
+  //     try {
+  //       const res = await axios.get(
+  //         `/api/order?signed_user_id=${userId}&page=1&size=30`,
+  //       );
+  //       console.log("res.data", res.data);
+  //       const resultData = res.data.resultData;
+  //       setResentOrder(resultData[0]);
+  //     } catch (error) {
+  //       console.log(error);
+  //     }
+  //   };
+  // getOrder(userId);
+  // }, []);
   useEffect(() => {
     console.log("현재 진행도", nowProgress);
   }, [nowProgress]);
-
+  useEffect(() => {
+    console.log("현재 화면의 주문", recentOrder);
+  }, [recentOrder]);
+  // 주문 진행도 확인
+  const makeProgressName = item => {
+    switch (item) {
+      case 0:
+        return "주문이 접수되었습니다.";
+      case 1:
+        return "준비이 준비중입니다.";
+      case 2:
+        return "상품이 준비되었습니다.";
+      case 3:
+        return "상품이 수령되었습니다.";
+      case 5:
+        return "주문이 취소되었습니다.";
+      case 6:
+        return "주문취소가 확정되었습니다.";
+      default:
+        return "기타";
+    }
+  };
   return (
     <div style={{ position: "relative", paddingBottom: 30, width: "100%" }}>
       <NavBar
@@ -89,7 +115,7 @@ function Confirmation() {
           <h4 style={{ color: "var(--primary-color)" }}>
             {recentOrder ? recentOrder.cafeName : "정보가 없습니다."}
           </h4>
-          <h2>주문을 확인하고 있습니다.</h2>
+          <h2>{makeProgressName(nowProgress)}</h2>
           <div className="porogress-box">
             <div className="inProgress">
               {progressArr.map((item, index) => {
@@ -166,14 +192,17 @@ function Confirmation() {
               </i>
             </button>
           </div>
-          <div className="toLink">
-            <button type="button" onClick={() => setShowCancleModal(true)}>
-              주문 취소하기{" "}
-              <i>
-                <IoIosArrowForward />
-              </i>
-            </button>
-          </div>
+          {nowProgress > 0 ? null : (
+            <div className="toLink">
+              <button type="button" onClick={() => setShowCancleModal(true)}>
+                주문 취소하기{" "}
+                <i>
+                  <IoIosArrowForward />
+                </i>
+              </button>
+            </div>
+          )}
+
           {showCancleModal ? (
             <CancleModal
               showCancleModal={showCancleModal}

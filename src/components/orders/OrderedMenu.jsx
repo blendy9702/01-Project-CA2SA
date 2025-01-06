@@ -14,7 +14,9 @@ const OrderedMenu = ({ item }) => {
   // useNavigate
   const navigate = useNavigate();
   const handleNavigateOrderDetails = item => {
-    navigate(`/orders/detail?userId=${userId}&orderId=${item.orderId}`);
+    navigate(`/order/confirmation?userId=${userId}&page=1&size=30`, {
+      state: item,
+    });
   };
   const progressArr = [0, 1, 2, 3];
   const menuInfo = item;
@@ -50,6 +52,7 @@ const OrderedMenu = ({ item }) => {
   }, 0);
   //상세보기
   const handleClickShowMore = () => {
+    console.log("클릭 아이템", item);
     handleNavigateOrderDetails(item);
   };
   // 재주문

@@ -271,9 +271,9 @@ export const ContainerDiv = styled.div`
     display: flex;
     align-items: center;
     justify-content: end;
-    padding: 10px 0;
+    padding: 10px;
     &:last-child {
-      padding: 0;
+      padding: 10px;
     }
     button {
       display: flex;
