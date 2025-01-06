@@ -35,12 +35,13 @@ const UserPage = () => {
 
       if (res.data.resultMessage === "1") {
         alert("닉네임이 변경되었습니다.");
+
         // 세션 스토리지 업데이트
         sessionStorage.setItem(
           "userData",
           JSON.stringify({
             ...userData,
-            nickName: userData.nickName,
+            nickName: res.data.nickName,
           }),
         );
       } else {
@@ -91,7 +92,7 @@ const UserPage = () => {
     const storedData = sessionStorage.getItem("userData");
     if (storedData) {
       const parsedData = JSON.parse(storedData);
-      setUserData(parsedData.resultData || {});
+      setUserData(parsedData);
     }
   }, []);
 
