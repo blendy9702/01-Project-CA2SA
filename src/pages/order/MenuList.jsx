@@ -38,7 +38,7 @@ const MenuList = () => {
   const [showPopup, setShowPopup] = useState(false);
 
   const handleNavigateBack = () => {
-    navigate(-1);
+    navigate(`/order?cafeId=${cafeId}`, { state: locationData });
   };
   const handleNavigateMenuOption = item => {
     order.cafeId === cafeId || order.cafeId === ""
