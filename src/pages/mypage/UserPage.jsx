@@ -312,76 +312,75 @@ const UserPage = () => {
               marginTop: "25px",
             }}
           ></div>
-          <label>
+          <div>
             <InfoBox_1>
-              <div>
-                <Link
-                  to="/terms/notice"
-                  style={{
-                    color: "var(--color-gray-700)",
-                    display: "flex",
-                    justifyContent: "center",
-                    alignItems: "center",
-                    gap: "10px",
-                  }}
-                >
+              <Link
+                to="/terms/notice"
+                style={{
+                  color: "var(--color-gray-700)",
+                  display: "flex",
+                  justifyContent: "space-between",
+                  alignItems: "center",
+                }}
+              >
+                <div>
                   <AiFillNotification
                     style={{
                       color: "var(--color-gray-300)",
                     }}
                   />
                   공지사항
-                </Link>
+                </div>
                 <IoIosArrowForward
                   style={{ fontSize: "12px", color: "var(--color-gray-500)" }}
                 />
-              </div>
-              <div>
-                <Link
-                  to="/terms/FAQ"
-                  style={{
-                    color: "var(--color-gray-700)",
-                    display: "flex",
-                    justifyContent: "center",
-                    alignItems: "center",
-                    gap: "10px",
-                  }}
-                >
+              </Link>
+
+              <Link
+                to="/terms/FAQ"
+                style={{
+                  color: "var(--color-gray-700)",
+                  display: "flex",
+                  justifyContent: "space-between",
+                  alignItems: "center",
+                }}
+              >
+                <div>
                   <BsFillPatchQuestionFill
                     style={{
                       color: "var(--color-gray-300)",
                     }}
                   />
                   자주 묻는 질문
-                </Link>
+                </div>
                 <IoIosArrowForward
                   style={{ fontSize: "12px", color: "var(--color-gray-500)" }}
                 />
-              </div>
-              <div>
-                <Link
-                  to="/calendar"
-                  style={{
-                    color: "var(--color-gray-700)",
-                    display: "flex",
-                    justifyContent: "center",
-                    alignItems: "center",
-                    gap: "10px",
-                  }}
-                >
+              </Link>
+
+              <Link
+                to="/calendar"
+                style={{
+                  color: "var(--color-gray-700)",
+                  display: "flex",
+                  justifyContent: "space-between",
+                  alignItems: "center",
+                }}
+              >
+                <div>
                   <BiCalendar
                     style={{
                       color: "var(--color-gray-300)",
                     }}
                   />
                   카투사 출석부
-                </Link>
+                </div>
                 <IoIosArrowForward
                   style={{ fontSize: "12px", color: "var(--color-gray-500)" }}
                 />
-              </div>
+              </Link>
             </InfoBox_1>
-          </label>
+          </div>
           <div
             style={{
               width: "100%",
@@ -392,58 +391,68 @@ const UserPage = () => {
           ></div>
           <label>
             <InfoBox_2>
-              <div>
-                <Link
-                  to="/terms/service"
-                  style={{
-                    color: "var(--color-gray-700)",
-                  }}
-                >
-                  서비스 이용약관
-                </Link>
+              <Link
+                to="/terms/service"
+                style={{
+                  color: "var(--color-gray-700)",
+                  display: "flex",
+                  justifyContent: "space-between",
+                  alignItems: "center",
+                  gap: "10px",
+                }}
+              >
+                <div>서비스 이용약관</div>
                 <IoIosArrowForward
                   style={{ fontSize: "12px", color: "var(--color-gray-500)" }}
                 />
-              </div>
-              <div>
-                <Link
-                  to="/terms/privacy"
-                  style={{
-                    color: "var(--color-gray-700)",
-                  }}
-                >
-                  개인정보 처리 방침
-                </Link>
+              </Link>
+              <Link
+                to="/terms/privacy"
+                style={{
+                  color: "var(--color-gray-700)",
+                  display: "flex",
+                  justifyContent: "space-between",
+                  alignItems: "center",
+                  gap: "10px",
+                }}
+              >
+                <div>개인정보 처리 방침</div>
                 <IoIosArrowForward
                   style={{ fontSize: "12px", color: "var(--color-gray-500)" }}
                 />
-              </div>
-              <div>
-                <Link
-                  to="/terms/marketing"
-                  style={{
-                    color: "var(--color-gray-700)",
-                  }}
-                >
-                  마케팅 정보 수집 및 수신 동의
-                </Link>
+              </Link>
+
+              <Link
+                to="/terms/marketing"
+                style={{
+                  color: "var(--color-gray-700)",
+                  display: "flex",
+                  justifyContent: "space-between",
+                  alignItems: "center",
+                  gap: "10px",
+                }}
+              >
+                <div>마케팅 정보 수집 및 수신 동의</div>
                 <IoIosArrowForward
                   style={{ fontSize: "12px", color: "var(--color-gray-500)" }}
                 />
-              </div>
-              <div>
-                <Link
-                  to="/terms/payment"
-                  style={{
-                    color: "var(--color-gray-700)",
-                  }}
-                >
-                  결제대행 서비스 이용약관
-                </Link>
+              </Link>
+
+              <Link
+                to="/terms/payment"
+                style={{
+                  color: "var(--color-gray-700)",
+                  display: "flex",
+                  justifyContent: "space-between",
+                  alignItems: "center",
+                  gap: "10px",
+                }}
+              >
+                <div>결제대행 서비스 이용약관</div>
                 <IoIosArrowForward
                   style={{ fontSize: "12px", color: "var(--color-gray-500)" }}
                 />
-              </div>
+              </Link>
             </InfoBox_2>
           </label>
           <div

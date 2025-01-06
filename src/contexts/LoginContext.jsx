@@ -8,10 +8,7 @@ export const LoginProvider = ({ children }) => {
     nickName: "",
     email: "",
     upw: "",
-    agree: "1",
   });
-  //   const [userInfo, setUserInfo] = useState({});
-  //   setUserInfo({ ...resultData });
 
   <LoginContext.Provider>{children}</LoginContext.Provider>;
 };
