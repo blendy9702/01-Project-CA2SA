@@ -58,8 +58,8 @@ export const ModalDiv = styled.div`
   }
 `;
 export const ModalButton = styled.button`
-  background-color: #fff;
-  color: var(--color-gray-500);
+  background-color: var(--secondary-color);
+  color: #fff;
   padding: 10px 15px;
   border: 1px solid transparent;
   border-radius: 8px;

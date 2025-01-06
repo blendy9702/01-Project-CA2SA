@@ -151,96 +151,98 @@ const ListMain = () => {
   }, []);
   return (
     <>
-      <Loading />
       {loading ? (
         <Loading />
       ) : (
-        <div style={{ width: "100%" }}>
-          <Swiper
-            loop={true}
-            className="mySwiper"
-            style={{ marginTop: "30px" }}
-          >
-            {slideData.map((slide, index) => (
-              <SwiperSlide key={index}>
-                <SlideItem image={slide} />
-              </SwiperSlide>
-            ))}
-          </Swiper>
-          <div>
-            <TitleFlex>
-              <h2>나와 가까운 매장</h2>
-            </TitleFlex>
+        <>
+          <main style={{ padding: "0 20px" }}>
             <Swiper
-              slidesPerView={3}
-              spaceBetween={10}
-              pagination={{
-                clickable: true,
-              }}
-              breakpoints={{
-                480: {
-                  slidesPerView: 3, // 뷰포트가 480px 이상일 때
-                },
-                0: {
-                  slidesPerView: 2.5, // 뷰포트가 480px 미만일 때
-                },
-              }}
-              modules={[Pagination]}
+              loop={true}
               className="mySwiper"
+              style={{ marginTop: "30px" }}
             >
-              {cafeData
-                .slice() // 원본 배열을 복사하여 정렬 시 원본 배열 변경 방지
-                .sort((a, b) => a.distance - b.distance) // distance를 기준으로 오름차순 정렬
-                .map(cafe => (
-                  <SwiperSlide key={cafe.cafeId}>
-                    <ListBox cafe={cafe} />
-                  </SwiperSlide>
-                ))}
+              {slideData.map((slide, index) => (
+                <SwiperSlide key={index}>
+                  <SlideItem image={slide} />
+                </SwiperSlide>
+              ))}
             </Swiper>
-          </div>
-          <div>
-            <TitleFlex>
-              <h2>
-                요즘은{" "}
-                <span style={{ color: "var(--primary-color)" }}>
-                  청귤에이드
-                </span>
-                가 인기!
-              </h2>
-            </TitleFlex>
-            <Swiper
-              slidesPerView={3}
-              spaceBetween={10}
-              pagination={{
-                clickable: true,
-              }}
-              breakpoints={{
-                480: {
-                  slidesPerView: 3, // 뷰포트가 480px 이상일 때
-                },
-                0: {
-                  slidesPerView: 2.5, // 뷰포트가 480px 미만일 때
-                },
-              }}
-              modules={[Pagination]}
-              className="mySwiper"
-            >
-              {menuData
-                .slice() // 원본 배열을 복사하여 정렬 시 원본 배열 변경 방지
-                .sort((a, b) => a.distance - b.distance) // distance를 기준으로 오름차순 정렬
-                .map(cafe => (
-                  <SwiperSlide key={cafe.cafeId}>
-                    <ListBox cafe={cafe} />
-                  </SwiperSlide>
-                ))}
-            </Swiper>
-          </div>
-          <BannerWrap to="/terms/FAQ" style={{ marginTop: "30px" }}>
-            <img src="images/qna_banner.webp" alt="QNABanner" />
-          </BannerWrap>
-          <BannerWrap to="/terms/event" style={{ margin: "20px 0 30px 0" }}>
-            <img src="images/Frame 307.webp" alt="eventBanner" />
-          </BannerWrap>
+            <div>
+              <TitleFlex>
+                <h2>나와 가까운 매장</h2>
+              </TitleFlex>
+              <Swiper
+                slidesPerView={3}
+                spaceBetween={10}
+                pagination={{
+                  clickable: true,
+                }}
+                breakpoints={{
+                  480: {
+                    slidesPerView: 3, // 뷰포트가 480px 이상일 때
+                  },
+                  0: {
+                    slidesPerView: 2.5, // 뷰포트가 480px 미만일 때
+                  },
+                }}
+                modules={[Pagination]}
+                className="mySwiper"
+              >
+                {cafeData
+                  .slice() // 원본 배열을 복사하여 정렬 시 원본 배열 변경 방지
+                  .sort((a, b) => a.distance - b.distance) // distance를 기준으로 오름차순 정렬
+                  .map(cafe => (
+                    <SwiperSlide key={cafe.cafeId}>
+                      <ListBox cafe={cafe} />
+                    </SwiperSlide>
+                  ))}
+              </Swiper>
+            </div>
+            <div>
+              <TitleFlex>
+                <h2>
+                  요즘은{" "}
+                  <span style={{ color: "var(--primary-color)" }}>
+                    청귤에이드
+                  </span>
+                  가 인기!
+                </h2>
+              </TitleFlex>
+              <Swiper
+                slidesPerView={3}
+                spaceBetween={10}
+                pagination={{
+                  clickable: true,
+                }}
+                breakpoints={{
+                  480: {
+                    slidesPerView: 3, // 뷰포트가 480px 이상일 때
+                  },
+                  0: {
+                    slidesPerView: 2.5, // 뷰포트가 480px 미만일 때
+                  },
+                }}
+                modules={[Pagination]}
+                className="mySwiper"
+              >
+                {menuData
+                  .slice() // 원본 배열을 복사하여 정렬 시 원본 배열 변경 방지
+                  .sort((a, b) => a.distance - b.distance) // distance를 기준으로 오름차순 정렬
+                  .map(cafe => (
+                    <SwiperSlide key={cafe.cafeId}>
+                      <ListBox cafe={cafe} />
+                    </SwiperSlide>
+                  ))}
+              </Swiper>
+            </div>
+            <BannerWrap to="/terms/FAQ" style={{ marginTop: "30px" }}>
+              <img src="images/qna_banner.webp" alt="QNABanner" />
+            </BannerWrap>
+            <BannerWrap to="/terms/event" style={{ margin: "20px 0 30px 0" }}>
+              <img src="images/Frame 307.webp" alt="eventBanner" />
+            </BannerWrap>
+          </main>
+
           <FooterStyle>
             <h1 style={{ width: "80px" }}>
               <img
@@ -276,7 +278,7 @@ const ListMain = () => {
               부담하지 않습니다.
             </p>
           </FooterStyle>
-        </div>
+        </>
       )}
     </>
   );

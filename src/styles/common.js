@@ -43,7 +43,7 @@ export const AlternativeButton = styled.button`
 `;
 
 export const SearchInput = styled.input`
-  background-color: var(--color-gray-100);
+  background-color: var(--color-white);
   color: var(--color-gray-500);
   font-weight: 300;
   border: 1px solid var(--color-gray-300);
@@ -52,6 +52,7 @@ export const SearchInput = styled.input`
   outline: none;
   transition: 0.1s;
   &:focus {
+    border: 1px solid var(--primary-color);
     color: var(--color-gray-700);
   }
 `;

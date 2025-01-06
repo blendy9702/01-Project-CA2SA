@@ -56,33 +56,49 @@ export const ProfileImg = styled.div`
 `;
 
 export const PaymentArea = styled.div`
-  margin: 30px auto;
+  padding: 20px;
+  box-shadow: 0 0 3px 0px #dbdbdb;
+  border-radius: 16px;
+  margin: 30px 0;
   p {
     color: var(--color-gray-700);
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    margin-bottom: 20px;
   }
 `;
 
 export const PaymentDiv = styled.div`
   display: flex;
-  justify-content: center;
   align-items: center;
-  gap: 40px;
+
   span {
     font-size: 28px;
     font-weight: 700;
     color: var(--color-gray-900);
   }
+  .consumer {
+    background: linear-gradient(
+      180deg,
+      rgba(255, 255, 255, 0) 60%,
+      var(--primary-lighter) 50%
+    );
+  }
+
   button {
+    background-color: var(--color-white);
     color: var(--primary-color);
-    font-size: 12px;
+    font-size: 14px;
     font-weight: 500;
     border: 0px solid #fff;
     border-radius: 8px;
-    padding: 8px;
+    padding: 7px 10px;
     cursor: pointer;
+    margin-left: auto;
+  }
+  .won {
+    font-size: 20px;
+    font-weight: 500;
+    margin-left: 2px;
+    color: var(--color-gray-700);
   }
 `;
 
@@ -142,42 +158,34 @@ export const InputFocus = styled.input`
   }
 `;
 
-export const InfoBox_1 = styled.div`
+export const InfoBox = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 10px;
-  padding-top: 5px;
-  color: #9e9e9e;
-  div {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 10px;
-    margin: 8px 5px;
-  }
-`;
-export const InfoBox_2 = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  padding-top: 5px;
-  color: #9e9e9e;
-  div {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 10px;
-    margin: 8px 8px;
+  a {
+    display: inline-block;
+    width: 100%;
+    height: 50px;
+    div {
+      display: flex;
+      align-items: center;
+      width: 100%;
+      height: 100%;
+      color: var(--color-gray-700);
+      svg {
+        color: var(--color-gray-300);
+        margin-right: 10px;
+        &:last-child {
+          margin-left: auto;
+        }
+      }
+    }
   }
 `;
 export const InfoBox_3 = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  padding-top: 5px;
-  color: #9e9e9e;
   button {
-    margin: 8px 10px;
+    text-align: left;
+    width: 100%;
+    height: 50px;
     font-size: 16px;
     color: var(--color-gray-700);
     border: none;
