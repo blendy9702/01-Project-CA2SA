@@ -22,6 +22,7 @@ import {
 } from "../../styles/join/joinpage";
 import { NavBarDiv } from "../../styles/order/orderpage";
 import { IoIosArrowBack } from "react-icons/io";
+import JoinPageSpinner from "./JoinPageSpinner";
 
 const loginSchema = yup.object({
   nickName: yup
@@ -68,6 +69,7 @@ const JoinPage = () => {
     email: "",
     upw: "",
   });
+  const [loading, setLoding] = useState(false);
 
   // 패스워드 일치 확인
   const email = watch("email");
@@ -96,6 +98,7 @@ const JoinPage = () => {
   };
 
   const handleSubmitForm = async data => {
+    setLoding(true);
     try {
       // 인증코드 전송 API
       const email = data.email;
@@ -111,6 +114,8 @@ const JoinPage = () => {
         error.response ? error.response.data : error.message,
       );
       alert("인증코드 발송에 실패했습니다. 다시 시도해주세요.");
+    } finally {
+      setLoding(false);
     }
   };
 
@@ -123,6 +128,14 @@ const JoinPage = () => {
       setRadioState({ essential: false, choice: false });
     }
   };
+
+  useEffect(() => {
+    if (radioState.essential && radioState.choice) {
+      setIsCheckbox(true);
+    } else {
+      setIsCheckbox(false);
+    }
+  }, [radioState]);
 
   const handleRadioChange = name => {
     setRadioState(prevStates => ({
@@ -308,6 +321,34 @@ const JoinPage = () => {
           </JoinPageCheckArea>
         </JoinPageMainWrap>
       </form>
+      {loading && (
+        <div
+          style={{
+            position: "fixed",
+            top: 0,
+            left: 0,
+            width: "100%",
+            height: "100%",
+            backgroundColor: "rgba(0, 0, 0, 0.5)",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            zIndex: 1000,
+          }}
+        >
+          <div
+            style={{
+              background: "#fff",
+              padding: "30px",
+              borderRadius: "8px",
+              textAlign: "center",
+              boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
+            }}
+          >
+            <JoinPageSpinner loading={true} />
+          </div>
+        </div>
+      )}
       <div></div>
     </JoinPageWrap>
   );

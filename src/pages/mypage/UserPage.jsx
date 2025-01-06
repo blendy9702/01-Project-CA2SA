@@ -225,47 +225,48 @@ const UserPage = () => {
               marginTop: "25px",
             }}
           ></div>
-          <label>
+          <div>
             <InfoBox_1>
-              <div>
-                <Link
-                  to="/terms/notice"
-                  style={{
-                    color: "var(--color-gray-700)",
-                    display: "flex",
-                    justifyContent: "center",
-                    alignItems: "center",
-                    gap: "10px",
-                  }}
-                >
+              <Link
+                to="/terms/notice"
+                style={{
+                  color: "var(--color-gray-700)",
+                  display: "flex",
+                  justifyContent: "space-between",
+                  alignItems: "center",
+                }}
+              >
+                <div>
                   <AiFillNotification
                     style={{
                       color: "var(--color-gray-300)",
                     }}
                   />
                   공지사항
-                  <IoIosArrowForward
-                    style={{ fontSize: "12px", color: "var(--color-gray-500)" }}
-                  />
-                </Link>
-              </div>
-              <div>
-                <Link
-                  to="/terms/FAQ"
-                  style={{
-                    color: "var(--color-gray-700)",
-                    display: "flex",
-                    justifyContent: "center",
-                    alignItems: "center",
-                    gap: "10px",
-                  }}
-                >
+
+                </div>
+                <IoIosArrowForward
+                  style={{ fontSize: "12px", color: "var(--color-gray-500)" }}
+                />
+              </Link>
+
+              <Link
+                to="/terms/FAQ"
+                style={{
+                  color: "var(--color-gray-700)",
+                  display: "flex",
+                  justifyContent: "space-between",
+                  alignItems: "center",
+                }}
+              >
+
                   <BsFillPatchQuestionFill
                     style={{
                       color: "var(--color-gray-300)",
                     }}
                   />
                   자주 묻는 질문
+
                   <IoIosArrowForward
                     style={{ fontSize: "12px", color: "var(--color-gray-500)" }}
                   />
@@ -282,19 +283,23 @@ const UserPage = () => {
                     gap: "10px",
                   }}
                 >
+
+
                   <BiCalendar
                     style={{
                       color: "var(--color-gray-300)",
                     }}
                   />
                   카투사 출석부
+
                   <IoIosArrowForward
                     style={{ fontSize: "12px", color: "var(--color-gray-500)" }}
                   />
                 </Link>
               </div>
+
             </InfoBox_1>
-          </label>
+          </div>
           <div
             style={{
               width: "100%",
@@ -305,6 +310,7 @@ const UserPage = () => {
           ></div>
           <label>
             <InfoBox_2>
+
               <div>
                 <Link
                   to="/terms/service"
@@ -357,6 +363,7 @@ const UserPage = () => {
                   />
                 </Link>
               </div>
+
             </InfoBox_2>
           </label>
           <div

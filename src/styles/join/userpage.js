@@ -56,18 +56,20 @@ export const ProfileImg = styled.div`
 `;
 
 export const PaymentArea = styled.div`
-  margin: 30px 0;
+  margin: 30px auto;
   p {
     color: var(--color-gray-700);
-    padding: 0px 30%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
 `;
 
 export const PaymentDiv = styled.div`
-  padding: 10px 30%;
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
+  gap: 40px;
   span {
     font-size: 28px;
     font-weight: 700;
@@ -143,37 +145,39 @@ export const InputFocus = styled.input`
 export const InfoBox_1 = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 5px;
+  gap: 10px;
   padding-top: 5px;
   color: #9e9e9e;
   div {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin: 13px 10px;
+    gap: 10px;
+    margin: 8px 5px;
   }
 `;
 export const InfoBox_2 = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 5px;
+  gap: 10px;
   padding-top: 5px;
   color: #9e9e9e;
   div {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin: 13px 10px;
+    gap: 10px;
+    margin: 8px 8px;
   }
 `;
 export const InfoBox_3 = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 5px;
+  gap: 10px;
   padding-top: 5px;
   color: #9e9e9e;
   button {
-    margin: 13px 10px;
+    margin: 8px 10px;
     font-size: 16px;
     color: var(--color-gray-700);
     border: none;
