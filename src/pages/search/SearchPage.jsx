@@ -51,6 +51,15 @@ const SearchStyle = styled.label`
     cursor: pointer;
   }
 `;
+const SearchResultsWrap = styled.div`
+  padding: 20px;
+  h4 {
+    margin: 20px 0 10px 0;
+    &:first-child {
+      margin: 0;
+    }
+  }
+`;
 const NoSearchRes = styled.p`
   display: flex;
   flex-direction: column;
@@ -70,6 +79,10 @@ const NoSearchRes = styled.p`
 
 const SearchPage = () => {
   const [isSearch, setIsSearch] = useState(""); // 검색어 상태
+  const [searchResults, setSearchResults] = useState({
+    menuResults: [],
+    cafeResults: [],
+  }); // 검색 결과 상태
   const [cafeData, setCafeData] = useState([]); // 전체 카페 데이터
   const [searchTriggered, setSearchTriggered] = useState(false); // Enter 키로 검색 실행 여부
   const [state, setState] = useState({
@@ -90,33 +103,58 @@ const SearchPage = () => {
         const res = await axios.get(
           `api/cafe?search_cafe_name=${isSearch}&max_distance=1000&user_latitude=${state.center.lat}&user_longitude=${state.center.lng}`,
         );
-        setCafeData(res.data.resultData);
+        setSearchResults(prev => ({
+          ...prev,
+          cafeResults: res.data.resultData,
+        }));
         setSearchTriggered(true); // 검색이 실행됨을 표시
       }
     } catch (error) {
       console.log(error);
-      setState(prev => ({ ...prev, isLoading: false }));
-      setCafeData([]); // 에러 발생 시 결과 초기화
+      setSearchResults(prev => ({
+        ...prev,
+        cafeResults: [],
+      }));
+      setSearchTriggered(true); // 검색 실행 상태는 true로 유지
+    }
+  };
+  const getmenus = async () => {
+    try {
+      {
+        console.log("검색 실행:", isSearch);
+        const res = await axios.get(
+          `api/cafe?search_menu_name=${isSearch}&max_distance=1000&user_latitude=${state.center.lat}&user_longitude=${state.center.lng}`,
+        );
+        setSearchResults(prev => ({
+          ...prev,
+          menuResults: res.data.resultData,
+        }));
+        setSearchTriggered(true); // 검색이 실행됨을 표시
+      }
+    } catch (error) {
+      console.log(error);
+      setSearchResults(prev => ({
+        ...prev,
+        menuResults: [],
+      }));
       setSearchTriggered(true); // 검색 실행 상태는 true로 유지
     }
   };
 
   const handleClear = () => {
     setIsSearch(""); // 검색어 초기화
-    setCafeData([]); // 검색 결과 초기화
+    setSearchResults({
+      menuResults: [],
+      cafeResults: [],
+    }); // 검색 결과 초기화
     setSearchTriggered(false); // 검색 상태 초기화
   };
   const isFocused = isSearch.length > 0; // 검색어가 있으면 focus 상태로 간주
 
-  const handleClickKeyDown = e => {
-    // e.key를 사용하여 키 입력 확인
-    if (e.key === "Enter") {
-      if (isSearch.trim() !== "") {
-        getcafes(); // 검색 API 호출
-      } else {
-        setCafeData([]); // 검색어가 비어있을 경우 결과 초기화
-        setSearchTriggered(true); // 빈 검색 처리
-      }
+  const handleClickKeyDown = async e => {
+    if (e.key === "Enter" && isSearch.trim() !== "") {
+      setSearchTriggered(true); // 검색 실행 표시
+      await Promise.all([getcafes(), getmenus()]); // 두 API 호출 병렬 실행
     }
   };
   return (
@@ -138,27 +176,53 @@ const SearchPage = () => {
           )}
         </SearchStyle>
       </HeaderWrap>
-      <div style={{ padding: "0 20px" }}>
-        {/* Enter를 눌렀을 때만 검색 결과 렌더링 */}
-        {searchTriggered ? (
-          cafeData.length > 0 ? (
+      <main>
+        <SearchResultsWrap>
+          {/* Enter를 눌렀을 때만 검색 결과 렌더링 */}
+          {searchTriggered ? (
             <>
-              <h2 style={{ marginTop: "30px", marginBottom: "20px" }}>
-                검색결과
-              </h2>
-              {cafeData.map(cafe => (
-                <SearchList key={cafe.cafeId} cafe={cafe} />
-              ))}
-            </>
-          ) : (
-            <NoSearchRes>
-              <img src="/images/NoSearch.png" alt="" />
-              <p>검색 결과가 없습니다.</p>
-            </NoSearchRes>
-          )
-        ) : null}
-      </div>
+              {/* 메뉴 검색 결과 */}
+              {searchResults.menuResults.length > 0 && (
+                <>
+                  <h4>메뉴 검색 결과</h4>
+                  {searchResults.menuResults
+                    .slice() // 원본 배열을 복사하여 정렬 시 원본 배열 변경 방지
+                    .sort((a, b) => a.distance - b.distance) // distance를 기준으로 오름차순 정렬
+                    .map(menu => (
+                      <SearchList
+                        key={menu.menuId}
+                        cafe={menu}
+                        className="searchList"
+                      />
+                    ))}
+                </>
+              )}
 
+              {/* 카페 검색 결과 */}
+              {searchResults.cafeResults.length > 0 && (
+                <>
+                  <h4>카페 검색 결과</h4>
+                  {searchResults.cafeResults
+                    .slice() // 원본 배열을 복사하여 정렬 시 원본 배열 변경 방지
+                    .sort((a, b) => a.distance - b.distance) // distance를 기준으로 오름차순 정렬
+                    .map(cafe => (
+                      <SearchList key={cafe.cafeId} cafe={cafe} />
+                    ))}
+                </>
+              )}
+
+              {/* 검색 결과 없음 */}
+              {searchResults.menuResults.length === 0 &&
+                searchResults.cafeResults.length === 0 && (
+                  <NoSearchRes>
+                    <img src="/images/NoSearch.png" alt="" />
+                    <p>검색 결과가 없습니다.</p>
+                  </NoSearchRes>
+                )}
+            </>
+          ) : null}
+        </SearchResultsWrap>
+      </main>
       <DockBar />
     </div>
   );

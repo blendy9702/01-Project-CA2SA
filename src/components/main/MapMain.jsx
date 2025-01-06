@@ -17,6 +17,8 @@ const MapMarkerStyle = styled.div`
       : "var(--color-gray-900)"}; /* 활성화 상태에 따라 글자색 변경 */
   box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
   border-radius: 16px;
+  z-index: ${props =>
+    props.isActive ? "1" : "0"}; /* 활성화 상태에 따라 글자색 변경 */
 
   &:after {
     content: "";
@@ -54,6 +56,13 @@ const MarkerPos = styled.div`
   cursor: pointer;
 `;
 
+const MapStyle = styled.div`
+  .mapMarker {
+    &:last-child {
+      z-index: 1;
+    }
+  }
+`;
 const MapMain = () => {
   const [cafeData, setCafeData] = useState([]);
   const [openInfo, setOpenInfo] = useState(null);
@@ -165,45 +174,45 @@ const MapMain = () => {
         level={4} // 지도의 확대 레벨
         onClick={handleMapClick}
       >
-        {cafeData.map(cafe => (
-          <CustomOverlayMap
-            key={cafe.cafeId}
-            position={{
-              lat: cafe.latitude, // 카페의 위도
-              lng: cafe.longitude, // 카페의 경도
-            }}
-            style={{
-              zIndex: openInfo?.cafeId === cafe.cafeId ? 1 : 0, // 활성화된 카페의 z-index를 1로 설정
-            }}
-          >
-            <MapMarkerStyle
-              isActive={openInfo?.cafeId === cafe.cafeId} // 활성화 상태 전달
-              onClick={e => {
-                // 클릭된 카페 정보를 저장
-                setOpenInfo(prev =>
-                  prev?.cafeId === cafe.cafeId ? null : cafe,
-                );
+        <MapStyle>
+          {cafeData.map(cafe => (
+            <CustomOverlayMap
+              className="mapMarker" // 커스텀 오버레이 컴포넌트
+              key={cafe.cafeId}
+              position={{
+                lat: cafe.latitude, // 카페의 위도
+                lng: cafe.longitude, // 카페의 경도
               }}
             >
-              {cafe.cafeName}
-              {openInfo === cafe.cafeId && ( // 해당 카페만 열리도록 조건 추가
-                <CustomOverlayMap
-                  position={{
-                    lat: cafe.latitude,
-                    lng: cafe.longitude,
-                  }}
-                >
-                  <MapMarkrtItem key={cafe.cafeId} cafe={cafe} />
-                </CustomOverlayMap>
-              )}
-            </MapMarkerStyle>
-          </CustomOverlayMap>
-        ))}
-        {openInfo && (
-          <MarkerPos>
-            <MapMarkrtItem cafe={openInfo} />
-          </MarkerPos>
-        )}
+              <MapMarkerStyle
+                isActive={openInfo?.cafeId === cafe.cafeId} // 활성화 상태 전달
+                onClick={e => {
+                  // 클릭된 카페 정보를 저장
+                  setOpenInfo(prev =>
+                    prev?.cafeId === cafe.cafeId ? null : cafe,
+                  );
+                }}
+              >
+                {cafe.cafeName}
+                {openInfo === cafe.cafeId && ( // 해당 카페만 열리도록 조건 추가
+                  <CustomOverlayMap
+                    position={{
+                      lat: cafe.latitude,
+                      lng: cafe.longitude,
+                    }}
+                  >
+                    <MapMarkrtItem key={cafe.cafeId} cafe={cafe} />
+                  </CustomOverlayMap>
+                )}
+              </MapMarkerStyle>
+            </CustomOverlayMap>
+          ))}
+          {openInfo && (
+            <MarkerPos>
+              <MapMarkrtItem cafe={openInfo} />
+            </MarkerPos>
+          )}
+        </MapStyle>
       </Map>
     </div>
   );

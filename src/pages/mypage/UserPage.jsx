@@ -9,6 +9,8 @@ import {
   InputFocus,
   MyPageDiv,
   NicknameButton,
+  PaymentArea,
+  PaymentDiv,
   ProfileArea,
   ProfileImg,
   ProfileInfoArea,
@@ -20,6 +22,7 @@ import { BiCalendar, BiSolidUser } from "react-icons/bi";
 import moment from "moment";
 
 const UserPage = () => {
+  const [loading, setLoading] = useState(true);
   const [updataNick, setUpdataNick] = useState(false);
   const [payment, setPayment] = useState(0);
   const { myPage, setMyPage } = useContext(UserPageContext);
@@ -28,6 +31,7 @@ const UserPage = () => {
   const [upw, setUpw] = useState();
   const today = moment().format("YYYY-MM-DD");
   const first_day_of_month = moment().startOf("month").format("YYYY-MM-DD");
+
   const updateNickname = async () => {
     try {
       const res = await axios.put("/api/user/info", {
@@ -76,29 +80,22 @@ const UserPage = () => {
       alert("회원탈퇴 중 문제가 발생했습니다. 다시 시도해주세요.");
     }
   };
-
   const usedMoney = async () => {
     try {
-      const res = await axios.get(
-        `/api/user/used?first_day_of_month=${first_day_of_month}&user_id=48&today=${today}`,
-        {
-          params: {
-            today: today,
-            first_day_of_month: first_day_of_month,
-            user_id: userData.userId,
-          },
+      const res = await axios.get(`/api/user/used?`, {
+        params: {
+          today: today,
+          first_day_of_month: first_day_of_month,
+          user_id: userData.userId,
         },
-      );
+      });
 
-      console.log(res);
-      console.log("너 맞니? : ", userData.userId);
-
-      if (res.data && res.data.totalUsedAmount !== false) {
+      if (res.data && res.data.resultData.totalUsedAmount !== null) {
         setPayment(prev => ({
           ...prev,
-          totalUsedAmount: res.data.totalUsedAmount,
+          totalUsedAmount: res.data.resultData.totalUsedAmount,
         }));
-        return res.data.totalUsedAmount;
+        return res.data.resultData.totalUsedAmount;
       } else {
         console.error("Total used amount is missing");
       }
@@ -118,14 +115,28 @@ const UserPage = () => {
     navigate("/login");
   };
 
+  const handleToOrders = () => {
+    navigate("/orders");
+  };
+
   useEffect(() => {
     const storedData = sessionStorage.getItem("userData");
     if (storedData) {
       const parsedData = JSON.parse(storedData);
       setUserData(parsedData.resultData || {});
     }
-    usedMoney();
+    setLoading(false);
   }, []);
+
+  useEffect(() => {
+    if (!loading && userData.userId) {
+      usedMoney();
+    }
+  }, [loading, userData]);
+
+  if (loading) {
+    return;
+  }
 
   return (
     <div
@@ -179,20 +190,26 @@ const UserPage = () => {
               </a>
             </div>
           </ProfileImg>
-          <div>
+          <PaymentArea>
             <p>{userData.nickName}님이 이번달 카투사에</p>
             <p>투자하신 총 금액은?</p>
-            <div>
+            <PaymentDiv>
               <span>
                 {payment.totalUsedAmount
-                  ? `${payment.totalUsedAmount}원`
+                  ? `${payment.totalUsedAmount.toLocaleString()}원`
                   : "0원"}
               </span>
-              <Link to="/orders" className="jumpLink">
-                더보기
-              </Link>
-            </div>
-          </div>
+              <button onClick={handleToOrders}>더보기</button>
+            </PaymentDiv>
+            <div
+              style={{
+                width: "100%",
+                height: "1px",
+                background: "var(--color-gray-300)",
+                marginTop: "25px",
+              }}
+            ></div>
+          </PaymentArea>
           <ProfileInfoArea>
             <p>닉네임</p>
             <InputFocus
