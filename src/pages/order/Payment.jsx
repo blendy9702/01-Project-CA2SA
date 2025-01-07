@@ -296,6 +296,15 @@ const Payment = () => {
               );
             })}
           </div>
+          <p
+            style={{
+              fontSize: 14,
+              color: "var(--color-gray-500",
+              paddingTop: 10,
+            }}
+          >
+            * 1시간보다 뒤에 도착하실 경우, 요청사항에 기입해주세요.
+          </p>
         </ContainerDiv>
       </LayoutDiv>
       {/* 요청 사항 */}
