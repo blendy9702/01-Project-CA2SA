@@ -18,7 +18,7 @@ const MenuDetail = () => {
   const menuId = searchParams.get("menuId");
   const userData = JSON.parse(sessionStorage.getItem("userData"));
   const userId = userData.resultData.userId;
-  console.log(userId);
+  // console.log(userId);
   //useNavigate
   const navigate = useNavigate();
   const location = useLocation();
@@ -39,7 +39,7 @@ const MenuDetail = () => {
     // if (order.cafeId !== cafeInfo.cafeId) {
     //   alert("다른 카페입니다.");
     // }
-    navigate(`/order/payment?cafeId=${order.cafeId}`, {
+    navigate(`/order/payment?cafeId=${cafeInfo.cafeId}`, {
       state: locationData,
     });
     setOrder({ ...order, cafeId: parseInt(cafeInfo.cafeId) });
@@ -129,7 +129,7 @@ const MenuDetail = () => {
   //옵션 추가, 가격 추가
 
   useEffect(() => {
-    console.log("options:", options);
+    // console.log("options:", options);
   }, [options]);
 
   // 장바구니에 추가하기

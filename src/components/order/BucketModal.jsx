@@ -1,14 +1,15 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { OrderContext } from "../../contexts/OrderContext";
 import { PrimaryButton } from "../../styles/common";
 import { ModalDiv, ModalButton } from "../../styles/order/BucketModal";
 
-const BucketModal = ({ showPopUp, setShowPopup, cafeInfo }) => {
+const BucketModal = ({ showPopUp, setShowPopup, cafeInfo, prevCafeInfo }) => {
+  const { setOrder, order } = useContext(OrderContext);
   console.log(cafeInfo.cafeId);
+  const prevCafe = order.cafeId;
   const userData = JSON.parse(sessionStorage.getItem("userData"));
   const userId = userData.resultData.userId;
-  const { setOrder, order } = useContext(OrderContext);
   const navigate = useNavigate();
   const handleClickButton = () => {
     setShowPopup(false);
@@ -21,6 +22,9 @@ const BucketModal = ({ showPopUp, setShowPopup, cafeInfo }) => {
       // orderTime: "",
     });
   };
+  useEffect(() => {
+    console.log(order);
+  }, [order]);
   return (
     <ModalDiv>
       <div className="inner">
@@ -39,7 +43,7 @@ const BucketModal = ({ showPopUp, setShowPopup, cafeInfo }) => {
             <ModalButton
               type="button"
               onClick={() => {
-                navigate(`/order/menu?cafeId=${order.cafeId}`);
+                navigate(`/order/menu?cafeId=${prevCafe}`);
                 setShowPopup(false);
               }}
             >
