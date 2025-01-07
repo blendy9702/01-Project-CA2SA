@@ -12,6 +12,7 @@ import {
   InfoBox,
   InfoBox_3,
   InputFocus,
+  ModalArea,
   MyPageDiv,
   PaymentArea,
   PaymentDiv,
@@ -23,16 +24,21 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
 
 const myPageSchema = yup.object({
-  nickName: yup.string().min(3, "3글자 이상 입력하세요."),
+  nickName: yup
+    .string()
+    .min(3, "3글자 이상 입력하세요.")
+    .required("닉네임을 입력하세요."),
 });
 
 const UserPage = () => {
   const {
     register,
     formState: { errors },
+    handleSubmit,
+    setValue,
+    trigger,
   } = useForm({
     resolver: yupResolver(myPageSchema),
-    defaultValues: { nickName: "" },
     mode: "onChange",
   });
   const [loading, setLoading] = useState(true);
@@ -42,10 +48,17 @@ const UserPage = () => {
   const [userData, setUserData] = useState({});
   const navigate = useNavigate();
   const [upw, setUpw] = useState();
+  const [password, setPassword] = useState("");
   const today = moment().format("YYYY-MM-DD");
   const first_day_of_month = moment().startOf("month").format("YYYY-MM-DD");
+  const [isModal, setIsmodal] = useState(false);
 
   const updateNickname = async () => {
+    const isValid = await trigger("nickName");
+    if (!isValid) {
+      alert("닉네임은 최소 3글자 이상이어야 합니다.");
+      return;
+    }
     try {
       const res = await axios.put("/api/user/info", {
         userId: userData.userId,
@@ -54,15 +67,6 @@ const UserPage = () => {
 
       if (res.data.resultMessage === "1") {
         alert("닉네임이 변경되었습니다.");
-
-        // 세션 스토리지 업데이트
-        sessionStorage.setItem(
-          "userData",
-          JSON.stringify({
-            ...userData,
-            nickName: res.data.nickName,
-          }),
-        );
       } else {
         alert(res.data.resultMessage || "닉네임 변경에 실패했습니다.");
       }
@@ -73,10 +77,9 @@ const UserPage = () => {
   };
 
   const userDelete = async () => {
-    const userPassword = prompt("회원탈퇴를 위해 비밀번호를 입력하세요.");
     try {
       const res = await axios.delete("/api/user", {
-        data: { userId: userData.userId, upw: userPassword },
+        data: { userId: userData.userId, upw: password },
       });
 
       if (
@@ -93,6 +96,7 @@ const UserPage = () => {
       alert("회원탈퇴 중 문제가 발생했습니다. 다시 시도해주세요.");
     }
   };
+
   const usedMoney = async () => {
     try {
       const res = await axios.get(`/api/user/used?`, {
@@ -115,6 +119,29 @@ const UserPage = () => {
     } catch (error) {
       console.log(error);
     }
+  };
+
+  // 닉네임 세션스토리지 변경
+  const handleInputChange = e => {
+    const { value } = e.target;
+
+    setUserData(prev => {
+      const updatedUserData = {
+        ...prev,
+        nickName: value,
+      };
+
+      const sessionData = JSON.parse(sessionStorage.getItem("userData"));
+      if (sessionData?.resultData) {
+        sessionData.resultData.nickName = value;
+        sessionStorage.setItem("userData", JSON.stringify(sessionData));
+      }
+
+      return updatedUserData;
+    });
+    setValue("nickName", value);
+    trigger("nickName");
+    setUserData(prev => ({ ...prev, nickName: value }));
   };
   // 이전 페이지로 가기
   const handleGoBack = () => {
@@ -229,12 +256,10 @@ const UserPage = () => {
           <ProfileInfoArea>
             <p>닉네임</p>
             <InputFocus
-              type="text"
+              // type="text"
               value={userData.nickName || ""}
               {...register("nickName")}
-              onChange={e =>
-                setUserData(prev => ({ ...prev, nickName: e.target.value }))
-              }
+              onChange={handleInputChange}
               placeholder="닉네임을 입력하세요"
             />
             <p style={{ color: "var(--error-clolr)" }}>
@@ -333,7 +358,7 @@ const UserPage = () => {
               </button>
             </div>
             <div>
-              <button type="button" onClick={userDelete}>
+              <button type="button" onClick={() => setIsmodal(true)}>
                 회원탈퇴
               </button>
             </div>
@@ -346,6 +371,47 @@ const UserPage = () => {
           height: "100px",
         }}
       ></div>
+      {/* 모달창과 배경 */}
+      {isModal && (
+        <div
+          style={{
+            position: "fixed",
+            top: 0,
+            left: 0,
+            width: "100%",
+            height: "100%",
+            backgroundColor: "rgba(0, 0, 0, 0.5)", // 반투명 배경
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            zIndex: 1000,
+          }}
+        >
+          <ModalArea>
+            <p>비밀번호를 입력하세요.</p>
+            <input
+              type="password"
+              value={password}
+              onChange={e => setPassword(e.target.value)}
+              style={{ padding: "10px", marginBottom: "10px" }}
+            />
+            <div>
+              <button
+                type="button"
+                onClick={() => {
+                  setIsmodal(false);
+                  userDelete();
+                }}
+              >
+                확인
+              </button>
+              <button type="button" onClick={() => setIsmodal(false)}>
+                취소
+              </button>
+            </div>
+          </ModalArea>
+        </div>
+      )}
     </div>
   );
 };
