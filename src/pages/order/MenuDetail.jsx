@@ -184,7 +184,9 @@ const MenuDetail = () => {
       <ThumImageDiv height={375}>
         <img
           src={
-            optionInfo?.menuPic ? optionInfo.menuPic : "/images/order/cat2.jpg"
+            optionInfo?.menuPic
+              ? `${optionInfo.menuPic}`
+              : "/images/order/cat2.jpg"
           }
           alt="메뉴 사진"
         />
