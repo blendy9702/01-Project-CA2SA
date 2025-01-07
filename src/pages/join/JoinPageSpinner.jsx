@@ -1,25 +1,29 @@
-import { PulseLoader } from "react-spinners";
-
-const JoinPageSpinner = ({ loading }) => {
+import { BiSolidCoffeeBean } from "react-icons/bi";
+// import "../styles/Loading.css";
+const JoinPageSpinner = () => {
   return (
     <div
       style={{
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        fontSize: "20px",
+        position: "fixed",
+        top: "50%",
+        left: "50%",
+        transform: "translate(-50%, -50%)",
       }}
     >
-      <PulseLoader color="var(--primary-color)" loading={loading} />
-      <div>
-        <span
-          style={{
-            padding: "20px",
-          }}
-        >
-          인증코드를 전송 중입니다.
-        </span>
+      <div
+        className="loadingIcon"
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          paddingBottom: "5px",
+        }}
+      >
+        <BiSolidCoffeeBean />
+        <BiSolidCoffeeBean />
+        <BiSolidCoffeeBean />
       </div>
+      <p>인증코드를 전송 중입니다.</p>
     </div>
   );
 };

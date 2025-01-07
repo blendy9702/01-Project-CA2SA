@@ -1,9 +1,10 @@
-import React, { useEffect, useState } from "react";
 import { yupResolver } from "@hookform/resolvers/yup";
+import axios from "axios";
+import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
+import { IoIosArrowBack } from "react-icons/io";
 import { Link, useNavigate } from "react-router-dom";
 import * as yup from "yup";
-import axios from "axios";
 import {
   ChoiceRadioBox,
   EssentialRadioBox,
@@ -20,8 +21,6 @@ import {
   JoinPageWrap,
   ServiceCheckBox,
 } from "../../styles/join/joinpage";
-import { NavBarDiv } from "../../styles/order/orderpage";
-import { IoIosArrowBack } from "react-icons/io";
 import JoinPageSpinner from "./JoinPageSpinner";
 
 const loginSchema = yup.object({
@@ -105,7 +104,7 @@ const JoinPage = () => {
       await axios.post("/api/email-auth/send-code", {
         email,
       });
-      alert("인증코드가 발송되었습니다.");
+      alert("인증코드가 전송되었습니다.");
       // 인증 코드 확인 페이지로 이동
       navigate("/join/confirmform", { state: data });
     } catch (error) {
@@ -321,6 +320,7 @@ const JoinPage = () => {
           </JoinPageCheckArea>
         </JoinPageMainWrap>
       </form>
+
       {loading && (
         <div
           style={{
@@ -339,7 +339,7 @@ const JoinPage = () => {
           <div
             style={{
               background: "#fff",
-              padding: "30px",
+              padding: "60px 120px",
               borderRadius: "8px",
               textAlign: "center",
               boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",

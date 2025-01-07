@@ -6,14 +6,14 @@ import { IoIosArrowDown } from "react-icons/io";
 import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
 import Memo from "../../components/order/Memo";
 import NavBar from "../../components/order/NavBar";
+import PaymentOption from "../../components/order/PaymentOption";
 import PickUpTime from "../../components/order/PickUpTime";
 import { PrimaryButton } from "../../styles/common";
 import { ContainerDiv, LayoutDiv } from "../../styles/order/orderpage";
 
+import { OrderContext } from "../../contexts/OrderContext";
 import { AiOutlineMinus, AiOutlinePlus } from "react-icons/ai";
 import DeleteMenuModal from "../../components/order/DeleteMenuModal";
-import { OrderContext } from "../../contexts/OrderContext";
-import Loading from "../../components/Loading";
 
 // 예상 수령시간 관리용 배열
 const pickUPTimeArr = [0, 5, 10, 15, 20, 30, 40, 60];
@@ -27,7 +27,6 @@ const pickUPTimeArr = [0, 5, 10, 15, 20, 30, 40, 60];
 //   "신용/체크카드",
 // ];
 const Payment = () => {
-  const [loading, setLoading] = useState(true);
   // 쿼리 스트링 주소 처리
   const [searchParams, setSearchParams] = useSearchParams();
   const cafeId = parseInt(searchParams.get("cafeId"));
@@ -45,6 +44,7 @@ const Payment = () => {
   const [cafeInfo, setCafeInfo] = useState({});
   const [popMemo, setPopMemo] = useState(false);
   const [showModal, setShowModal] = useState(false);
+  const [clickedItem, setClickedItem] = useState({});
   const userData = JSON.parse(sessionStorage.getItem("userData"));
   const userId = userData.resultData.userId;
 
@@ -54,12 +54,10 @@ const Payment = () => {
 
   useEffect(() => {
     const getCafe = async data => {
-      setLoading(true);
       try {
         const res = await axios.get(`/api/cafe/${data}`);
         const resultData = res.data.resultData;
         setCafeInfo(resultData);
-        setLoading(false);
       } catch (error) {
         console.log("카페정보 통신 결과:", error);
         // console.log("mockData가 적용됩니다.");
@@ -78,7 +76,7 @@ const Payment = () => {
     navigate("/");
   };
   const handleNavigateAddMenu = () => {
-    navigate(`/order/menu?cafeId=${order.cafeId}`, { state: locationData });
+    navigate(`/order/menu?cafeId=${cafeId}`, { state: locationData });
   };
   const handleNavigateConfirm = () => {
     navigate(`/order/confirmation?userId=${userId}&page=1&size=30`);
@@ -135,7 +133,7 @@ const Payment = () => {
     .toLocaleString();
 
   // 수량 변경
-  const handleClickMinus = index => {
+  const handleClickMinus = (item, index) => {
     setOrder(prevOrder => {
       const updatedMenu = [...prevOrder.menuList];
       if (updatedMenu[index].count > 1) {
@@ -143,6 +141,8 @@ const Payment = () => {
       } else {
         setShowModal(true);
         // updatedMenu.splice(index, 1);
+        console.log("클릭한 아이템", item);
+        setClickedItem(item);
       }
       return { ...prevOrder, menuList: updatedMenu };
     });
@@ -161,12 +161,10 @@ const Payment = () => {
   const handleClickPay = () => {
     // axios
     const postOrder = async data => {
-      setLoading(true);
       console.log("보내지는 데이터", data);
       try {
         const res = await axios.post(`/api/order`, data);
         console.log(res.data);
-        setLoading(false);
         const resultData = res.data.resultData;
         if (resultData === 1) {
           console.log("order을 비웁니다.");
@@ -216,134 +214,134 @@ const Payment = () => {
   };
 
   return (
-    <>
-      {loading ? (
-        <Loading />
-      ) : (
-        <div style={{ position: "relative", paddingBottom: 80, width: "100%" }}>
-          <NavBar
-            onClick={handleNavigateClose}
-            icon={"close"}
-            title={"장바구니"}
-          />
-          {/* 메뉴 주문 정보 */}
-          <LayoutDiv borderTop={1} borderBottom={5}>
-            <ContainerDiv>
-              <h4>{cafeInfo ? cafeInfo.cafeName : "정보가 없습니다"}</h4>
-              <div className="orderListBox">
-                <div className="orderList">
-                  {order.menuList.map((item, index) => {
-                    return (
-                      <div className="menu" key={index}>
-                        <div className="itemInfo">
-                          {/* <p>메뉴 아이디: {item.menuId}</p> */}
-                          <p className="itemName">{item.menuName}</p>
-                          <div className="itemOption">
-                            {item.options.map((_item, _index) => {
-                              return (
-                                <span key={_index}>{_item.menuOptionName}</span>
-                              );
-                            })}
-                          </div>
-                          {/* 수량 변경 */}
-                          <div className="count-price">
-                            <p>{item.price.toLocaleString()} 원</p>
-                            <div className="count">
-                              <button
-                                type="button"
-                                onClick={() => handleClickMinus(index)}
-                              >
-                                <AiOutlineMinus />
-                              </button>
-                              <input
-                                type="text"
-                                value={item.count}
-                                onChange={e => {
-                                  item.count(e.target.value);
-                                }}
-                              />
-                              <button
-                                type="button"
-                                onClick={() => handleClickPluls(index)}
-                              >
-                                <AiOutlinePlus />
-                              </button>
-                            </div>
-                            {showModal ? (
-                              <DeleteMenuModal
-                                showModal={showModal}
-                                setShowModal={setShowModal}
-                                item={item}
-                                index={index}
-                              />
-                            ) : null}
-                          </div>
-                        </div>
+    <div style={{ position: "relative", paddingBottom: 80, width: "100%" }}>
+      <NavBar onClick={handleNavigateClose} icon={"close"} title={"장바구니"} />
+      {/* 메뉴 주문 정보 */}
+      <LayoutDiv borderTop={1} borderBottom={5}>
+        <ContainerDiv>
+          <h4>{cafeInfo ? cafeInfo.cafeName : "정보가 없습니다"}</h4>
+          <div className="orderListBox">
+            <div className="orderList">
+              {order.menuList.map((item, index) => {
+                return (
+                  <div className="menu" key={index}>
+                    <div className="itemInfo">
+                      {/* <p>메뉴 아이디: {item.menuId}</p> */}
+                      <p className="itemName">{item.menuName}</p>
+                      <div className="itemOption">
+                        {item.options.map((_item, _index) => {
+                          return (
+                            <span key={_index}>{_item.menuOptionName}</span>
+                          );
+                        })}
                       </div>
-                    );
-                  })}
-                </div>
-                <button className="add-menu" onClick={handleNavigateAddMenu}>
-                  + 메뉴 추가하기
-                </button>
-              </div>
-            </ContainerDiv>
-          </LayoutDiv>
-          {/* 예상 수령 시간 */}
-          <LayoutDiv borderBottom={5}>
-            <ContainerDiv style={{ padding: "20px" }}>
-              <h4 style={{ paddingBottom: 10 }}>예상 수령 시간</h4>
-              <div className="pickUpTimeList">
-                {pickUPTimeArr.map((item, index) => {
-                  return (
-                    <PickUpTime
-                      minutes={item}
-                      key={index}
-                      selectedTime={isTime === index ? true : false}
-                      onClick={() => handleClickPickUpTime(item, index)}
-                    />
-                  );
-                })}
-              </div>
-            </ContainerDiv>
-          </LayoutDiv>
-          {/* 요청 사항 */}
-          <LayoutDiv borderBottom={5}>
-            <ContainerDiv>
-              <h4 style={{ paddingBottom: 10 }}>요청 사항</h4>
-              <div
-                className="show-memoList"
-                onClick={() => {
-                  setPopMemo(!popMemo);
-                }}
-              >
-                <p>{order.memo ? order.memo : "요청 사항 선택"}</p>
-                <IoIosArrowDown />
-              </div>
-              <Memo popMemo={popMemo} setPopMemo={setPopMemo} />
-              {/* {popMemo ? <Memo /> : null} */}
-            </ContainerDiv>
-          </LayoutDiv>
-          {/* 결제 금액 */}
-          <LayoutDiv borderBottom={5}>
-            <ContainerDiv>
-              <h4 style={{ paddingBottom: 10 }}>결제금액</h4>
-              <div className="price">
-                <div className="priceBox-a">
-                  <p>주문 금액</p>
-                  <p style={{ color: "var(--color-gray-900)" }}>
-                    {showPrice}원
-                  </p>
-                </div>
-                <div className="priceBox-b">
-                  <p>총 결제 금액</p>
-                  <p className="total">{showPrice}원</p>
-                </div>
-              </div>
-            </ContainerDiv>
-          </LayoutDiv>
-          {/* 결제 방법 */}
-          {/* <LayoutDiv>
+                      {/* 수량 변경 */}
+                      <div className="count-price">
+                        <p>{item.price.toLocaleString()} 원</p>
+                        <div className="count">
+                          <button
+                            type="button"
+                            onClick={() => handleClickMinus(item, index)}
+                          >
+                            <AiOutlineMinus />
+                          </button>
+                          <input
+                            type="text"
+                            value={item.count}
+                            onChange={e => {
+                              item.count(e.target.value);
+                            }}
+                          />
+                          <button
+                            type="button"
+                            onClick={() => handleClickPluls(index)}
+                          >
+                            <AiOutlinePlus />
+                          </button>
+                        </div>
+                        {showModal ? (
+                          <DeleteMenuModal
+                            showModal={showModal}
+                            setShowModal={setShowModal}
+                            item={item}
+                            index={index}
+                            clickedItem={clickedItem}
+                          />
+                        ) : null}
+                      </div>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+            <button className="add-menu" onClick={handleNavigateAddMenu}>
+              + 메뉴 추가하기
+            </button>
+          </div>
+        </ContainerDiv>
+      </LayoutDiv>
+      {/* 예상 수령 시간 */}
+      <LayoutDiv borderBottom={5}>
+        <ContainerDiv style={{ padding: "20px" }}>
+          <h4 style={{ paddingBottom: 10 }}>예상 수령 시간</h4>
+          <div className="pickUpTimeList">
+            {pickUPTimeArr.map((item, index) => {
+              return (
+                <PickUpTime
+                  minutes={item}
+                  key={index}
+                  selectedTime={isTime === index ? true : false}
+                  onClick={() => handleClickPickUpTime(item, index)}
+                />
+              );
+            })}
+          </div>
+          <p
+            style={{
+              fontSize: 14,
+              color: "var(--color-gray-500",
+              paddingTop: 10,
+            }}
+          >
+            * 1시간보다 뒤에 도착하실 경우, 요청사항에 기입해주세요.
+          </p>
+        </ContainerDiv>
+      </LayoutDiv>
+      {/* 요청 사항 */}
+      <LayoutDiv borderBottom={5}>
+        <ContainerDiv>
+          <h4 style={{ paddingBottom: 10 }}>요청 사항</h4>
+          <div
+            className="show-memoList"
+            onClick={() => {
+              setPopMemo(!popMemo);
+            }}
+          >
+            <p>{order.memo ? order.memo : "요청 사항 선택"}</p>
+            <IoIosArrowDown />
+          </div>
+          <Memo popMemo={popMemo} setPopMemo={setPopMemo} />
+          {/* {popMemo ? <Memo /> : null} */}
+        </ContainerDiv>
+      </LayoutDiv>
+      {/* 결제 금액 */}
+      <LayoutDiv borderBottom={5}>
+        <ContainerDiv>
+          <h4 style={{ paddingBottom: 10 }}>결제금액</h4>
+          <div className="price">
+            <div className="priceBox-a">
+              <p>주문 금액</p>
+              <p style={{ color: "var(--color-gray-900)" }}>{showPrice}원</p>
+            </div>
+            <div className="priceBox-b">
+              <p>총 결제 금액</p>
+              <p className="total">{showPrice}원</p>
+            </div>
+          </div>
+        </ContainerDiv>
+      </LayoutDiv>
+      {/* 결제 방법 */}
+      {/* <LayoutDiv>
         <ContainerDiv>
           <h4 style={{ paddingBottom: 10 }}>결제 방법</h4>
           <div className="paymentOption">
@@ -354,23 +352,21 @@ const Payment = () => {
           </div>
         </ContainerDiv>
       </LayoutDiv> */}
-          {/* 결제 */}
-          <LayoutDiv>
-            <ContainerDiv>
-              <div className="pay">
-                <p>
-                  <u>결제 대행 서비스 이용약관</u>을 확인하였으며, 결제에
-                  동의합니다.
-                </p>
-                <PrimaryButton type="button" onClick={handleClickPay}>
-                  {showPrice}원 결제
-                </PrimaryButton>
-              </div>
-            </ContainerDiv>
-          </LayoutDiv>
-        </div>
-      )}
-    </>
+      {/* 결제 */}
+      <LayoutDiv>
+        <ContainerDiv>
+          <div className="pay">
+            <p>
+              <u>결제 대행 서비스 이용약관</u>을 확인하였으며, 결제에
+              동의합니다.
+            </p>
+            <PrimaryButton type="button" onClick={handleClickPay}>
+              {showPrice}원 결제
+            </PrimaryButton>
+          </div>
+        </ContainerDiv>
+      </LayoutDiv>
+    </div>
   );
 };
 

@@ -9,7 +9,6 @@ const ListBoxItem = styled.div`
     width: 100%;
     height: 150px;
     overflow: hidden;
-    background-color: #ddd;
     border-radius: 16px;
     img {
       width: 100%;
@@ -55,11 +54,7 @@ const ListBox = ({ cafe }) => {
   return (
     <ListBoxItem onClick={() => viewProduct(cafe.cafeId)}>
       <div>
-        <img
-          ref={imgRef}
-          src={`http://112.222.157.156:5214${cafe.cafePic}`}
-          alt={cafe.cafeName}
-        />
+        <img ref={imgRef} src={cafe.cafePic} alt={cafe.cafeName} />
         {/* <img src={cafe.cafePic} alt={cafe.cafeName} /> */}
       </div>
 

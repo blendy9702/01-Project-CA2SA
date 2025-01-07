@@ -193,3 +193,64 @@ export const InfoBox_3 = styled.div`
     cursor: pointer;
   }
 `;
+
+export const ModalArea = styled.div`
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  position: fixed;
+  width: 250px;
+  left: 50%;
+  top: 50%;
+  padding: 20px;
+  border-radius: 16px;
+  transform: translate(-50%, -50%);
+  background-color: #fff;
+  svg {
+    font-size: 28px;
+    color: var(--secondary-color);
+  }
+  p {
+    text-align: center;
+    color: var(--color-gray-700);
+    margin: 5px 0 15px 0;
+  }
+
+  input {
+    width: 100%;
+    height: 40px;
+    font-size: 16px;
+    padding-left: 10px;
+    border-radius: 8px;
+    outline: none;
+    border: 1px solid var(--color-gray-300);
+    transition: border-color 0.3s ease;
+  }
+  input:focus {
+    border-color: var(--primary-color);
+  }
+
+  div {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin-top: 10px;
+    gap: 10px;
+    button {
+      width: 50%;
+      height: 40px;
+      border-radius: 8px;
+      font-size: 14px;
+      padding: 10px;
+      outline: none;
+      border: 0;
+      transition: border-color 0.3s;
+      background-color: var(--primary-color);
+      color: var(--color-white);
+      cursor: pointer;
+      &:last-child {
+        background-color: var(--secondary-color);
+      }
+    }
+  }
+`;
