@@ -201,7 +201,7 @@ export const ModalArea = styled.div`
   flex-direction: column;
   position: fixed;
   width: 300px;
-  height: 160px;
+  height: 165px;
   left: 50%;
   top: 50%;
   gap: 15px;
