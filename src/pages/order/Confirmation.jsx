@@ -49,8 +49,7 @@ function Confirmation() {
         setOrderedList(resultData);
         setResentOrder(nowOrder);
         setNowProgress(progress);
-        setLoading;
-        false;
+        setLoading(false);
       } catch (error) {
         console.log(error);
       }

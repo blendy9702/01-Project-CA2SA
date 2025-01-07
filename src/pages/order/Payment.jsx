@@ -161,11 +161,12 @@ const Payment = () => {
   const handleClickPay = () => {
     // axios
     const postOrder = async data => {
+      setLoading(true);
       console.log("보내지는 데이터", data);
       try {
-        setLoading(true);
         const res = await axios.post(`/api/order`, data);
         console.log(res.data);
+        setLoading(false);
         const resultData = res.data.resultData;
         if (resultData === 1) {
           console.log("order을 비웁니다.");
@@ -179,7 +180,6 @@ const Payment = () => {
           });
         }
         handleNavigateConfirm();
-        setLoading(false);
       } catch (error) {
         console.log(error);
         alert("통신 오류로 인해 주문을 초기화합니다");
