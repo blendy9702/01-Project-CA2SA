@@ -193,3 +193,52 @@ export const InfoBox_3 = styled.div`
     cursor: pointer;
   }
 `;
+
+export const ModalArea = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  position: fixed;
+  width: 300px;
+  height: 160px;
+  left: 50%;
+  top: 50%;
+  gap: 15px;
+  border-radius: 8px;
+  transform: translate(-50%, -50%);
+  background-color: #ffffff;
+  box-shadow: 0 8px 10px #212121;
+
+  input {
+    width: 90%;
+    height: 40px;
+    font-size: 16px;
+    padding-left: 10px;
+    border-radius: 8px;
+    outline: none;
+    border: 1px solid var(--color-gray-300);
+    transition: border-color 0.3s ease;
+  }
+  input:focus {
+    border-color: var(--primary-color);
+  }
+
+  div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 80px;
+    button {
+      border-radius: 8px;
+      font-size: 14px;
+      padding: 5px 10px;
+      outline: none;
+      border: 0;
+      transition: border-color 0.3s ease;
+      background-color: var(--color-gray-900);
+      color: #f5f5f5;
+      cursor: pointer;
+    }
+  }
+`;
