@@ -158,7 +158,13 @@ function OedersDetails() {
                   );
                 })
               : "정보를 불러오고 있습니다."}
-            <p>{showPickUpTime(diffInMinutes)}</p>
+            <p
+              style={{
+                color: "var(--color-gray-500)",
+              }}
+            >
+              {showPickUpTime(diffInMinutes)}
+            </p>
           </div>
         </ContainerDiv>
         {/* 총 결제 금액 */}
