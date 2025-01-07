@@ -44,6 +44,7 @@ const Payment = () => {
   const [cafeInfo, setCafeInfo] = useState({});
   const [popMemo, setPopMemo] = useState(false);
   const [showModal, setShowModal] = useState(false);
+  const [clickedItem, setClickedItem] = useState({});
   const userData = JSON.parse(sessionStorage.getItem("userData"));
   const userId = userData.resultData.userId;
 
@@ -75,7 +76,7 @@ const Payment = () => {
     navigate("/");
   };
   const handleNavigateAddMenu = () => {
-    navigate(`/order/menu?cafeId=${order.cafeId}`, { state: locationData });
+    navigate(`/order/menu?cafeId=${cafeId}`, { state: locationData });
   };
   const handleNavigateConfirm = () => {
     navigate(`/order/confirmation?userId=${userId}&page=1&size=30`);
@@ -132,7 +133,7 @@ const Payment = () => {
     .toLocaleString();
 
   // 수량 변경
-  const handleClickMinus = index => {
+  const handleClickMinus = (item, index) => {
     setOrder(prevOrder => {
       const updatedMenu = [...prevOrder.menuList];
       if (updatedMenu[index].count > 1) {
@@ -140,6 +141,8 @@ const Payment = () => {
       } else {
         setShowModal(true);
         // updatedMenu.splice(index, 1);
+        console.log("클릭한 아이템", item);
+        setClickedItem(item);
       }
       return { ...prevOrder, menuList: updatedMenu };
     });
@@ -238,7 +241,7 @@ const Payment = () => {
                         <div className="count">
                           <button
                             type="button"
-                            onClick={() => handleClickMinus(index)}
+                            onClick={() => handleClickMinus(item, index)}
                           >
                             <AiOutlineMinus />
                           </button>
@@ -262,6 +265,7 @@ const Payment = () => {
                             setShowModal={setShowModal}
                             item={item}
                             index={index}
+                            clickedItem={clickedItem}
                           />
                         ) : null}
                       </div>

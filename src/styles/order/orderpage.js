@@ -233,7 +233,14 @@ export const ContainerDiv = styled.div`
       align-items: center;
       justify-content: space-between;
       padding: 20px 0;
+      border-bottom: 1px solid var(--color-gray-100);
+      &:last-child {
+        border-bottom: 0;
+      }
       .light {
+        word-break: break-all;
+        text-align: right;
+        width: 60%;
         font-size: 14px;
         font-weight: 300;
         color: var(--color-gray-700);
@@ -271,9 +278,9 @@ export const ContainerDiv = styled.div`
     display: flex;
     align-items: center;
     justify-content: end;
-    padding: 10px;
+    padding: 10px 0;
     &:last-child {
-      padding: 10px;
+      padding: 0;
     }
     button {
       display: flex;
@@ -337,6 +344,7 @@ export const ThumImageDiv = styled.div`
   background-color: #fff;
   text-align: center;
   img {
+    width: 100%;
     height: 100%;
     object-fit: cover;
   }
@@ -344,6 +352,7 @@ export const ThumImageDiv = styled.div`
 
 export const ContentDiv = styled.div`
   width: 100%;
+  padding: 0 20px;
 
   .title-box {
     display: flex;

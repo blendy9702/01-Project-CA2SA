@@ -52,7 +52,6 @@ function App() {
       className="mainWrap"
       style={{ maxWidth: "640px", width: "100%", margin: "0 auto" }}
     >
-      <Loading />
       <Router>
         <OrderContextProvider>
           <UserPageProvider>

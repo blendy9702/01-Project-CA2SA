@@ -19,7 +19,7 @@ const CancleModal = ({ showCancleModal, setShowCancleModal, orderId }) => {
       const resultData = res.data.resultData;
       console.log(res.data);
       if (resultData === 1) {
-        navigate("/");
+        navigate("/orders");
         setShowCancleModal(false);
       }
     } catch (error) {
