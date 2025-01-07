@@ -11,8 +11,10 @@ import {
   LayoutDiv,
   ThumImageDiv,
 } from "../../styles/order/orderpage";
+import Loading from "../../components/Loading";
 
 const MenuDetail = () => {
+  const [loading, setLoading] = useState(true);
   // useParams
   const [searchParams, setSearchParams] = useSearchParams();
   const menuId = searchParams.get("menuId");
@@ -67,6 +69,7 @@ const MenuDetail = () => {
   }, [cafeInfo]);
   useEffect(() => {
     const getMenuOption = async data => {
+      setLoading(true);
       try {
         const res = await axios.get(`/api/menu/${data}`); ////api/cafe/menu/option
         const resultData = res.data.resultData;
@@ -90,6 +93,7 @@ const MenuDetail = () => {
           },
         ]);
         setOrder({ ...order, userId: userId });
+        setLoading(false);
       } catch (error) {
         console.log(`menuId: ${menuId}의 상세 옵션 통신 결과:`, error);
         const errorArr = [{ optionName: "통신에러: 옵션이 없는 메뉴입니다." }];
@@ -175,66 +179,76 @@ const MenuDetail = () => {
   }, [order]);
 
   return (
-    <div style={{ position: "relative", paddingBottom: 70 }}>
-      <NavBar
-        onClick={handleNavigateBack}
-        icon={"back"}
-        title={cafeInfo ? cafeInfo.cafeName : "정보를 불러오는 중..."}
-      />
-      <ThumImageDiv height={375}>
-        <img
-          src={
-            optionInfo?.menuPic ? optionInfo.menuPic : "/images/order/cat2.jpg"
-          }
-          alt="메뉴 사진"
-        />
-      </ThumImageDiv>
-      {/* 메뉴 정보 */}
-      <LayoutDiv borderBottom={5}>
-        <ContainerDiv className="menuInfo">
-          <h3 className="menuName">{optionInfo?.menuName || "로딩중"}</h3>
-          <p className="comment">{optionInfo.comment}</p>
-          <p className="menu-price">
-            {optionInfo.price
-              ? optionInfo.price.toLocaleString()
-              : "정보를 불러오는 중"}{" "}
-            원
-          </p>
-        </ContainerDiv>
-      </LayoutDiv>
-      {/* 주문 정보 입력 */}
-      <LayoutDiv>
-        <ContainerDiv>
-          <form onSubmit={handleSubmit(handleSubmitForm)}>
-            {/* 선택 옵션 */}
-            {optionList.map((item, index) => {
-              return (
-                <CustomInputDiv className="optionCheck" key={index}>
-                  <input
-                    type="checkbox"
-                    id={item.menuOptionId}
-                    value={item.menuOptionId}
-                    {...register("options")}
-                    onChange={e => handleChangeCheck(e, item, index)}
-                    checked={check[index] ? true : false}
-                  />
-                  <label htmlFor={item.menuOptionId}>{item.optionName}</label>
-                  <span className="optionPrice">+{item.addPrice}원</span>
-                </CustomInputDiv>
-              );
-            })}
-            <div className="button-box">
-              <SecondaryButton type="submit" onClick={handleNavigatePaymet}>
-                바로 주문
-              </SecondaryButton>
-              <PrimaryButton type="submit" onClick={handleNavigateList}>
-                {totalPrice.toLocaleString()} 원 담기
-              </PrimaryButton>
-            </div>
-          </form>
-        </ContainerDiv>
-      </LayoutDiv>
-    </div>
+    <>
+      {loading ? (
+        <Loading />
+      ) : (
+        <div style={{ position: "relative", paddingBottom: 70 }}>
+          <NavBar
+            onClick={handleNavigateBack}
+            icon={"back"}
+            title={cafeInfo ? cafeInfo.cafeName : "정보를 불러오는 중..."}
+          />
+          <ThumImageDiv height={375}>
+            <img
+              src={
+                optionInfo?.menuPic
+                  ? optionInfo.menuPic
+                  : "/images/order/cat2.jpg"
+              }
+              alt="메뉴 사진"
+            />
+          </ThumImageDiv>
+          {/* 메뉴 정보 */}
+          <LayoutDiv borderBottom={5}>
+            <ContainerDiv className="menuInfo">
+              <h3 className="menuName">{optionInfo?.menuName || "로딩중"}</h3>
+              <p className="comment">{optionInfo.comment}</p>
+              <p className="menu-price">
+                {optionInfo.price
+                  ? optionInfo.price.toLocaleString()
+                  : "정보를 불러오는 중"}{" "}
+                원
+              </p>
+            </ContainerDiv>
+          </LayoutDiv>
+          {/* 주문 정보 입력 */}
+          <LayoutDiv>
+            <ContainerDiv>
+              <form onSubmit={handleSubmit(handleSubmitForm)}>
+                {/* 선택 옵션 */}
+                {optionList.map((item, index) => {
+                  return (
+                    <CustomInputDiv className="optionCheck" key={index}>
+                      <input
+                        type="checkbox"
+                        id={item.menuOptionId}
+                        value={item.menuOptionId}
+                        {...register("options")}
+                        onChange={e => handleChangeCheck(e, item, index)}
+                        checked={check[index] ? true : false}
+                      />
+                      <label htmlFor={item.menuOptionId}>
+                        {item.optionName}
+                      </label>
+                      <span className="optionPrice">+{item.addPrice}원</span>
+                    </CustomInputDiv>
+                  );
+                })}
+                <div className="button-box">
+                  <SecondaryButton type="submit" onClick={handleNavigatePaymet}>
+                    바로 주문
+                  </SecondaryButton>
+                  <PrimaryButton type="submit" onClick={handleNavigateList}>
+                    {totalPrice.toLocaleString()} 원 담기
+                  </PrimaryButton>
+                </div>
+              </form>
+            </ContainerDiv>
+          </LayoutDiv>
+        </div>
+      )}
+    </>
   );
 };
 

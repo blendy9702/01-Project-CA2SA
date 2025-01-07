@@ -13,6 +13,7 @@ import {
 } from "../../styles/order/orderpage";
 import { FiSearch } from "react-icons/fi";
 import BucketModal from "../../components/order/BucketModal";
+import Loading from "../../components/Loading";
 
 const MenuList = () => {
   // 앞에서 보낸 navigate의 state 받아오기
@@ -50,10 +51,11 @@ const MenuList = () => {
   const handleNavigatePayment = () => {
     navigate(`/order/payment?cafeId=${cafeId}`, { state: locationData });
   };
-
+  const [loading, setLoading] = useState(true);
   // 정보 받아오기
   useEffect(() => {
     const getCafeMenu = async data => {
+      setLoading(true);
       try {
         const res = await axios.get(`/api/menu?cafeId=${cafeId}`);
         // console.log("메뉴 리스트 통신 결과:", res.data);
@@ -72,6 +74,7 @@ const MenuList = () => {
             return acc.concat(curr);
           }, []);
           setAllMenu(combinedMenuArr);
+          setLoading(false);
         }
       } catch (error) {
         console.log("메뉴 리스트 통신 결과:", error);
@@ -118,147 +121,157 @@ const MenuList = () => {
   }, [searchText, allMenu]);
 
   return (
-    <div
-      style={{
-        position: "relative",
-        paddingBottom: 100,
-        backgroundColor: "#fff",
-      }}
-    >
-      <NavBar
-        onClick={handleNavigateBack}
-        icon={"back"}
-        title={cafeInfo ? cafeInfo.cafeName : "로딩중"}
-      />
-      <LayoutDiv>
+    <>
+      {loading ? (
+        <Loading />
+      ) : (
         <div
-          className="header"
           style={{
-            padding: "10px 20px",
-            borderBottom: "5px solid var(--color-gray-100)",
+            position: "relative",
+            paddingBottom: 100,
+            backgroundColor: "#fff",
           }}
         >
-          {/* 검색 버튼 */}
-          <div
-            style={{ width: "100%", marginBottom: 10, position: "relative" }}
-          >
-            <SearchInput
-              type="text"
-              id="searchBar"
-              style={{ width: "100%" }}
-              placeholder="메뉴를 검색해보세요"
-              value={text}
-              onChange={e => {
-                setText(e.target.value);
-                setShowSearchMenu(true);
-              }}
-              onKeyDown={e => {
-                if (e.key === "Enter") {
-                  setSearchText(e.target.value);
-                  console.log(searchText);
-                  // setShowSearchMenu(false);
-                }
-              }}
-            />
-            <label
-              htmlFor="searchBar"
+          <NavBar
+            onClick={handleNavigateBack}
+            icon={"back"}
+            title={cafeInfo ? cafeInfo.cafeName : "로딩중"}
+          />
+          <LayoutDiv>
+            <div
+              className="header"
               style={{
-                position: "absolute",
-                right: 10,
-                top: 10,
-                fontSize: 18,
-                color: "var(--color-gray-500)",
+                padding: "10px 20px",
+                borderBottom: "5px solid var(--color-gray-100)",
               }}
             >
-              <FiSearch />
-            </label>
-          </div>
-          {/* 카테고리 버튼 */}
-          {showSearchMenu ? null : (
-            <CateListDiv>
-              {cateArr.map((item, index) => {
-                return (
-                  <CateButton
-                    key={index}
-                    type="button"
-                    onClick={() => {
-                      handleClickCate(item, index);
-                    }}
-                    isSelected={selectedCate === index}
-                  >
-                    {item}
-                  </CateButton>
-                );
-              })}
-            </CateListDiv>
-          )}
-        </div>
-        {/* 메뉴 리스트 */}
-        {showSearchMenu ? (
-          <div className="cate-detail" style={{ padding: 20 }}>
-            <div className="menu-list">
-              {sortAllMenu.length > 0 ? (
-                sortAllMenu.map((item, index) => {
-                  return (
-                    <div key={index}>
-                      <Menu
-                        item={item}
-                        index={index}
-                        onClick={() => handleNavigateMenuOption(item)}
-                      />
-                    </div>
-                  );
-                })
-              ) : (
-                <div className="notFound">
-                  <div className="thum">
-                    <img src="/images/NoSearch.webp" alt="" />
-                  </div>
-                  <p>검색 결과가 없습니다.</p>
-                </div>
+              {/* 검색 버튼 */}
+              <div
+                style={{
+                  width: "100%",
+                  marginBottom: 10,
+                  position: "relative",
+                }}
+              >
+                <SearchInput
+                  type="text"
+                  id="searchBar"
+                  style={{ width: "100%" }}
+                  placeholder="메뉴를 검색해보세요"
+                  value={text}
+                  onChange={e => {
+                    setText(e.target.value);
+                    setShowSearchMenu(true);
+                  }}
+                  onKeyDown={e => {
+                    if (e.key === "Enter") {
+                      setSearchText(e.target.value);
+                      console.log(searchText);
+                      // setShowSearchMenu(false);
+                    }
+                  }}
+                />
+                <label
+                  htmlFor="searchBar"
+                  style={{
+                    position: "absolute",
+                    right: 10,
+                    top: 10,
+                    fontSize: 18,
+                    color: "var(--color-gray-500)",
+                  }}
+                >
+                  <FiSearch />
+                </label>
+              </div>
+              {/* 카테고리 버튼 */}
+              {showSearchMenu ? null : (
+                <CateListDiv>
+                  {cateArr.map((item, index) => {
+                    return (
+                      <CateButton
+                        key={index}
+                        type="button"
+                        onClick={() => {
+                          handleClickCate(item, index);
+                        }}
+                        isSelected={selectedCate === index}
+                      >
+                        {item}
+                      </CateButton>
+                    );
+                  })}
+                </CateListDiv>
               )}
             </div>
-          </div>
-        ) : (
-          <div className="cate-detail" style={{ padding: 20 }}>
-            <h3>{cateArr[selectedCate]}</h3>
-            <div className="menu-list">
-              {cafeMenuData[selectedCate]?.menu.map((item, index) => {
-                return (
-                  <div key={index}>
-                    <Menu
-                      item={item}
-                      index={index}
-                      onClick={() => handleNavigateMenuOption(item)}
-                    />
-                  </div>
-                );
-              })}
-            </div>
-          </div>
-        )}
-        {/* 모달창 */}
-        {showPopup ? (
-          <BucketModal
-            showPopup={showPopup}
-            setShowPopup={setShowPopup}
-            cafeInfo={cafeInfo}
-          />
-        ) : null}
-        {/* 장바구니 버튼 */}
-        <OrderButton
-          type="button"
-          onClick={handleNavigatePayment}
-          disabled={order.menuList.length === 0 ? true : false}
-        >
-          {order.menuList.length === 0
-            ? `상품을 담아주세요`
-            : ` ${showPrice}원 | 장바구니`}
+            {/* 메뉴 리스트 */}
+            {showSearchMenu ? (
+              <div className="cate-detail" style={{ padding: 20 }}>
+                <div className="menu-list">
+                  {sortAllMenu.length > 0 ? (
+                    sortAllMenu.map((item, index) => {
+                      return (
+                        <div key={index}>
+                          <Menu
+                            item={item}
+                            index={index}
+                            onClick={() => handleNavigateMenuOption(item)}
+                          />
+                        </div>
+                      );
+                    })
+                  ) : (
+                    <div className="notFound">
+                      <div className="thum">
+                        <img src="/images/NoSearch.webp" alt="" />
+                      </div>
+                      <p>검색 결과가 없습니다.</p>
+                    </div>
+                  )}
+                </div>
+              </div>
+            ) : (
+              <div className="cate-detail" style={{ padding: 20 }}>
+                <h3>{cateArr[selectedCate]}</h3>
+                <div className="menu-list">
+                  {cafeMenuData[selectedCate]?.menu.map((item, index) => {
+                    return (
+                      <div key={index}>
+                        <Menu
+                          item={item}
+                          index={index}
+                          onClick={() => handleNavigateMenuOption(item)}
+                        />
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            )}
+            {/* 모달창 */}
+            {showPopup ? (
+              <BucketModal
+                showPopup={showPopup}
+                setShowPopup={setShowPopup}
+                cafeInfo={cafeInfo}
+              />
+            ) : null}
+            {/* 장바구니 버튼 */}
+            <OrderButton
+              type="button"
+              onClick={handleNavigatePayment}
+              disabled={order.menuList.length === 0 ? true : false}
+            >
+              {order.menuList.length === 0
+                ? `상품을 담아주세요`
+                : ` ${showPrice}원 | 장바구니`}
 
-          <span className="circle">{itemCount}</span>
-        </OrderButton>
-      </LayoutDiv>
-    </div>
+              <span className="circle">{itemCount}</span>
+            </OrderButton>
+          </LayoutDiv>
+        </div>
+      )}
+    </>
   );
 };
 

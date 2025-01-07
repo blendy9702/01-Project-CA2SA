@@ -12,8 +12,10 @@ import {
   ThumImageDiv,
 } from "../../styles/order/orderpage";
 import CafeMap from "../../components/order/CafeMap";
+import Loading from "../../components/Loading";
 
 const OrderPage = () => {
+  const [loading, setLoading] = useState(true);
   const userData = JSON.parse(sessionStorage.getItem("userData"));
   const userId = userData.resultData.userId;
   // useState
@@ -51,10 +53,12 @@ const OrderPage = () => {
   // 카페 정보 조회
   useEffect(() => {
     const getCafe = async data => {
+      setLoading(true);
       try {
         const res = await axios.get(`/api/cafe/${data}`);
         const resultData = res.data.resultData;
         setCafeInfo(resultData);
+        setLoading(false);
       } catch (error) {
         console.log("카페정보 통신 결과:", error);
         // console.log("mockData가 적용됩니다.");
@@ -69,73 +73,79 @@ const OrderPage = () => {
   }, [cafeInfo]);
 
   return (
-    <div style={{ position: "relative", paddingBottom: 50, width: "100%" }}>
-      <NavBar
-        onClick={handleNavigateMain}
-        icon={"close"}
-        title={cafeInfo?.cafeName || "🐈"}
-      />
-      <ThumImageDiv height={300}>
-        <img src={cafeInfo ? cafeInfo?.cafePic : ""} ref={imgRef}></img>
-      </ThumImageDiv>
-      <LayoutDiv>
-        <ContentDiv>
-          <div className="title-box">
-            <h2>{cafeInfo?.cafeName || "🐈"}</h2>
-          </div>
-          <div className="cafe-info">
-            <h3>매장정보</h3>
-            <div className="info-box">
-              <p className="info-subtitle">영업시간</p>
-              <div className="info-detail">
-                <p>
-                  매일{" "}
-                  {moment(cafeInfo?.openTime || "🐈", "HH:mm:ss").format(
-                    "HH:mm",
-                  )}
-                  -
-                  {moment(cafeInfo?.closeTime || "🐈", "HH:mm:ss").format(
-                    "HH:mm",
-                  )}
-                </p>
-                <p>
-                  라스트 오더{" "}
-                  {moment(cafeInfo?.closeTime || "🐈", "HH:mm:ss").format(
-                    "HH:mm",
-                  )}
-                </p>
+    <>
+      {loading ? (
+        <Loading />
+      ) : (
+        <div style={{ position: "relative", paddingBottom: 50, width: "100%" }}>
+          <NavBar
+            onClick={handleNavigateMain}
+            icon={"close"}
+            title={cafeInfo?.cafeName || "🐈"}
+          />
+          <ThumImageDiv height={300}>
+            <img src={cafeInfo ? cafeInfo?.cafePic : ""} ref={imgRef}></img>
+          </ThumImageDiv>
+          <LayoutDiv>
+            <ContentDiv>
+              <div className="title-box">
+                <h2>{cafeInfo?.cafeName || "🐈"}</h2>
               </div>
-            </div>
-            <div className="info-box">
-              <p className="info-subtitle">전화번호</p>
-              <div className="info-detail">
-                <p className="tel">{cafeInfo?.tel || "🐈"}</p>
-              </div>
-            </div>
-            <div className="info-box last">
-              <p className="info-subtitle">주소</p>
-              <div className="info-detail">
-                <p>{cafeInfo?.location || "🐈"}</p>
-              </div>
-            </div>
-            <div className="map">
-              <CafeMap cafeInfo={cafeInfo} />
-            </div>
-            {/* <div className="business-number">
+              <div className="cafe-info">
+                <h3>매장정보</h3>
+                <div className="info-box">
+                  <p className="info-subtitle">영업시간</p>
+                  <div className="info-detail">
+                    <p>
+                      매일{" "}
+                      {moment(cafeInfo?.openTime || "🐈", "HH:mm:ss").format(
+                        "HH:mm",
+                      )}
+                      -
+                      {moment(cafeInfo?.closeTime || "🐈", "HH:mm:ss").format(
+                        "HH:mm",
+                      )}
+                    </p>
+                    <p>
+                      라스트 오더{" "}
+                      {moment(cafeInfo?.closeTime || "🐈", "HH:mm:ss").format(
+                        "HH:mm",
+                      )}
+                    </p>
+                  </div>
+                </div>
+                <div className="info-box">
+                  <p className="info-subtitle">전화번호</p>
+                  <div className="info-detail">
+                    <p className="tel">{cafeInfo?.tel || "🐈"}</p>
+                  </div>
+                </div>
+                <div className="info-box last">
+                  <p className="info-subtitle">주소</p>
+                  <div className="info-detail">
+                    <p>{cafeInfo?.location || "🐈"}</p>
+                  </div>
+                </div>
+                <div className="map">
+                  <CafeMap cafeInfo={cafeInfo} />
+                </div>
+                {/* <div className="business-number">
               <p>사업자 정보 조회</p>
               <IoIosArrowForward className="icon" />
             </div> */}
-          </div>
-        </ContentDiv>
-        <OrderButton
-          type="button"
-          onClick={handleNavigateList}
-          className="go-menulist"
-        >
-          메뉴담기
-        </OrderButton>
-      </LayoutDiv>
-    </div>
+              </div>
+            </ContentDiv>
+            <OrderButton
+              type="button"
+              onClick={handleNavigateList}
+              className="go-menulist"
+            >
+              메뉴담기
+            </OrderButton>
+          </LayoutDiv>
+        </div>
+      )}
+    </>
   );
 };
 

@@ -3,6 +3,7 @@ import axios from "axios";
 import { CustomOverlayMap, Map } from "react-kakao-maps-sdk";
 import styled from "@emotion/styled";
 import MapMarkrtItem from "../MapMarkrtItem";
+import Loading from "../Loading";
 
 const MapMarkerStyle = styled.div`
   position: relative;
@@ -54,19 +55,10 @@ const MarkerPos = styled.div`
   cursor: pointer;
 `;
 
-const MapStyle = styled.div`
-  .mapMarker {
-    div{
-    z-index: ${props =>
-      props.isActive ? "1" : "0"}; /* 활성화 상태에 따라 글자색 변경 */
-
-    }
-    }
-  }
-`;
 const MapMain = () => {
   const [cafeData, setCafeData] = useState([]);
   const [openInfo, setOpenInfo] = useState(null);
+  const [loading, setLoading] = useState(true);
   console.log(onclick, openInfo);
   const [state, setState] = useState({
     center: {
@@ -74,19 +66,21 @@ const MapMain = () => {
       lng: 128.594054,
     },
     errMsg: null,
-    isLoading: true,
+    loading: true,
   });
 
   // 지도의 로딩 상태를 관리하는 state를 선언합니다
   const [isMapLoaded, setIsMapLoaded] = useState(false);
 
   const cafeInfo = async () => {
+    setLoading(true);
     try {
       const res = await axios.get(
         `api/cafe?max_distance=1000&user_latitude=${state.center.lat}&user_longitude=${state.center.lng}`,
       );
       console.log(res.data);
       setCafeData(res.data.resultData);
+      setLoading(false);
     } catch (error) {
       console.error(error);
     }
@@ -107,14 +101,14 @@ const MapMain = () => {
               lat: position.coords.latitude, // 위도
               lng: position.coords.longitude, // 경도
             },
-            isLoading: false,
+            loading: false,
           }));
         },
         err => {
           setState(prev => ({
             ...prev,
             errMsg: err.message,
-            isLoading: false,
+            loading: false,
           }));
         },
       );
@@ -123,7 +117,7 @@ const MapMain = () => {
       setState(prev => ({
         ...prev,
         errMsg: "geolocation을 사용할수 없어요..",
-        isLoading: false,
+        loading: false,
       }));
     }
   }, []);
@@ -163,58 +157,62 @@ const MapMain = () => {
 
   return (
     <div>
-      <Map // 지도를 표시할 Container
-        center={state.center}
-        style={{
-          // 지도의 크기
-          width: "100%",
-          height: "calc(100vh - 105px)",
-          position: "relative",
-          zIndex: 10,
-        }}
-        level={4} // 지도의 확대 레벨
-        onClick={handleMapClick}
-      >
-        <MapStyle>
-          {cafeData.map(cafe => (
-            <CustomOverlayMap
-              zIndex={openInfo?.cafeId === cafe.cafeId ? 100 : 0} // 활성 상태에 따라 zIndex 변경
-              key={cafe.cafeId}
-              position={{
-                lat: cafe.latitude, // 카페의 위도
-                lng: cafe.longitude, // 카페의 경도
-              }}
-            >
-              <MapMarkerStyle
-                isActive={openInfo?.cafeId === cafe.cafeId} // 활성화 상태 전달
-                onClick={e => {
-                  // 클릭된 카페 정보를 저장
-                  setOpenInfo(prev =>
-                    prev?.cafeId === cafe.cafeId ? null : cafe,
-                  );
+      {loading ? (
+        <Loading />
+      ) : (
+        <Map // 지도를 표시할 Container
+          center={state.center}
+          style={{
+            // 지도의 크기
+            width: "100%",
+            height: "calc(100vh - 105px)",
+            position: "relative",
+            zIndex: 10,
+          }}
+          level={4} // 지도의 확대 레벨
+          onClick={handleMapClick}
+        >
+          <>
+            {cafeData.map(cafe => (
+              <CustomOverlayMap
+                zIndex={openInfo?.cafeId === cafe.cafeId ? 100 : 0} // 활성 상태에 따라 zIndex 변경
+                key={cafe.cafeId}
+                position={{
+                  lat: cafe.latitude, // 카페의 위도
+                  lng: cafe.longitude, // 카페의 경도
                 }}
               >
-                {cafe.cafeName}
-                {openInfo === cafe.cafeId && ( // 해당 카페만 열리도록 조건 추가
-                  <CustomOverlayMap
-                    position={{
-                      lat: cafe.latitude,
-                      lng: cafe.longitude,
-                    }}
-                  >
-                    <MapMarkrtItem key={cafe.cafeId} cafe={cafe} />
-                  </CustomOverlayMap>
-                )}
-              </MapMarkerStyle>
-            </CustomOverlayMap>
-          ))}
-          {openInfo && (
-            <MarkerPos>
-              <MapMarkrtItem cafe={openInfo} />
-            </MarkerPos>
-          )}
-        </MapStyle>
-      </Map>
+                <MapMarkerStyle
+                  isActive={openInfo?.cafeId === cafe.cafeId} // 활성화 상태 전달
+                  onClick={e => {
+                    // 클릭된 카페 정보를 저장
+                    setOpenInfo(prev =>
+                      prev?.cafeId === cafe.cafeId ? null : cafe,
+                    );
+                  }}
+                >
+                  {cafe.cafeName}
+                  {openInfo === cafe.cafeId && ( // 해당 카페만 열리도록 조건 추가
+                    <CustomOverlayMap
+                      position={{
+                        lat: cafe.latitude,
+                        lng: cafe.longitude,
+                      }}
+                    >
+                      <MapMarkrtItem key={cafe.cafeId} cafe={cafe} />
+                    </CustomOverlayMap>
+                  )}
+                </MapMarkerStyle>
+              </CustomOverlayMap>
+            ))}
+            {openInfo && (
+              <MarkerPos>
+                <MapMarkrtItem cafe={openInfo} />
+              </MarkerPos>
+            )}
+          </>
+        </Map>
+      )}
     </div>
   );
 };
