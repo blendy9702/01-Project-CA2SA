@@ -9,11 +9,11 @@
 
 ## 👥팀원 소개
 
-| FE 주혜진                                                                              | FE 이수빈                                                                              | FE 이창호                                                                                     |
-| -------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------- |
-| <img src="https://avatars.githubusercontent.com/u/102364334?v=4" height=150 width=150> | <img src="https://avatars.githubusercontent.com/u/181827243?v=4" height=150 width=150> | <img src="https://avatars.githubusercontent.com/u/186558654?v=4" height=150 width=150 border> |
-| 팀장                                                                                   | 팀원                                                                                   | 팀원                                                                                          |
-| 메인, 검색, 캘린더                                                                     | 담당                                                                                   | 담당                                                                                          |
+| FE 주혜진                                                                                                             | FE 이수빈                                                                                             | FE 이창호                                                                                             |
+| --------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------- |
+| <div align="center" valign="bottom"><img src="https://avatars.githubusercontent.com/u/102364334?v=4" width=150></div> | <div align="center"><img src="https://avatars.githubusercontent.com/u/181827243?v=4" width=150></div> | <div align="center"><img src="https://avatars.githubusercontent.com/u/186558654?v=4" width=150></div> |
+| <div align="center">팀장 </div>                                                                                       | <div align="center">팀원 </div>                                                                       | <div align="center">팀원 </div>                                                                       |
+| <div align="center">디자인, 메인, 지도, 검색, 캘린더, 404, 공지사항, 질문, 이벤트, 약관 </div>                        | <div align="center">가게, 주문, 지난주문내역, 주문 상세, 메뉴, 메뉴옵션, 결제</div>                   | <div align="center">로그인, 회원가입, 인증번호, 마이페이지, 시용금액</div>                            |
 
 ## 📅개발 기간
 
