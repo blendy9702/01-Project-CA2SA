@@ -89,7 +89,7 @@ function Confirmation() {
       case 0:
         return "주문이 접수되었습니다.";
       case 1:
-        return "준비이 준비중입니다.";
+        return "상품이 준비중입니다.";
       case 2:
         return "상품이 준비되었습니다.";
       case 3:

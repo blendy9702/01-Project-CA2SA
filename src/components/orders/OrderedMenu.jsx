@@ -95,7 +95,15 @@ const OrderedMenu = ({ item }) => {
         <p className="createdAt">{menuInfo.createdAt}</p>
         <p>|</p>
         <p
-          style={{ cursor: "pointer" }}
+          style={{
+            cursor: "pointer",
+            color:
+              menuInfo.orderProgress > 3
+                ? "var(--color-gray-300)"
+                : "var(--color-gray-500)",
+            textDecoration:
+              menuInfo.orderProgress > 3 ? "line-throught" : "none",
+          }}
           onClick={() => handleNavigateOrderDetails()}
         >
           {makeProgressName(menuInfo.orderProgress)}
