@@ -94,7 +94,7 @@ const MenuList = () => {
       }
     };
     getCafeMenu();
-  }, []);
+  }, [cafeId]);
   useEffect(() => {
     setCafeInfo(locationData);
     // console.log("locationData cafeInfo", cafeInfo);
