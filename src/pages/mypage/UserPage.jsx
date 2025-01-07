@@ -1,5 +1,6 @@
 import axios from "axios";
 import moment from "moment";
+import * as yup from "yup";
 import { useContext, useEffect, useState } from "react";
 import { AiFillCamera, AiFillNotification } from "react-icons/ai";
 import { BiCalendar, BiSolidUser } from "react-icons/bi";
@@ -18,8 +19,22 @@ import {
   ProfileImg,
   ProfileInfoArea,
 } from "../../styles/join/userpage";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { useForm } from "react-hook-form";
+
+const myPageSchema = yup.object({
+  nickName: yup.string().min(3, "3글자 이상 입력하세요."),
+});
 
 const UserPage = () => {
+  const {
+    register,
+    formState: { errors },
+  } = useForm({
+    resolver: yupResolver(myPageSchema),
+    defaultValues: { nickName: "" },
+    mode: "onChange",
+  });
   const [loading, setLoading] = useState(true);
   const [updataNick, setUpdataNick] = useState(false);
   const [payment, setPayment] = useState(0);
@@ -216,11 +231,15 @@ const UserPage = () => {
             <InputFocus
               type="text"
               value={userData.nickName || ""}
+              {...register("nickName")}
               onChange={e =>
                 setUserData(prev => ({ ...prev, nickName: e.target.value }))
               }
               placeholder="닉네임을 입력하세요"
             />
+            <p style={{ color: "var(--error-clolr)" }}>
+              {errors.nickName?.message}
+            </p>
             <p>이메일</p>
             <input
               type="text"
