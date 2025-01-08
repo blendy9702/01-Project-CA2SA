@@ -39,7 +39,7 @@
 
 ### Cooperation
 
-<img src="https://img.shields.io/badge/figma-F24E1E?style=for-the-badge&logo=figma&logoColor=white"/> <a href="(https://brainy-vulcanodon-0b2.notion.site/CA2SA-164ce9c0e7998057bd75e18c47d930d2?pvs=4)" target="_blank"><img src="https://img.shields.io/badge/notion-000?style=for-the-badge&logo=notion&logoColor=white"/></a> <img src="https://img.shields.io/badge/github-181717?style=for-the-badge&logo=github&logoColor=white"/> <img src="https://img.shields.io/badge/slack-4A154B?style=for-the-badge&logo=slack&logoColor=white"/>
+<img src="https://img.shields.io/badge/figma-F24E1E?style=for-the-badge&logo=figma&logoColor=white"/> <a href="https://brainy-vulcanodon-0b2.notion.site/CA2SA-164ce9c0e7998057bd75e18c47d930d2?pvs=4" target="_blank"><img src="https://img.shields.io/badge/notion-000?style=for-the-badge&logo=notion&logoColor=white"/></a> <img src="https://img.shields.io/badge/github-181717?style=for-the-badge&logo=github&logoColor=white"/> <img src="https://img.shields.io/badge/slack-4A154B?style=for-the-badge&logo=slack&logoColor=white"/>
 
 ## 📋브랜치 전략
 
