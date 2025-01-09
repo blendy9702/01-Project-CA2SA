@@ -4,6 +4,7 @@ export const LayoutDiv = styled.div`
   border-top: ${props => `${props.borderTop}px solid var( --color-gray-100)`};
   border-bottom: ${props =>
     `${props.borderBottom}px solid var( --color-gray-100)`};
+  overflow: hidden;
   .notFound {
     width: 100%;
     height: 100%;
@@ -120,7 +121,7 @@ export const ContainerDiv = styled.div`
   .pickUpTimeList {
     display: flex;
     flex-wrap: wrap;
-    gap: 10px;
+    gap: 8px;
     justify-content: flex-start;
   }
   .show-memoList {
@@ -200,7 +201,7 @@ export const ContainerDiv = styled.div`
     align-items: center;
     justify-content: space-between;
     position: fixed;
-    bottom: 30px;
+    bottom: 10px;
     left: 50%;
     transform: translateX(-50%);
     gap: 10px;
@@ -326,7 +327,15 @@ export const ContainerDiv = styled.div`
         display: flex;
         align-items: center;
         justify-content: space-between;
+        margin-bottom: 10px;
         .left {
+          ul {
+            li {
+              font-weight: 300;
+              font-size: 14px;
+              color: var(--color-gray-700);
+            }
+          }
         }
         .right {
           font-size: 20px;
@@ -588,7 +597,7 @@ export const PickUpTimeButton = styled.button`
       : "1px solid var(--color-gray-500)"};
   border-radius: 8px;
   cursor: pointer;
-  font-size: 16px;
+  font-size: 14px;
   transition: 0.1s;
 `;
 

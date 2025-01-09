@@ -214,7 +214,7 @@ const Payment = () => {
   };
 
   return (
-    <div style={{ position: "relative", paddingBottom: 80, width: "100%" }}>
+    <div style={{ position: "relative", width: "100%" }}>
       <NavBar onClick={handleNavigateClose} icon={"close"} title={"장바구니"} />
       {/* 메뉴 주문 정보 */}
       <LayoutDiv borderTop={1} borderBottom={5}>

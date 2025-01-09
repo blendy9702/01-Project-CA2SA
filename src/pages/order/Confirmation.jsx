@@ -113,7 +113,9 @@ function Confirmation() {
       {loading ? (
         <Loading />
       ) : (
-        <div style={{ position: "relative", paddingBottom: 30, width: "100%" }}>
+        <div
+          style={{ position: "relative", paddingBottom: 100, width: "100%" }}
+        >
           <NavBar
             onClick={handleNavigateClose}
             icon={"close"}

@@ -263,18 +263,18 @@ const MenuList = () => {
           />
         ) : null}
         {/* 장바구니 버튼 */}
-        <OrderButton
-          type="button"
-          onClick={handleNavigatePayment}
-          disabled={order.menuList.length === 0 ? true : false}
-        >
-          {order.menuList.length === 0
-            ? `상품을 담아주세요`
-            : ` ${showPrice}원 | 장바구니`}
-
-          <span className="circle">{itemCount}</span>
-        </OrderButton>
       </LayoutDiv>
+      <OrderButton
+        type="button"
+        onClick={handleNavigatePayment}
+        disabled={order.menuList.length === 0 ? true : false}
+      >
+        {order.menuList.length === 0
+          ? `상품을 담아주세요`
+          : ` ${showPrice}원 | 장바구니`}
+
+        <span className="circle">{itemCount}</span>
+      </OrderButton>
     </div>
   );
 };

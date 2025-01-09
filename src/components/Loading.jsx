@@ -32,6 +32,8 @@ const Loading = () => {
     <div
       className="loading"
       style={{
+        width: "100%",
+        textAlign: "center",
         position: "fixed",
         top: "50%",
         left: "50%",

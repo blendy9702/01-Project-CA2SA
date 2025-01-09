@@ -2,7 +2,8 @@ import styled from "@emotion/styled";
 
 export const ModalDiv = styled.div`
   position: fixed;
-  width: 640px;
+  width: 100%;
+  max-width: 640px;
   height: 100%;
   left: 50%;
   bottom: 0;
@@ -19,7 +20,7 @@ export const ModalDiv = styled.div`
       left: 50%;
       transform: translate(-50%);
       background-color: #fff;
-      width: 400px;
+      width: 90%;
       height: 200px;
       margin: auto;
       padding: 30px;

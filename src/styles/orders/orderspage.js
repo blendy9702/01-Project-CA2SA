@@ -7,6 +7,9 @@ export const OrderedMenuDiv = styled.div`
   &:first-child {
     padding-top: 0;
   }
+  &:last-child {
+    border-bottom: 0;
+  }
   .state {
     width: 100%;
     display: flex;
