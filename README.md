@@ -1,20 +1,21 @@
 # CA2SA
 
+<img src="https://github.com/ohdaeo/teamone/blob/main/%EB%A9%94%EC%9D%B8.png?raw=true">
+
+> 바쁜 사용자들이 간단하고 빠르게 커피를 주문하고,
+> **원하는 시간**에 픽업할 수 있는 편리한 테이크아웃 **웹앱**.
+
 ---
 
-## 서비스 소개
+## 👥팀원 소개
 
-바쁜 사용자들이 간단하고 빠르게 커피를 주문하고, **원하는 시간**에 픽업할 수 있는 편리한 테이크아웃 **웹앱**.
+| FE 주혜진                                                                                                             | FE 이수빈                                                                                             | FE 이창호                                                                                             |
+| --------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------- |
+| <div align="center" valign="bottom"><img src="https://avatars.githubusercontent.com/u/102364334?v=4" width=150></div> | <div align="center"><img src="https://avatars.githubusercontent.com/u/181827243?v=4" width=150></div> | <div align="center"><img src="https://avatars.githubusercontent.com/u/186558654?v=4" width=150></div> |
+| <div align="center">팀장 </div>                                                                                       | <div align="center">팀원 </div>                                                                       | <div align="center">팀원 </div>                                                                       |
+| <div align="center">디자인, 메인, 지도, 검색, 캘린더, 404, 공지사항, 질문, 이벤트, 약관 </div>                        | <div align="center">가게, 주문, 지난주문내역, 주문 상세, 메뉴, 메뉴옵션, 결제</div>                   | <div align="center">로그인, 회원가입, 인증번호, 마이페이지, 시용금액</div>                            |
 
-## 팀원 소개
-
-| FE 주혜진          | FE 이수빈    | FE 이창호    |
-| ------------------ | ------------ | ------------ |
-| ![profile](https://avatars.githubusercontent.com/u/102364334?v=4)    | 프로필이미지 | 프로필이미지 |
-| 팀장               | 팀원         | 팀원         |
-| 메인, 검색, 캘린더 | 담당         | 담당         |
-
-## 개발 기간
+## 📅개발 기간
 
 **`2024/12/16 ~ 2025/01/08`**
 
@@ -24,27 +25,23 @@
 - 스타일 : **12/30 - 01/08**
 - 리팩토링 및 최종협의 : **01/04 - 01/08**
 
-## 4.
+## 🛠️ 기술 스택
 
-## 5.
+### Language & Tools
 
-## 6.
+<img src="https://img.shields.io/badge/html5-E34F26?style=for-the-badge&logo=html5&logoColor=white"/> <img src="https://img.shields.io/badge/css-1572B6?style=for-the-badge&logo=css&logoColor=white"/>
+<img src="https://img.shields.io/badge/javascript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=white"/>
+<img src="https://img.shields.io/badge/react-61DAFB?style=for-the-badge&logo=react&logoColor=white"/>
+<img src="https://img.shields.io/badge/emotion-cc6ac4?style=for-the-badge&logo=emotion&logoColor=white">
+<img src="https://img.shields.io/badge/reactrouter-CA4245?style=for-the-badge&logo=reactrouter&logoColor=white"/>
+<img src="https://img.shields.io/badge/styledcomponents-DB7093?style=for-the-badge&logo=styledcomponents&logoColor=white"/>
+<img src="https://img.shields.io/badge/axios-5A29E4?style=for-the-badge&logo=axios&logoColor=white"/>
 
-## 7.
+### Cooperation
 
-## 8.
+<img src="https://img.shields.io/badge/figma-F24E1E?style=for-the-badge&logo=figma&logoColor=white"/> [![노션](https://img.shields.io/badge/notion-000?style=for-the-badge&logo=notion&logoColor=white")](https://brainy-vulcanodon-0b2.notion.site/CA2SA-164ce9c0e7998057bd75e18c47d930d2?pvs=4) <img src="https://img.shields.io/badge/github-181717?style=for-the-badge&logo=github&logoColor=white"/> <img src="https://img.shields.io/badge/slack-4A154B?style=for-the-badge&logo=slack&logoColor=white"/>
 
-## 9.
-
-## 10.
-
-## 11.
-
-## 12.
-
-## 13.
-
-## 14. 브랜치 전략
+## 📋브랜치 전략
 
 ```
 main: 메인 서버 확인용
@@ -57,16 +54,17 @@ hotfix : 버그를 수정용
 #### Commit Convention
 
 ```
-feat: 새로운 기능 구현
-fix: 오류 수정
-docs: readme.md, json 파일 등 수정, 라이브러리 설치(문서 관련)
-refactor: 코드 리팩토링
-chore: 빌드 부분 혹은 패키지 매니저 수정 사항
-rename: 파일 혹은 폴더명 수정, 옮기기
-remove: 파일 삭제
+feat : 새로운 기능 구현
+fix : 오류 수정
+docs : readme.md, json 파일 등 수정, 라이브러리 설치(문서 관련)
+style : 공백, 세미콜론 등 스타일 수정
+refactor : 코드 리팩토링
+chore : 빌드 부분 혹은 패키지 매니저 수정 사항
+rename : 파일 혹은 폴더명 수정, 옮기기
+remove : 파일 삭제
 ```
 
-## 15. 폴더 구조
+## 🗂️ 폴더 구조
 
 ```
 01-Project-CA2SA
@@ -81,9 +79,6 @@ remove: 파일 삭제
 │     ├─ 404
 │     │  └─ 404.webp
 │     ├─ ca2saLogo.webp
-│     ├─ calendar
-│     │  ├─ coffee-beans-completed.webp
-│     │  └─ coffee-beans-default.webp
 │     ├─ event
 │     │  ├─ image-0.webp
 │     │  ├─ image-1.webp
@@ -107,10 +102,12 @@ remove: 파일 삭제
 │     ├─ order
 │     │  ├─ cat.jpg
 │     │  ├─ cat2.jpg
-│     │  ├─ checkboxOff.webp
-│     │  ├─ CheckboxOn.webp
+│     │  ├─ checkboxOff.png
+│     │  ├─ CheckboxOn.png
+│     │  ├─ KakaoTalk_20250106_110429955_01.jpg
 │     │  └─ umjun.jpg
-│     └─ qna_banner.webp
+│     ├─ qna_banner.webp
+│     └─ user.webp
 ├─ README.md
 ├─ src
 │  ├─ App.css
@@ -122,6 +119,7 @@ remove: 파일 삭제
 │  │  ├─ Header.jsx
 │  │  ├─ Icon.jsx
 │  │  ├─ Layout.jsx
+│  │  ├─ Loading.jsx
 │  │  ├─ main
 │  │  │  ├─ ListBox.jsx
 │  │  │  ├─ ListMain.jsx
@@ -131,6 +129,8 @@ remove: 파일 삭제
 │  │  ├─ order
 │  │  │  ├─ BucketModal.jsx
 │  │  │  ├─ CafeMap.jsx
+│  │  │  ├─ CanCleModal.jsx
+│  │  │  ├─ DeleteMenuModal.jsx
 │  │  │  ├─ Memo.jsx
 │  │  │  ├─ Menu.jsx
 │  │  │  ├─ NavBar.jsx
@@ -142,6 +142,7 @@ remove: 파일 삭제
 │  │  │  └─ OrderedMenu.jsx
 │  │  ├─ search
 │  │  │  └─ SearchList.jsx
+│  │  ├─ Skeleton.jsx
 │  │  └─ terms
 │  │     ├─ Event.jsx
 │  │     ├─ noticeContent.jsx
@@ -181,6 +182,7 @@ remove: 파일 삭제
 │  │  ├─ join
 │  │  │  ├─ ConfirmForm.jsx
 │  │  │  ├─ JoinPage.jsx
+│  │  │  ├─ JoinPageSpinner.jsx
 │  │  │  └─ SignUpPage.jsx
 │  │  ├─ login
 │  │  │  ├─ LoginPage.jsx
@@ -217,8 +219,10 @@ remove: 파일 삭제
 │     │  ├─ joinpage.js
 │     │  ├─ loginpage.js
 │     │  └─ userpage.js
+│     ├─ Loading.css
 │     ├─ order
 │     │  ├─ BucketModal.js
+│     │  ├─ orderMemo.js
 │     │  └─ orderpage.js
 │     └─ orders
 │        └─ orderspage.js

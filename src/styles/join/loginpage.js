@@ -13,7 +13,7 @@ export const LoginTopArea = styled.div`
 export const LoginMainWrap = styled.div``;
 
 export const ServiceTextArea = styled.div`
-  margin-top: 200px;
+  margin-top: 100px;
   color: #616161;
   font-size: 16px;
   font-family: 300;

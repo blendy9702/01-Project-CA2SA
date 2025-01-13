@@ -1,11 +1,10 @@
-import { FaLocationDot } from "react-icons/fa6";
-import { Link, useNavigate } from "react-router-dom";
 import styled from "@emotion/styled";
 import { useEffect, useRef } from "react";
+import { FaLocationDot } from "react-icons/fa6";
+import { useNavigate } from "react-router-dom";
 
 const ListBoxItem = styled.div`
   display: inline-block;
-  margin-bottom: 30px;
   div {
     width: 100%;
     height: 150px;
@@ -13,7 +12,7 @@ const ListBoxItem = styled.div`
     border-radius: 16px;
     img {
       width: 100%;
-      height: 138%;
+      height: 200%;
       object-fit: cover;
     }
   }
@@ -58,6 +57,7 @@ const ListBox = ({ cafe }) => {
         <img ref={imgRef} src={cafe.cafePic} alt={cafe.cafeName} />
         {/* <img src={cafe.cafePic} alt={cafe.cafeName} /> */}
       </div>
+
       <h3>{cafe.cafeName}</h3>
       <p>
         <FaLocationDot />

@@ -4,7 +4,14 @@ import { OrderContext } from "../../contexts/OrderContext";
 import { ModalButton, ModalDiv } from "../../styles/order/BucketModal";
 import { PrimaryButton } from "../../styles/common";
 
-const DeleteMenuModal = ({ item, index, showModal, setShowModal }) => {
+const DeleteMenuModal = ({
+  item,
+  index,
+  showModal,
+  setShowModal,
+  clickedItem,
+}) => {
+  console.log("모달이 말하는 아이템", clickedItem);
   const userData = JSON.parse(sessionStorage.getItem("userData"));
   const userId = userData.resultData.userId;
   const { setOrder, order } = useContext(OrderContext);
@@ -19,12 +26,11 @@ const DeleteMenuModal = ({ item, index, showModal, setShowModal }) => {
         setShowModal(false);
         // filter를 사용하여 아이템 제거
         const filteredMenu = updatedMenu.filter(
-          menuItem => menuItem.menuId === item.menuId,
+          menuItem => menuItem.menuId !== clickedItem.menuId,
         );
         console.log("남아있어야 하는 메뉴:", filteredMenu);
         return { ...prevOrder, menuList: filteredMenu };
       }
-      return { ...prevOrder, menuList: updatedMenu };
     });
   };
   return (

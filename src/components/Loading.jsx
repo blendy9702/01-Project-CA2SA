@@ -1,9 +1,39 @@
-import { BiSolidCoffeeBean } from "react-icons/bi";
+import { PiCoffeeBeanDuotone } from "react-icons/pi";
+
 import "../styles/Loading.css"; // css import
+import { useEffect, useState } from "react";
 const Loading = () => {
+  const lodingWord = "매장 정보를 불러오는 중입니다...";
+  const [title, setTitle] = useState("");
+  const [count, setCount] = useState(0);
+
+  useEffect(() => {
+    const typingInterval = setInterval(() => {
+      setTitle(prevTitleValue => {
+        let result = prevTitleValue
+          ? prevTitleValue + lodingWord[count]
+          : lodingWord[0];
+        setCount(count + 1);
+
+        if (count >= lodingWord.length) {
+          setCount(0);
+          setTitle("");
+        }
+
+        return result;
+      });
+    }, 100);
+
+    return () => {
+      clearInterval(typingInterval);
+    };
+  });
   return (
     <div
+      className="loading"
       style={{
+        width: "100%",
+        textAlign: "center",
         position: "fixed",
         top: "50%",
         left: "50%",
@@ -11,11 +41,11 @@ const Loading = () => {
       }}
     >
       <div className="loadingIcon">
-        <BiSolidCoffeeBean />
-        <BiSolidCoffeeBean />
-        <BiSolidCoffeeBean />
+        <PiCoffeeBeanDuotone />
+        <PiCoffeeBeanDuotone />
+        <PiCoffeeBeanDuotone />
       </div>
-      <p>로딩 중입니다</p>
+      <p>{title}</p>
     </div>
   );
 };

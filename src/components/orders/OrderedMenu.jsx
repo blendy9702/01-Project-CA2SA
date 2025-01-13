@@ -11,13 +11,7 @@ const OrderedMenu = ({ item }) => {
   const userData = JSON.parse(sessionStorage.getItem("userData"));
   const userId = userData.resultData.userId;
   // console.log(userId);
-  // useNavigate
-  const navigate = useNavigate();
-  const handleNavigateOrderDetails = item => {
-    navigate(`/order/confirmation?userId=${userId}&page=1&size=30`, {
-      state: item,
-    });
-  };
+
   const progressArr = [0, 1, 2, 3];
   const menuInfo = item;
   const makeProgressName = item => {
@@ -30,6 +24,8 @@ const OrderedMenu = ({ item }) => {
         return "준비완료";
       case 3:
         return "수령완료";
+      case 4:
+        return "주문 반려";
       case 5:
         return "주문취소";
       case 6:
@@ -38,6 +34,22 @@ const OrderedMenu = ({ item }) => {
         return "기타";
     }
   };
+  // useNavigate
+  const navigate = useNavigate();
+  const handleNavigateOrderDetails = item => {
+    console.log("클릭 아이템", menuInfo);
+    navigate(`/order/confirmation?userId=${userId}&page=1&size=30`, {
+      state: menuInfo,
+    });
+  };
+  //상세보기
+  const handleClickShowMore = () => {
+    console.log();
+    navigate(`/orders/detail?userId=${userId}&orderId=${item.orderId}`, {
+      state: item,
+    });
+  };
+
   // useState
   const [recentOrder, setResentOrder] = useState({});
   const [showOrderDetail, setShowOrderDetail] = useState(false);
@@ -50,11 +62,7 @@ const OrderedMenu = ({ item }) => {
     );
     return acc + menuDefualtPrice + menuAddPrice;
   }, 0);
-  //상세보기
-  const handleClickShowMore = () => {
-    console.log("클릭 아이템", item);
-    handleNavigateOrderDetails(item);
-  };
+
   // 재주문
 
   const handleClickReorder = () => {
@@ -86,7 +94,20 @@ const OrderedMenu = ({ item }) => {
       <div className="state">
         <p className="createdAt">{menuInfo.createdAt}</p>
         <p>|</p>
-        <p>{makeProgressName(menuInfo.orderProgress)}</p>
+        <p
+          style={{
+            cursor: "pointer",
+            color:
+              menuInfo.orderProgress > 3
+                ? "var(--color-gray-300)"
+                : "var(--color-gray-500)",
+            textDecoration:
+              menuInfo.orderProgress > 3 ? "line-throught" : "none",
+          }}
+          onClick={() => handleNavigateOrderDetails()}
+        >
+          {makeProgressName(menuInfo.orderProgress)}
+        </p>
       </div>
       <div className="cafe-menu">
         <p className="cafe">{menuInfo.cafeName}</p>

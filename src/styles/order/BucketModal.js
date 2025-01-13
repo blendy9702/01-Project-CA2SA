@@ -2,7 +2,8 @@ import styled from "@emotion/styled";
 
 export const ModalDiv = styled.div`
   position: fixed;
-  width: 640px;
+  width: 100%;
+  max-width: 640px;
   height: 100%;
   left: 50%;
   bottom: 0;
@@ -19,7 +20,7 @@ export const ModalDiv = styled.div`
       left: 50%;
       transform: translate(-50%);
       background-color: #fff;
-      width: 400px;
+      width: 90%;
       height: 200px;
       margin: auto;
       padding: 30px;
@@ -58,8 +59,8 @@ export const ModalDiv = styled.div`
   }
 `;
 export const ModalButton = styled.button`
-  background-color: #fff;
-  color: var(--color-gray-500);
+  background-color: var(--secondary-color);
+  color: #fff;
   padding: 10px 15px;
   border: 1px solid transparent;
   border-radius: 8px;

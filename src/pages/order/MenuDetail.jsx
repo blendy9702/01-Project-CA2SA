@@ -11,14 +11,16 @@ import {
   LayoutDiv,
   ThumImageDiv,
 } from "../../styles/order/orderpage";
+import Loading from "../../components/Loading";
 
 const MenuDetail = () => {
+  const [loading, setLoading] = useState(true);
   // useParams
   const [searchParams, setSearchParams] = useSearchParams();
   const menuId = searchParams.get("menuId");
   const userData = JSON.parse(sessionStorage.getItem("userData"));
   const userId = userData.resultData.userId;
-  console.log(userId);
+  // console.log(userId);
   //useNavigate
   const navigate = useNavigate();
   const location = useLocation();
@@ -39,7 +41,7 @@ const MenuDetail = () => {
     // if (order.cafeId !== cafeInfo.cafeId) {
     //   alert("다른 카페입니다.");
     // }
-    navigate(`/order/payment?cafeId=${order.cafeId}`, {
+    navigate(`/order/payment?cafeId=${cafeInfo.cafeId}`, {
       state: locationData,
     });
     setOrder({ ...order, cafeId: parseInt(cafeInfo.cafeId) });
@@ -67,6 +69,7 @@ const MenuDetail = () => {
   }, [cafeInfo]);
   useEffect(() => {
     const getMenuOption = async data => {
+      setLoading(true);
       try {
         const res = await axios.get(`/api/menu/${data}`); ////api/cafe/menu/option
         const resultData = res.data.resultData;
@@ -90,6 +93,7 @@ const MenuDetail = () => {
           },
         ]);
         setOrder({ ...order, userId: userId });
+        setLoading(false);
       } catch (error) {
         console.log(`menuId: ${menuId}의 상세 옵션 통신 결과:`, error);
         const errorArr = [{ optionName: "통신에러: 옵션이 없는 메뉴입니다." }];
@@ -129,7 +133,7 @@ const MenuDetail = () => {
   //옵션 추가, 가격 추가
 
   useEffect(() => {
-    console.log("options:", options);
+    // console.log("options:", options);
   }, [options]);
 
   // 장바구니에 추가하기
@@ -184,7 +188,9 @@ const MenuDetail = () => {
       <ThumImageDiv height={375}>
         <img
           src={
-            optionInfo?.menuPic ? optionInfo.menuPic : "/images/order/cat2.jpg"
+            optionInfo?.menuPic
+              ? `${optionInfo.menuPic}`
+              : "/images/order/cat2.jpg"
           }
           alt="메뉴 사진"
         />

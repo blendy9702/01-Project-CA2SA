@@ -26,6 +26,7 @@ const MenuList = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const locationData = location.state;
+  // console.log("로케이션", locationData);
   // useState
   const [selectedCate, setSelectedCate] = useState(0);
   const [cafeMenuData, setCafeMenuData] = useState({});
@@ -36,6 +37,7 @@ const MenuList = () => {
   const [text, setText] = useState("");
   const [searchText, setSearchText] = useState("");
   const [showPopup, setShowPopup] = useState(false);
+  const [prevCafeInfo, setPrevCafeInfo] = useState({});
 
   const handleNavigateBack = () => {
     navigate(`/order?cafeId=${cafeId}`, { state: locationData });
@@ -50,7 +52,21 @@ const MenuList = () => {
   const handleNavigatePayment = () => {
     navigate(`/order/payment?cafeId=${cafeId}`, { state: locationData });
   };
-
+  // 카페정보 받아오기
+  useEffect(() => {
+    const getCafe = async data => {
+      try {
+        const res = await axios.get(`/api/cafe/${data}`);
+        const resultData = res.data.resultData;
+        setPrevCafeInfo(resultData);
+      } catch (error) {
+        console.log("카페정보 통신 결과:", error);
+        // console.log("mockData가 적용됩니다.");
+        // setCafeInfo(mockDataResult);
+      }
+    };
+    getCafe(cafeId);
+  }, [cafeId]);
   // 정보 받아오기
   useEffect(() => {
     const getCafeMenu = async data => {
@@ -78,7 +94,7 @@ const MenuList = () => {
       }
     };
     getCafeMenu();
-  }, []);
+  }, [cafeId]);
   useEffect(() => {
     setCafeInfo(locationData);
     // console.log("locationData cafeInfo", cafeInfo);
@@ -128,7 +144,7 @@ const MenuList = () => {
       <NavBar
         onClick={handleNavigateBack}
         icon={"back"}
-        title={cafeInfo ? cafeInfo.cafeName : "로딩중"}
+        title={cafeInfo ? cafeInfo.cafeName : prevCafeInfo.cafeName}
       />
       <LayoutDiv>
         <div
@@ -243,21 +259,22 @@ const MenuList = () => {
             showPopup={showPopup}
             setShowPopup={setShowPopup}
             cafeInfo={cafeInfo}
+            prevCafeInfo={prevCafeInfo}
           />
         ) : null}
         {/* 장바구니 버튼 */}
-        <OrderButton
-          type="button"
-          onClick={handleNavigatePayment}
-          disabled={order.menuList.length === 0 ? true : false}
-        >
-          {order.menuList.length === 0
-            ? `상품을 담아주세요`
-            : ` ${showPrice}원 | 장바구니`}
-
-          <span className="circle">{itemCount}</span>
-        </OrderButton>
       </LayoutDiv>
+      <OrderButton
+        type="button"
+        onClick={handleNavigatePayment}
+        disabled={order.menuList.length === 0 ? true : false}
+      >
+        {order.menuList.length === 0
+          ? `상품을 담아주세요`
+          : ` ${showPrice}원 | 장바구니`}
+
+        <span className="circle">{itemCount}</span>
+      </OrderButton>
     </div>
   );
 };

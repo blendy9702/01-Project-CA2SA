@@ -1,9 +1,10 @@
-import React, { useEffect, useState } from "react";
 import { yupResolver } from "@hookform/resolvers/yup";
+import axios from "axios";
+import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
+import { IoIosArrowBack } from "react-icons/io";
 import { Link, useNavigate } from "react-router-dom";
 import * as yup from "yup";
-import axios from "axios";
 import {
   ChoiceRadioBox,
   EssentialRadioBox,
@@ -20,8 +21,7 @@ import {
   JoinPageWrap,
   ServiceCheckBox,
 } from "../../styles/join/joinpage";
-import { NavBarDiv } from "../../styles/order/orderpage";
-import { IoIosArrowBack } from "react-icons/io";
+import JoinPageSpinner from "./JoinPageSpinner";
 
 const loginSchema = yup.object({
   nickName: yup
@@ -68,6 +68,7 @@ const JoinPage = () => {
     email: "",
     upw: "",
   });
+  const [loading, setLoding] = useState(false);
 
   // 패스워드 일치 확인
   const email = watch("email");
@@ -96,13 +97,14 @@ const JoinPage = () => {
   };
 
   const handleSubmitForm = async data => {
+    setLoding(true);
     try {
       // 인증코드 전송 API
       const email = data.email;
       await axios.post("/api/email-auth/send-code", {
         email,
       });
-      alert("인증코드가 발송되었습니다.");
+      alert("인증코드가 전송되었습니다.");
       // 인증 코드 확인 페이지로 이동
       navigate("/join/confirmform", { state: data });
     } catch (error) {
@@ -111,6 +113,8 @@ const JoinPage = () => {
         error.response ? error.response.data : error.message,
       );
       alert("인증코드 발송에 실패했습니다. 다시 시도해주세요.");
+    } finally {
+      setLoding(false);
     }
   };
 
@@ -123,6 +127,14 @@ const JoinPage = () => {
       setRadioState({ essential: false, choice: false });
     }
   };
+
+  useEffect(() => {
+    if (radioState.essential && radioState.choice) {
+      setIsCheckbox(true);
+    } else {
+      setIsCheckbox(false);
+    }
+  }, [radioState]);
 
   const handleRadioChange = name => {
     setRadioState(prevStates => ({
@@ -308,6 +320,35 @@ const JoinPage = () => {
           </JoinPageCheckArea>
         </JoinPageMainWrap>
       </form>
+
+      {loading && (
+        <div
+          style={{
+            position: "fixed",
+            top: 0,
+            left: 0,
+            width: "100%",
+            height: "100%",
+            backgroundColor: "rgba(0, 0, 0, 0.5)",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            zIndex: 1000,
+          }}
+        >
+          <div
+            style={{
+              background: "#fff",
+              padding: "60px 120px",
+              borderRadius: "8px",
+              textAlign: "center",
+              boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
+            }}
+          >
+            <JoinPageSpinner loading={true} />
+          </div>
+        </div>
+      )}
       <div></div>
     </JoinPageWrap>
   );
