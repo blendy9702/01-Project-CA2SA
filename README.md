@@ -1,6 +1,6 @@
 # CA2SA
 
-<img src="https://github.com/ohdaeo/teamone/blob/main/%EB%A9%94%EC%9D%B8.png?raw=true">
+![Image](https://github.com/user-attachments/assets/d4e029d5-18e9-42ab-9fe1-b0522a9f6e28)
 
 > 바쁜 사용자들이 간단하고 빠르게 커피를 주문하고,
 > **원하는 시간**에 픽업할 수 있는 편리한 테이크아웃 **웹앱**.
