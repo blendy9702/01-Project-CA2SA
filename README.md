@@ -1,6 +1,7 @@
 # CA2SA
 
-![Image](https://github.com/user-attachments/assets/d4e029d5-18e9-42ab-9fe1-b0522a9f6e28)
+![Image](https://github.com/user-attachments/assets/61621069-9987-44e4-8425-a39bbbecd552)
+
 
 > 바쁜 사용자들이 간단하고 빠르게 커피를 주문하고,
 > **원하는 시간**에 픽업할 수 있는 편리한 테이크아웃 **웹앱**.
